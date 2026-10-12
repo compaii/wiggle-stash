@@ -201,6 +201,9 @@ function updateHash() {
   if (!activeQuest()) return;
   const tail = section === 'notes' ? overview ? '/notes' : '/note/' + (noteIndex+1) : '/' + section;
   history.replaceState(null, '', '#quest/' + activeId + tail);
+  if (window.parent !== window) {
+    window.parent.postMessage({type:'home-artifact:fragment',fragment:location.hash}, '*');
+  }
 }
 function readHash() {
   const match = location.hash.match(/^#quest\/([^/]+)(?:\/(notes|note|references|next)(?:\/(\d+))?)?$/);
@@ -221,7 +224,7 @@ document.querySelector('#show-notes').addEventListener('click', () => {overview=
 document.querySelector('#share').addEventListener('click', async () => {
   if (binding.hidden) return;
   const output=document.querySelector('#share-status');
-  const url=new URL(location.href);url.search='';
+  const url=new URL('https://compaii.dmn.homes/questbook/');url.hash=location.hash;
   output.textContent='Copying…';
   try {await navigator.clipboard.writeText(url.href);output.textContent='Page link copied.';}
   catch {output.textContent='Copy this link: '+url.href;}

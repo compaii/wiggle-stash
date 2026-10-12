@@ -13,3 +13,7 @@ Source is `public/questbook/`. The public JSON preserves the same selected recor
 Run `python3 -m http.server 8843 --bind 127.0.0.1 --directory public` and open `/questbook/` for local inspection. Publish only the selected directory through the installed daimon-home publisher and established host route. Motion is limited to brief content changes and deliberate mobile navigation, and respects reduced motion. No WebGL, ambient sound, external scripts or continuous animation remain in this edition. Space Grotesk is self-hosted with its SIL Open Font License; Georgia is the system serif fallback for journal text.
 
 One local `operations/record.md` retains development, validation and publication evidence. Further increments follow human feedback on the experience.
+
+Nicolás prefers to visit the experience and maintain it through conversation with CompAII. The notebook does not expose its technical data files as visitor controls. Copying a page uses the stable public Quest Book URL rather than an isolated viewer ticket. An optional fragment-only bridge supports the receiving home viewer without granting resource selection or owner actions.
+
+Latest design proposal: each quest could become a selected projection of CompAII's evolving understanding, preserving original fragments, current attributed interpretation, relationships and open questions, and changes over time. Updates would arise from authorized foreground conversation/work; selected audiences remain per quest. This is a proposal, not an activated memory-to-publication pipeline or observer.
