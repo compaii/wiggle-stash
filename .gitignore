@@ -1,0 +1,5 @@
+operations/
+output/
+.playwright-cli/
+.playwright/
+__pycache__/
