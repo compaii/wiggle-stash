@@ -1,14 +1,14 @@
 'use strict';
 
-const list = document.querySelector('#quests');
+const list = document.querySelector('#bags');
 const search = document.querySelector('#search');
 const status = document.querySelector('#result-status');
 const binding = document.querySelector('#binding');
 const emptyReader = document.querySelector('#empty-reader');
-const context = document.querySelector('#quest-context');
+const context = document.querySelector('#bag-context');
 const entry = document.querySelector('#entry-content');
 const index = document.querySelector('#note-index');
-let quests = [];
+let bags = [];
 let view = 'seeds';
 let activeId = null;
 let section = 'notes';
@@ -21,15 +21,15 @@ function node(tag, className, text) {
   if (text !== undefined) element.textContent = text;
   return element;
 }
-function activeQuest() { return quests.find(quest => quest.id === activeId); }
-function noteCount(quest) { return (quest.notes || []).length; }
-function stateName(quest) { return quest.state === 'seed' ? 'Seed' : quest.state === 'resting' ? 'Resting' : 'In progress'; }
+function activeBag() { return bags.find(bag => bag.id === activeId); }
+function noteCount(bag) { return (bag.notes || []).length; }
+function stateName(bag) { return bag.state === 'seed' ? 'Seed' : bag.state === 'resting' ? 'Resting' : 'In progress'; }
 function contains(text, query) { return text.toLocaleLowerCase().includes(query); }
-function filteredQuests() {
+function filteredBags() {
   const query = search.value.trim().toLocaleLowerCase();
-  return quests.filter(quest => {
-    const inView = view === 'seeds' ? quest.state === 'seed' : view === 'progress' ? quest.state === 'in-progress' : Boolean(quest.next) && quest.state !== 'resting';
-    const text = [quest.title, quest.subtitle, quest.domain, quest.why, quest.author, quest.steward, quest.next, ...(quest.notes || []).map(note => note.title + ' ' + note.body)].join(' ');
+  return bags.filter(bag => {
+    const inView = view === 'seeds' ? bag.state === 'seed' : view === 'progress' ? bag.state === 'in-progress' : Boolean(bag.next) && bag.state !== 'resting';
+    const text = [bag.title, bag.subtitle, bag.domain, bag.why, bag.author, bag.steward, bag.next, ...(bag.notes || []).map(note => note.title + ' ' + note.body)].join(' ');
     return inView && contains(text, query);
   });
 }
@@ -46,8 +46,8 @@ function showEmpty(title, text, retry) {
   }
 }
 function renderCollection(matchNote = false) {
-  const selected = filteredQuests();
-  const focusedId = document.activeElement?.dataset.quest;
+  const selected = filteredBags();
+  const focusedId = document.activeElement?.dataset.bag;
   list.replaceChildren();
   document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === view)));
   if (!selected.length) {
@@ -60,51 +60,51 @@ function renderCollection(matchNote = false) {
     status.textContent = 'No matching Wiggle bags.';
     return;
   }
-  if (!selected.some(quest => quest.id === activeId)) {
+  if (!selected.some(bag => bag.id === activeId)) {
     activeId = selected[0].id;
     section = 'notes'; noteIndex = 0; overview = false;
   }
   if (matchNote && search.value.trim()) {
     const query = search.value.trim().toLocaleLowerCase();
-    const found = activeQuest().notes?.findIndex(note => contains(note.title + ' ' + note.body, query));
+    const found = activeBag().notes?.findIndex(note => contains(note.title + ' ' + note.body, query));
     if (found >= 0) { section = 'notes'; noteIndex = found; overview = false; }
   }
-  for (const quest of selected) {
-    const button = node('button', 'quest-choice');
+  for (const bag of selected) {
+    const button = node('button', 'bag-choice');
     button.type = 'button';
-    button.dataset.quest = quest.id;
-    button.setAttribute('aria-label', 'Open Wiggle bag: ' + quest.title);
-    button.setAttribute('aria-pressed', String(quest.id === activeId));
-    const cover = node('span', 'mini-journal', String(quests.indexOf(quest) + 1).padStart(2, '0'));
+    button.dataset.bag = bag.id;
+    button.setAttribute('aria-label', 'Open Wiggle bag: ' + bag.title);
+    button.setAttribute('aria-pressed', String(bag.id === activeId));
+    const cover = node('span', 'mini-journal', String(bags.indexOf(bag) + 1).padStart(2, '0'));
     cover.setAttribute('aria-hidden', 'true');
     const copy = node('span', 'choice-copy');
-    copy.append(node('span', 'choice-domain', quest.domain), node('span', 'choice-title', quest.shortTitle || quest.title), node('span', 'choice-count', `${noteCount(quest)} ${noteCount(quest) === 1 ? 'note' : 'notes'} · ${quest.references.length} ${quest.references.length === 1 ? 'link' : 'links'}`));
+    copy.append(node('span', 'choice-domain', bag.domain), node('span', 'choice-title', bag.shortTitle || bag.title), node('span', 'choice-count', `${noteCount(bag)} ${noteCount(bag) === 1 ? 'note' : 'notes'} · ${bag.references.length} ${bag.references.length === 1 ? 'link' : 'links'}`));
     button.append(cover, copy);
     button.addEventListener('click', () => {
-      activeId = quest.id; section = 'notes'; noteIndex = 0; overview = false;
+      activeId = bag.id; section = 'notes'; noteIndex = 0; overview = false;
       renderCollection();
       if (innerWidth <= 650) document.querySelector('#notebook').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start'});
     });
     list.append(button);
   }
-  if (focusedId) [...list.children].find(button => button.dataset.quest === focusedId)?.focus({preventScroll:true});
+  if (focusedId) [...list.children].find(button => button.dataset.bag === focusedId)?.focus({preventScroll:true});
   binding.hidden = false; emptyReader.hidden = true;
   document.querySelector('#share').disabled = false;
-  document.querySelector('#notebook-label').textContent = 'OPEN WIGGLE BAG · ' + stateName(activeQuest()).toUpperCase();
+  document.querySelector('#notebook-label').textContent = 'OPEN WIGGLE BAG · ' + stateName(activeBag()).toUpperCase();
   renderContext();
   renderEntry();
   updateHash();
   status.textContent = selected.length + (selected.length === 1 ? ' Wiggle bag found.' : ' Wiggle bags found.');
 }
 function renderContext() {
-  const quest = activeQuest();
+  const bag = activeBag();
   context.replaceChildren();
-  const meta = node('div', 'quest-meta');
-  meta.append(node('span', 'seed-stamp', stateName(quest)), node('span', '', quest.domain), node('span', '', quest.audience));
-  context.append(meta, node('h2', 'quest-title', quest.shortTitle || quest.title), node('p', 'quest-subtitle', quest.subtitle), node('p', 'why-label', 'Why keep this?'), node('p', 'why-body', quest.why), node('p', 'quest-author', 'By ' + quest.author), node('p', 'contents-title', 'INSIDE THIS WIGGLE BAG'));
+  const meta = node('div', 'bag-meta');
+  meta.append(node('span', 'seed-stamp', stateName(bag)), node('span', '', bag.domain), node('span', '', bag.audience));
+  context.append(meta, node('h2', 'bag-title', bag.shortTitle || bag.title), node('p', 'bag-subtitle', bag.subtitle), node('p', 'why-label', 'Why keep this?'), node('p', 'why-body', bag.why), node('p', 'bag-author', 'By ' + bag.author), node('p', 'contents-title', 'INSIDE THIS WIGGLE BAG'));
   const contents = node('div', 'contents');
   contents.setAttribute('role', 'group'); contents.setAttribute('aria-label', 'Wiggle bag contents');
-  for (const item of [{id:'notes',label:'Notes',count:noteCount(quest)}, {id:'references',label:'References',count:quest.references.length}, {id:'next',label:'Next step',count:'↗'}]) {
+  for (const item of [{id:'notes',label:'Notes',count:noteCount(bag)}, {id:'references',label:'References',count:bag.references.length}, {id:'next',label:'Next step',count:'↗'}]) {
     const button = node('button', '', item.label);
     button.type = 'button'; button.dataset.section = item.id;
     button.setAttribute('aria-pressed', String(section === item.id));
@@ -116,17 +116,17 @@ function renderContext() {
     });
     contents.append(button);
   }
-  const details = node('details', 'quest-background');
+  const details = node('details', 'bag-background');
   details.append(node('summary', '', 'Background & origin'));
   const mobileWhy = node('div', 'mobile-why');
-  mobileWhy.append(node('h3', '', 'Why keep this?'), node('p', '', quest.why), node('p', '', 'By ' + quest.author));
-  details.append(mobileWhy, node('h3', '', 'What it could become'), node('p', '', quest.possibility), node('h3', '', 'Where it began'), node('p', '', quest.origin), node('h3', '', 'This edition'), node('p', '', quest.boundary));
+  mobileWhy.append(node('h3', '', 'Why keep this?'), node('p', '', bag.why), node('p', '', 'By ' + bag.author));
+  details.append(mobileWhy, node('h3', '', 'What it could become'), node('p', '', bag.possibility), node('h3', '', 'Where it began'), node('p', '', bag.origin), node('h3', '', 'This edition'), node('p', '', bag.boundary));
   context.append(contents, details);
 }
 function renderEntry(animate = false) {
-  const quest = activeQuest();
-  if (!quest) return;
-  const notes = quest.notes || [];
+  const bag = activeBag();
+  if (!bag) return;
+  const notes = bag.notes || [];
   noteIndex = Math.max(0, Math.min(notes.length - 1, noteIndex));
   const focusedNote = document.activeElement?.dataset.note;
   entry.replaceChildren(); index.replaceChildren();
@@ -167,25 +167,25 @@ function renderEntry(animate = false) {
   } else if (section === 'references') {
     const title = node('h3', 'note-heading', 'Places this Wiggle bag connects to'); title.id = 'entry-title';
     entry.append(title, node('p', 'note-body', 'Follow the materials already linked to this theme. Each keeps its own home.'));
-    for (const reference of quest.references) {
+    for (const reference of bag.references) {
       const url = new URL(reference.url);
       if (!['https:','http:'].includes(url.protocol)) continue;
       const link = node('a', 'reference-card'); link.href = url.href;
       link.append(node('strong', '', reference.title + ' ↗'), node('span', '', url.hostname));
       entry.append(link);
     }
-    if (!quest.references.length) entry.append(node('p', 'source-detail', 'No references have been gathered yet.'));
+    if (!bag.references.length) entry.append(node('p', 'source-detail', 'No references have been gathered yet.'));
   } else {
     const title = node('h3', 'note-heading', 'A small way forward'); title.id = 'entry-title';
-    entry.append(title, node('p', 'next-label', 'An invitation to explore'), node('p', 'note-body', quest.next));
+    entry.append(title, node('p', 'next-label', 'An invitation to explore'), node('p', 'note-body', bag.next));
     const occasion = node('section', 'next-occasion');
-    occasion.append(node('h3', '', 'A moment to return'), node('p', '', quest.occasion));
+    occasion.append(node('h3', '', 'A moment to return'), node('p', '', bag.occasion));
     entry.append(occasion, node('p', 'source-detail', 'Keeping a possibility and choosing to work on it are separate moments.'));
   }
   if (!document.querySelector('#entry-title')) {
     const title = entry.querySelector('h3'); if (title) title.id='entry-title';
   }
-  document.querySelector('#page-position').textContent = section === 'notes' ? (overview ? `${notes.length} gathered notes` : notes.length ? `Note ${noteIndex+1} of ${notes.length}` : 'No notes yet') : section === 'references' ? `${quest.references.length} linked ${quest.references.length===1?'place':'places'}` : 'A possibility, ready to revisit';
+  document.querySelector('#page-position').textContent = section === 'notes' ? (overview ? `${notes.length} gathered notes` : notes.length ? `Note ${noteIndex+1} of ${notes.length}` : 'No notes yet') : section === 'references' ? `${bag.references.length} linked ${bag.references.length===1?'place':'places'}` : 'A possibility, ready to revisit';
   const turns = document.querySelector('.page-turns'); turns.hidden = section !== 'notes' || overview || !notes.length;
   document.querySelector('#previous').disabled = noteIndex === 0;
   document.querySelector('#next').disabled = noteIndex >= notes.length - 1;
@@ -198,33 +198,33 @@ function renderEntry(animate = false) {
   }
 }
 function updateHash() {
-  if (!activeQuest()) return;
+  if (!activeBag()) return;
   const tail = section === 'notes' ? overview ? '/notes' : '/note/' + (noteIndex+1) : '/' + section;
-  history.replaceState(null, '', '#quest/' + activeId + tail);
+  history.replaceState(null, '', '#bag/' + activeId + tail);
   if (window.parent !== window) {
     window.parent.postMessage({type:'home-artifact:fragment',fragment:location.hash}, '*');
   }
 }
 function readHash() {
-  const match = location.hash.match(/^#quest\/([^/]+)(?:\/(notes|note|references|next)(?:\/(\d+))?)?$/);
-  if (!match || !quests.some(quest => quest.id === match[1])) return;
+  const match = location.hash.match(/^#bag\/([^/]+)(?:\/(notes|note|references|next)(?:\/(\d+))?)?$/);
+  if (!match || !bags.some(bag => bag.id === match[1])) return;
   activeId = match[1]; section = ['references','next'].includes(match[2]) ? match[2] : 'notes';
   noteIndex = match[3] ? Math.max(0,Number(match[3])-1) : 0;
   overview = match[2] === 'notes';
   // A direct public link remains reachable even after a collection filter.
   search.value = ''; view = 'seeds';
-  if (activeQuest().state !== 'seed') view = activeQuest().state === 'in-progress' ? 'progress' : 'next';
+  if (activeBag().state !== 'seed') view = activeBag().state === 'in-progress' ? 'progress' : 'next';
   renderCollection();
 }
 document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {view=button.dataset.view;renderCollection();}));
 search.addEventListener('input', () => renderCollection(true));
 document.querySelector('#previous').addEventListener('click', () => {noteIndex=Math.max(0,noteIndex-1);renderEntry(true);updateHash();});
-document.querySelector('#next').addEventListener('click', () => {noteIndex=Math.min(noteCount(activeQuest())-1,noteIndex+1);renderEntry(true);updateHash();});
+document.querySelector('#next').addEventListener('click', () => {noteIndex=Math.min(noteCount(activeBag())-1,noteIndex+1);renderEntry(true);updateHash();});
 document.querySelector('#show-notes').addEventListener('click', () => {overview=!overview;renderEntry(true);updateHash();});
 document.querySelector('#share').addEventListener('click', async () => {
   if (binding.hidden) return;
   const output=document.querySelector('#share-status');
-  const url=new URL('https://compaii.dmn.homes/questbook/');url.hash=location.hash;
+  const url=new URL('https://compaii.dmn.homes/wiggle-stash/');url.hash=location.hash;
   output.textContent='Copying…';
   try {await navigator.clipboard.writeText(url.href);output.textContent='Page link copied.';}
   catch {output.textContent='Copy this link: '+url.href;}
@@ -232,15 +232,15 @@ document.querySelector('#share').addEventListener('click', async () => {
 window.addEventListener('hashchange', readHash);
 async function loadBook() {
   try {
-    const response=await fetch('quests.json');
+    const response=await fetch('bags.json');
     if(!response.ok)throw new Error('Collection unavailable');
     const data=await response.json();
-    if(!Array.isArray(data.quests))throw new Error('Invalid collection');
-    quests=data.quests;
-    document.querySelector('#collection-count').textContent=String(quests.length).padStart(2,'0');
-    document.querySelector('#seed-count').textContent=quests.filter(quest=>quest.state==='seed').length;
-    document.querySelector('#progress-count').textContent=quests.filter(quest=>quest.state==='in-progress').length;
-    if(location.hash.startsWith('#quest/'))readHash();
+    if(!Array.isArray(data.bags))throw new Error('Invalid collection');
+    bags=data.bags;
+    document.querySelector('#collection-count').textContent=String(bags.length).padStart(2,'0');
+    document.querySelector('#seed-count').textContent=bags.filter(bag=>bag.state==='seed').length;
+    document.querySelector('#progress-count').textContent=bags.filter(bag=>bag.state==='in-progress').length;
+    if(location.hash.startsWith('#bag/'))readHash();
     else renderCollection();
     if(!activeId)renderCollection();
   }catch {
