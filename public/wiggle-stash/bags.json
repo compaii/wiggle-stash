@@ -3,98 +3,284 @@
   "edition": "2026-10-12",
   "bags": [
     {
-      "id": "wiggle-stash",
-      "title": "Wiggle Stash — ideas in continuous creation",
       "subtitle": "Give the ideas we love a place to grow.",
       "domain": "Life & tribe",
       "state": "seed",
       "author": "Nicolás Echániz",
       "steward": "CompAII",
-      "audience": "Public",
       "origin": "An idea shared by Nicolás with CompAII on 12 October 2026; this public edition follows his choice to give it a place in CompAII's home.",
       "why": "Worthwhile ideas can disappear among other work. A shared stash could preserve their meaning and help us return to selected ones across any domain of life.",
       "possibility": "Each Wiggle bag is an exploratory space: a loose collection of notes, audio, links and discoveries around a theme. Keep how each fragment appeared and let the theme develop as a whole, until it finds the shape of a project. The stash can connect ideas that live in each daimon's home.",
       "next": "Explore how a Wiggle bag could show current understanding alongside the fragments and relationships that shaped it.",
       "occasion": "When we have a new idea worth keeping, or wonder what to explore next.",
-      "effort": "A few minutes",
       "boundary": "This edition presents selected public seeds. Shared capture, private books and chosen reminders are still to be designed.",
-      "references": [
-        {
-          "title": "CompAII's home",
-          "url": "https://compaii.dmn.homes"
-        }
-      ],
+      "effort": "A few minutes",
+      "shortTitle": "Wiggle Stash",
+      "id": "wiggle-stash",
+      "title": "Wiggle Stash — ideas in continuous creation",
+      "audience": "Public",
       "notes": [
         {
+          "id": "note-1",
           "title": "Keep what might be worth returning to",
           "body": "Ideas can disappear among other work. Capture should give them a place before anyone commits to developing them.",
           "author": "Nicolás",
           "date": "12 Oct 2026",
-          "source": "Publicly selected Wiggle Stash conversation"
+          "source": "Publicly selected Wiggle Stash conversation",
+          "representation": "summary"
         },
         {
+          "id": "note-2",
           "title": "A home before a dedicated address",
           "body": "Publish ideas through the spaces our daimons already care for. Give one its own URL or specialized hosting when its growth calls for that.",
           "author": "Nicolás",
           "date": "12 Oct 2026",
-          "source": "Publicly selected Wiggle Stash conversation"
+          "source": "Publicly selected Wiggle Stash conversation",
+          "representation": "summary"
         },
         {
+          "id": "note-3",
           "title": "A bag of notes, still finding its shape",
           "body": "A Wiggle bag can gather loosely arranged notes, audio and related links. Explore the theme as a whole and keep everything that appears along the way, until it becomes a project.",
           "author": "Nicolás",
           "date": "12 Oct 2026",
-          "source": "Current human clarification"
+          "source": "Current human clarification",
+          "representation": "summary"
         },
         {
+          "id": "note-4",
           "title": "A possible meeting with Nexus",
           "body": "This accumulated context might later be something we explore with Nexus. Keep that possibility open while developing the visual experience.",
           "author": "Nicolás",
           "date": "12 Oct 2026",
-          "source": "Current human clarification; a possibility, not an integration"
+          "source": "Current human clarification; a possibility, not an integration",
+          "representation": "summary"
         },
         {
+          "id": "note-5",
           "title": "A window into CompAII’s understanding",
           "body": "Each Wiggle bag could show CompAII’s current understanding of its theme and the relationships it finds. Relevant conversations and project discoveries could reshape that reading, while the original fragments, questions and changes remain available. We would care for the book through conversation. This is a direction to explore.",
           "author": "Nicolás",
           "date": "12 Oct 2026",
-          "source": "Current human proposal; summarized from the selected Wiggle Stash conversation"
+          "source": "Current human proposal; summarized from the selected Wiggle Stash conversation",
+          "representation": "summary"
         }
       ],
-      "shortTitle": "Wiggle Stash"
+      "references": [
+        {
+          "id": "link-1",
+          "title": "CompAII's home",
+          "url": "https://compaii.dmn.homes"
+        }
+      ],
+      "package": {
+        "schema": "wiggle-stash.bag/v1",
+        "version": {
+          "revision": 1,
+          "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+          "created_at": "2026-10-12T22:14:17.554032+00:00"
+        },
+        "bag": {
+          "audience": {
+            "recipients": [],
+            "tribes": [],
+            "visibility": "public"
+          },
+          "id": "wiggle-stash",
+          "title": "Wiggle Stash — ideas in continuous creation"
+        },
+        "entries": [
+          {
+            "author": "Nicolás",
+            "captured_at": "2026-10-12T22:14:17.553671+00:00",
+            "id": "note-1",
+            "kind": "note",
+            "representation": "summary",
+            "source": {
+              "date": "12 Oct 2026",
+              "reference": "Publicly selected Wiggle Stash conversation"
+            },
+            "text": "Ideas can disappear among other work. Capture should give them a place before anyone commits to developing them.",
+            "title": "Keep what might be worth returning to"
+          },
+          {
+            "author": "Nicolás",
+            "captured_at": "2026-10-12T22:14:17.553671+00:00",
+            "id": "note-2",
+            "kind": "note",
+            "representation": "summary",
+            "source": {
+              "date": "12 Oct 2026",
+              "reference": "Publicly selected Wiggle Stash conversation"
+            },
+            "text": "Publish ideas through the spaces our daimons already care for. Give one its own URL or specialized hosting when its growth calls for that.",
+            "title": "A home before a dedicated address"
+          },
+          {
+            "author": "Nicolás",
+            "captured_at": "2026-10-12T22:14:17.553671+00:00",
+            "id": "note-3",
+            "kind": "note",
+            "representation": "summary",
+            "source": {
+              "date": "12 Oct 2026",
+              "reference": "Current human clarification"
+            },
+            "text": "A Wiggle bag can gather loosely arranged notes, audio and related links. Explore the theme as a whole and keep everything that appears along the way, until it becomes a project.",
+            "title": "A bag of notes, still finding its shape"
+          },
+          {
+            "author": "Nicolás",
+            "captured_at": "2026-10-12T22:14:17.553671+00:00",
+            "id": "note-4",
+            "kind": "note",
+            "representation": "summary",
+            "source": {
+              "date": "12 Oct 2026",
+              "reference": "Current human clarification; a possibility, not an integration"
+            },
+            "text": "This accumulated context might later be something we explore with Nexus. Keep that possibility open while developing the visual experience.",
+            "title": "A possible meeting with Nexus"
+          },
+          {
+            "author": "Nicolás",
+            "captured_at": "2026-10-12T22:14:17.553671+00:00",
+            "id": "note-5",
+            "kind": "note",
+            "representation": "summary",
+            "source": {
+              "date": "12 Oct 2026",
+              "reference": "Current human proposal; summarized from the selected Wiggle Stash conversation"
+            },
+            "text": "Each Wiggle bag could show CompAII’s current understanding of its theme and the relationships it finds. Relevant conversations and project discoveries could reshape that reading, while the original fragments, questions and changes remain available. We would care for the book through conversation. This is a direction to explore.",
+            "title": "A window into CompAII’s understanding"
+          },
+          {
+            "author": "Nicolás Echániz",
+            "captured_at": "2026-10-12T22:14:17.553671+00:00",
+            "id": "link-1",
+            "kind": "link",
+            "representation": "literal",
+            "source": {
+              "date": "2026-10-12",
+              "reference": "Selected public edition"
+            },
+            "title": "CompAII's home",
+            "url": "https://compaii.dmn.homes"
+          }
+        ],
+        "presentation": {
+          "author": "Nicolás Echániz",
+          "boundary": "This edition presents selected public seeds. Shared capture, private books and chosen reminders are still to be designed.",
+          "domain": "Life & tribe",
+          "effort": "A few minutes",
+          "next": "Explore how a Wiggle bag could show current understanding alongside the fragments and relationships that shaped it.",
+          "occasion": "When we have a new idea worth keeping, or wonder what to explore next.",
+          "origin": "An idea shared by Nicolás with CompAII on 12 October 2026; this public edition follows his choice to give it a place in CompAII's home.",
+          "possibility": "Each Wiggle bag is an exploratory space: a loose collection of notes, audio, links and discoveries around a theme. Keep how each fragment appeared and let the theme develop as a whole, until it finds the shape of a project. The stash can connect ideas that live in each daimon's home.",
+          "shortTitle": "Wiggle Stash",
+          "state": "seed",
+          "steward": "CompAII",
+          "subtitle": "Give the ideas we love a place to grow.",
+          "why": "Worthwhile ideas can disappear among other work. A shared stash could preserve their meaning and help us return to selected ones across any domain of life."
+        }
+      }
     },
     {
-      "id": "skills-observatory",
-      "title": "A cross-harness skills observatory",
       "subtitle": "Let useful discoveries travel between our tools.",
       "domain": "Tools & learning",
       "state": "seed",
       "author": "Nicolás Echániz & CompAII",
       "steward": "AlterMundi / Skills",
-      "audience": "Public",
       "origin": "Retained as an initial bag in the Wiggle Stash discussion on 12 October 2026.",
       "why": "Different harnesses develop useful ways of working. Inspecting those capabilities and choosing adaptations for real needs can help the tribe learn without losing each tool's strengths.",
       "possibility": "Observe useful skills, preserve their provenance, select a small improvement and adapt it for a receiving harness. Share portable principles through AlterMundi/Skills and contribute general improvements upstream when they fit.",
       "next": "Choose one useful capability and one receiving need, then compare the existing support before deciding what to adapt.",
       "occasion": "When a useful capability appears in another harness, or a concrete need exposes a gap.",
-      "effort": "A focused session",
       "boundary": "This is one Wiggle bag, stewarded by AlterMundi/Skills. It does not own the general Wiggle Stash or an automatic observer.",
-      "references": [
-        {
-          "title": "AlterMundi / Skills",
-          "url": "https://github.com/AlterMundi/Skills"
-        }
-      ],
+      "effort": "A focused session",
+      "shortTitle": "Skills observatory",
+      "id": "skills-observatory",
+      "title": "A cross-harness skills observatory",
+      "audience": "Public",
       "notes": [
         {
+          "id": "note-1",
           "title": "Observe before adapting",
           "body": "Choose useful capabilities in other harnesses against a concrete receiving need. Preserve their provenance, and compare existing support before porting anything.",
           "author": "Nicolás & CompAII",
           "date": "12 Oct 2026",
-          "source": "Initial retained bag discussion"
+          "source": "Initial retained bag discussion",
+          "representation": "summary"
         }
       ],
-      "shortTitle": "Skills observatory"
+      "references": [
+        {
+          "id": "link-1",
+          "title": "AlterMundi / Skills",
+          "url": "https://github.com/AlterMundi/Skills"
+        }
+      ],
+      "package": {
+        "schema": "wiggle-stash.bag/v1",
+        "version": {
+          "revision": 1,
+          "digest": "3ba3f7a5a901b7795e496ee29748363a2f3220f37a6864685fefcf6d0d144efd",
+          "created_at": "2026-10-12T22:14:17.556814+00:00"
+        },
+        "bag": {
+          "audience": {
+            "recipients": [],
+            "tribes": [],
+            "visibility": "public"
+          },
+          "id": "skills-observatory",
+          "title": "A cross-harness skills observatory"
+        },
+        "entries": [
+          {
+            "author": "Nicolás & CompAII",
+            "captured_at": "2026-10-12T22:14:17.556596+00:00",
+            "id": "note-1",
+            "kind": "note",
+            "representation": "summary",
+            "source": {
+              "date": "12 Oct 2026",
+              "reference": "Initial retained bag discussion"
+            },
+            "text": "Choose useful capabilities in other harnesses against a concrete receiving need. Preserve their provenance, and compare existing support before porting anything.",
+            "title": "Observe before adapting"
+          },
+          {
+            "author": "Nicolás Echániz & CompAII",
+            "captured_at": "2026-10-12T22:14:17.556596+00:00",
+            "id": "link-1",
+            "kind": "link",
+            "representation": "literal",
+            "source": {
+              "date": "2026-10-12",
+              "reference": "Selected public edition"
+            },
+            "title": "AlterMundi / Skills",
+            "url": "https://github.com/AlterMundi/Skills"
+          }
+        ],
+        "presentation": {
+          "author": "Nicolás Echániz & CompAII",
+          "boundary": "This is one Wiggle bag, stewarded by AlterMundi/Skills. It does not own the general Wiggle Stash or an automatic observer.",
+          "domain": "Tools & learning",
+          "effort": "A focused session",
+          "next": "Choose one useful capability and one receiving need, then compare the existing support before deciding what to adapt.",
+          "occasion": "When a useful capability appears in another harness, or a concrete need exposes a gap.",
+          "origin": "Retained as an initial bag in the Wiggle Stash discussion on 12 October 2026.",
+          "possibility": "Observe useful skills, preserve their provenance, select a small improvement and adapt it for a receiving harness. Share portable principles through AlterMundi/Skills and contribute general improvements upstream when they fit.",
+          "shortTitle": "Skills observatory",
+          "state": "seed",
+          "steward": "AlterMundi / Skills",
+          "subtitle": "Let useful discoveries travel between our tools.",
+          "why": "Different harnesses develop useful ways of working. Inspecting those capabilities and choosing adaptations for real needs can help the tribe learn without losing each tool's strengths."
+        }
+      }
     }
   ]
 }

@@ -91,6 +91,8 @@ function renderCollection(matchNote = false) {
   binding.hidden = false; emptyReader.hidden = true;
   document.querySelector('#share').disabled = false;
   document.querySelector('#notebook-label').textContent = 'OPEN WIGGLE BAG · ' + stateName(activeBag()).toUpperCase();
+  const version = activeBag().package?.version;
+  document.querySelector('#reader-version').textContent = version ? 'Shared edition · ' + version.created_at.slice(0,10) + ' · revision ' + version.revision : '';
   renderContext();
   renderEntry();
   updateHash();
@@ -162,7 +164,7 @@ function renderEntry(animate = false) {
     } else {
       const note = notes[noteIndex];
       const title = node('h3', 'note-heading', note.title); title.id = 'entry-title';
-      entry.append(title, node('p', 'note-body', note.body), node('p', 'note-attribution', note.author + ' · ' + note.date), node('span', 'note-type', 'Conversation note · summarized'), node('p', 'source-detail', 'Source: ' + note.source));
+      entry.append(title, node('p', 'note-body', note.body), node('p', 'note-attribution', note.author + ' · ' + note.date), node('span', 'note-type', note.representation === 'literal' ? 'Original note · exact wording' : 'Conversation note · summarized'), node('p', 'source-detail', 'Source: ' + note.source));
     }
   } else if (section === 'references') {
     const title = node('h3', 'note-heading', 'Places this Wiggle bag connects to'); title.id = 'entry-title';
@@ -237,6 +239,15 @@ async function loadBook() {
     const data=await response.json();
     if(!Array.isArray(data.bags))throw new Error('Invalid collection');
     bags=data.bags;
+    // The package is the selected content; display fields are a rebuildable view.
+    for(const bag of bags) {
+      const pack=bag.package;
+      if(!pack || pack.schema!=='wiggle-stash.bag/v1')throw new Error('Missing shared package');
+      if(pack.bag.id!==bag.id || pack.bag.audience.visibility!=='public')throw new Error('Invalid package audience');
+      bag.title=pack.bag.title;
+      bag.notes=pack.entries.filter(item=>item.kind==='note').map(item=>({id:item.id,title:item.title,body:item.text,author:item.author,date:item.source.date||item.captured_at.slice(0,10),source:item.source.reference,representation:item.representation}));
+      bag.references=pack.entries.filter(item=>item.kind==='link').map(item=>({id:item.id,title:item.title,url:item.url}));
+    }
     document.querySelector('#collection-count').textContent=String(bags.length).padStart(2,'0');
     document.querySelector('#seed-count').textContent=bags.filter(bag=>bag.state==='seed').length;
     document.querySelector('#progress-count').textContent=bags.filter(bag=>bag.state==='in-progress').length;

@@ -1,0 +1,60 @@
+{
+  "schema": "wiggle-stash.bag/v1",
+  "version": {
+    "revision": 1,
+    "digest": "3ba3f7a5a901b7795e496ee29748363a2f3220f37a6864685fefcf6d0d144efd",
+    "created_at": "2026-10-12T22:14:17.556814+00:00"
+  },
+  "bag": {
+    "audience": {
+      "recipients": [],
+      "tribes": [],
+      "visibility": "public"
+    },
+    "id": "skills-observatory",
+    "title": "A cross-harness skills observatory"
+  },
+  "entries": [
+    {
+      "author": "Nicolás & CompAII",
+      "captured_at": "2026-10-12T22:14:17.556596+00:00",
+      "id": "note-1",
+      "kind": "note",
+      "representation": "summary",
+      "source": {
+        "date": "12 Oct 2026",
+        "reference": "Initial retained bag discussion"
+      },
+      "text": "Choose useful capabilities in other harnesses against a concrete receiving need. Preserve their provenance, and compare existing support before porting anything.",
+      "title": "Observe before adapting"
+    },
+    {
+      "author": "Nicolás Echániz & CompAII",
+      "captured_at": "2026-10-12T22:14:17.556596+00:00",
+      "id": "link-1",
+      "kind": "link",
+      "representation": "literal",
+      "source": {
+        "date": "2026-10-12",
+        "reference": "Selected public edition"
+      },
+      "title": "AlterMundi / Skills",
+      "url": "https://github.com/AlterMundi/Skills"
+    }
+  ],
+  "presentation": {
+    "author": "Nicolás Echániz & CompAII",
+    "boundary": "This is one Wiggle bag, stewarded by AlterMundi/Skills. It does not own the general Wiggle Stash or an automatic observer.",
+    "domain": "Tools & learning",
+    "effort": "A focused session",
+    "next": "Choose one useful capability and one receiving need, then compare the existing support before deciding what to adapt.",
+    "occasion": "When a useful capability appears in another harness, or a concrete need exposes a gap.",
+    "origin": "Retained as an initial bag in the Wiggle Stash discussion on 12 October 2026.",
+    "possibility": "Observe useful skills, preserve their provenance, select a small improvement and adapt it for a receiving harness. Share portable principles through AlterMundi/Skills and contribute general improvements upstream when they fit.",
+    "shortTitle": "Skills observatory",
+    "state": "seed",
+    "steward": "AlterMundi / Skills",
+    "subtitle": "Let useful discoveries travel between our tools.",
+    "why": "Different harnesses develop useful ways of working. Inspecting those capabilities and choosing adaptations for real needs can help the tribe learn without losing each tool's strengths."
+  }
+}

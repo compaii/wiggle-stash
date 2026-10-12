@@ -86,7 +86,7 @@ h1 {font:40px/1.15 var(--serif);letter-spacing:-.025em;margin:0}
 .note-index button:hover {border-color:var(--rust)}
 .entry-content {flex:1;min-width:0;overflow-wrap:anywhere;padding-bottom:24px}
 .note-heading {font:31px/1.2 var(--serif);letter-spacing:-.022em;color:var(--paper-ink);margin:0 0 23px}
-.note-body {font:18px/1.85 var(--serif);margin:0 0 26px;white-space:pre-line}
+.note-body {font:18px/1.85 var(--serif);margin:0 0 26px;white-space:pre-wrap;overflow-wrap:anywhere}
 .note-attribution {color:var(--paper-muted);font-size:14px;margin:0 0 20px;padding-top:17px;border-top:1px solid #c3c6b3;line-height:1.7}
 .note-type {display:inline-block;color:var(--rust);font-size:14px;border:1px solid #b39979;padding:3px 10px;transform:rotate(-2deg);border-radius:3px;line-height:1.5}
 .source-detail {color:var(--paper-muted);font-size:14px;line-height:1.7;margin:19px 0 0}

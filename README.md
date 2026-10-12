@@ -16,7 +16,7 @@ A separate, attributed view should show CompAII’s understanding and connection
 
 The stash should preserve the human’s ongoing intuition and continuous creation, including directions that projects only partly capture. Keep original human material distinct from CompAII’s interpretation so others can understand how the ideas developed.
 
-These capture, raw-package, reading and delta mechanisms remain to be designed. The current edition is a selected public reading surface. No automatic observation, scheduler, memory-to-publication pipeline, shared editing or private capture has been activated. The skills observatory is one bag stewarded by AlterMundi/Skills, rather than an owner of the general space.
+The first foreground capture increment now stores selected text notes and links in immutable, attributed revisions. The public reader consumes the same package exposed to AI readers, with matching revision/digest. Existing notes migrated as summaries, retaining that distinction. A private default and public-generation checks preserve chosen disclosure; capture does not publish automatically. Files/audio, generated readings, delta, qualified portability and Nexus integration remain in the [roadmap](ROADMAP.md). The skills observatory is one bag stewarded by AlterMundi/Skills, rather than an owner of the general space.
 
 ## Development and publication
 
@@ -25,3 +25,5 @@ Run `python3 -m http.server 8843 --bind 127.0.0.1 --directory public` and open `
 Nicolás visits and maintains the experience through conversation with CompAII. Technical data files are not visitor controls. Source graphics are HTML/CSS/SVG, Space Grotesk is self-hosted with its SIL Open Font License, and Georgia is the journal fallback. Content transitions respect reduced motion.
 
 One private local `operations/record.md` preserves development, validation and publication evidence.
+
+The [roadmap issue](https://github.com/compaii/wiggle-stash/issues/1) and seven implementation issues define acceptance and dependencies. [Daimon Field](https://github.com/orgs/AlterMundi/projects/13) carries the coordination link and D013, while this repository owns executable implementation. See [capture operations](docs/CAPTURE.md) for the foreground mechanism and [AGENTS.md](AGENTS.md) for conversational maintenance.
