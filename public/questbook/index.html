@@ -3,48 +3,48 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An explorable garden of unfinished possibilities. Follow a spark, gather its loose threads, and find what it could become.">
-  <meta name="theme-color" content="#080c14">
-  <title>Quest Book · A garden of possibilities</title>
+  <meta name="description" content="A tribe journal for unfinished ideas. Open a quest's notebook, follow its notes and references, and find what it could become.">
+  <meta name="theme-color" content="#172b2c">
+  <title>Quest Book · The tribe's exploration journal</title>
   <link rel="icon" href="mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
-  <script src="field.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
-  <a class="skip" href="#book">Skip to the pages</a>
-  <div class="cosmos" aria-hidden="true">
-    <div class="fallback-art"><svg viewBox="0 0 800 800" fill="none"><defs><radialGradient id="halo"><stop stop-color="#6ad6ca" stop-opacity=".2"/><stop offset="1" stop-color="#6ad6ca" stop-opacity="0"/></radialGradient></defs><circle cx="400" cy="400" r="390" fill="url(#halo)"/><g stroke="#87d7ee" stroke-width="1" opacity=".6"><ellipse cx="400" cy="400" rx="260" ry="100" transform="rotate(30 400 400)"/><ellipse cx="400" cy="400" rx="260" ry="100" transform="rotate(60 400 400)"/><ellipse cx="400" cy="400" rx="260" ry="100" transform="rotate(90 400 400)"/><ellipse cx="400" cy="400" rx="260" ry="100" transform="rotate(120 400 400)"/><ellipse cx="400" cy="400" rx="260" ry="100" transform="rotate(150 400 400)"/><ellipse cx="400" cy="400" rx="260" ry="100" transform="rotate(180 400 400)"/></g><circle cx="400" cy="400" r="50" stroke="#f4c283"/><circle cx="180" cy="420" r="15" fill="#f4c283"/><circle cx="650" cy="510" r="12" fill="#dcb3c3"/></svg></div>
-    <canvas id="field-canvas"></canvas>
-    <div class="edge-shade"></div><div class="texture"></div>
-  </div>
+  <a class="skip" href="#notebook">Skip to the open notebook</a>
   <div class="shell">
-    <header class="topbar">
-      <a class="brand" href="./" aria-label="Quest Book start"><img src="mark.svg" width="34" height="34" alt=""><span>QUEST BOOK</span></a>
-      <div class="presentation" role="group" aria-label="Explore the book"><button type="button" data-mode="field" aria-pressed="true">Field</button><button type="button" data-mode="pages" aria-pressed="false">Pages</button></div>
-      <a class="home-link" href="/">CompAII <span aria-hidden="true">↗</span></a>
-    </header>
+    <header class="masthead"><a class="brand" href="./"><img src="mark.svg" width="38" height="38" alt=""><span>Quest Book<small>THE TRIBE'S EXPLORATION JOURNAL</small></span></a><div class="home-links"><span class="public-label">Public reading edition</span><a href="/">CompAII's home <span aria-hidden="true">↗</span></a></div></header>
     <main>
-      <section class="world" aria-labelledby="hero-title">
-        <div class="world-copy"><p class="eyebrow"><span class="dot"></span> THE TRIBE'S GARDEN OF POSSIBILITIES</p><h1 id="hero-title">Follow <br>a <em>spark.</em></h1><p class="intro">Room for an idea<br>to find its shape.</p></div>
-        <div class="world-note"><span class="orbit-icon" aria-hidden="true">◎</span><p>Nothing here is overdue.<br>Even a quiet seed belongs.</p></div>
-        <section class="seed-field" aria-label="Explore the public seeds"><svg class="field-tethers" id="field-tethers" aria-hidden="true"></svg><div id="seed-pins"></div><p id="field-status" role="status">Finding the first sparks…</p></section>
-        <div class="field-footer"><div class="field-instruction"><span class="gesture" aria-hidden="true">✧</span><p>Drag to wander. Touch to ripple.<br><span>Open a glowing seed to follow its threads.</span></p></div><div class="field-actions"><button type="button" id="stir"><svg aria-hidden="true" width="22" height="15" viewBox="0 0 22 15" fill="none"><path d="M1 8Q5 1 9 8T17 8T21 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Stir the field</button><button type="button" id="wander">Find a spark <span aria-hidden="true">↗</span></button></div></div>
-      </section>
-      <section class="book" id="book" aria-labelledby="book-title" hidden>
-        <div class="book-heading"><div><p class="eyebrow">THE LIVING PAGES</p><h2 id="book-title">A place to keep<br>what <em>could be.</em></h2></div><p class="edition" id="edition">Public seeds.<br>Many possible futures.</p></div>
-        <div class="book-controls"><div class="views" role="group" aria-label="Book view"><button type="button" data-view="seeds" aria-pressed="true">Seeds <span id="seed-count">—</span></button><button type="button" data-view="progress" aria-pressed="false">In progress <span id="progress-count">—</span></button><button type="button" data-view="next" aria-pressed="false">What next <span aria-hidden="true">↗</span></button></div><label class="search"><span class="sr-only">Search quests</span><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Find a spark…" autocomplete="off"></label></div>
-        <p class="view-note" id="view-note">Ideas we want to keep, with room to become something.</p><div class="quests" id="quests" aria-label="Quests"><p class="loading">Opening the book…</p></div><p class="sr-only" id="result-status" role="status" aria-live="polite"></p>
-        <div class="page-coda"><span aria-hidden="true">✧</span><p>A quest can be a pocketful of loose threads.<br>Its shape comes with exploration.</p></div>
-      </section>
+      <div class="welcome"><div><p class="eyebrow">THOUGHTS, CLUES & POSSIBLE ADVENTURES</p><h1>The unfinished belongs here.</h1></div><p>Choose a quest. Open its notes. <br>See where the threads might lead.</p></div>
+      <div class="desk">
+        <aside class="collection" aria-labelledby="collection-title">
+          <div class="collection-heading"><h2 id="collection-title">The collection</h2><span id="collection-count">—</span></div>
+          <label class="search"><span class="sr-only">Search quests and notes</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="1.5"/><path d="m15 15 5 5" stroke="currentColor" stroke-width="1.5"/></svg><input id="search" type="search" placeholder="A thought, a word…" autocomplete="off"></label>
+          <div class="views" role="group" aria-label="Quest collection view"><button type="button" data-view="seeds" aria-pressed="true">Seeds <span id="seed-count">—</span></button><button type="button" data-view="progress" aria-pressed="false">In progress <span id="progress-count">—</span></button><button type="button" data-view="next" aria-pressed="false">What next <span aria-hidden="true">↗</span></button></div>
+          <div id="quests" class="quest-list"><p class="loading">Opening the collection…</p></div>
+          <p class="collection-note">A quest can hold a handful of loose notes long before it becomes a project.</p>
+          <p class="sr-only" id="result-status" role="status" aria-live="polite"></p>
+        </aside>
+        <section class="notebook-area" id="notebook" aria-label="Open quest notebook" tabindex="-1">
+          <div class="notebook-topline"><span id="notebook-label">OPEN NOTEBOOK</span><button type="button" id="share" disabled>Copy this page's link <span aria-hidden="true">↗</span></button></div>
+          <div class="binding" id="binding" hidden>
+            <div class="book-spread">
+              <section class="context-page" id="quest-context" aria-label="Quest background"></section>
+              <section class="entry-page" aria-labelledby="entry-title">
+                <div class="entry-topline"><span id="entry-section">LOOSE NOTES</span><button type="button" id="show-notes">All notes</button></div>
+                <div id="note-index" class="note-index" role="group" aria-label="Choose a note"></div>
+                <div class="entry-content" id="entry-content"></div>
+                <div class="entry-footer"><span id="page-position"></span><div class="page-turns"><button type="button" id="previous" aria-label="Previous note">←</button><button type="button" id="next" aria-label="Next note">→</button></div></div>
+              </section>
+            </div>
+          </div>
+          <div id="empty-reader" class="empty-reader"><h2>A place for what comes next.</h2><p>The first notebooks are opening.</p></div>
+          <div class="notebook-bottomline"><p id="reader-hint">Every page keeps the thread of where it came from.</p><span id="share-status" role="status"></span></div>
+        </section>
+      </div>
     </main>
-    <footer class="site-footer"><span>A seed from Nicolás · cared for by CompAII</span><div class="sensory"><button type="button" id="motion" aria-pressed="false">Pause motion</button><button type="button" id="sound" aria-pressed="false">Sound off</button><a href="quests.json" aria-label="Read the public quest records">Records ↗</a></div></footer>
-    <noscript><div class="no-script">This garden needs JavaScript to explore. You can <a href="quests.json">read its public seeds here</a>.</div></noscript>
+    <footer><span>A seed from Nicolás · cared for by CompAII</span><a href="quests.json">Read the public records <span aria-hidden="true">↗</span></a></footer>
+    <noscript><p class="no-script">You can <a href="quests.json">read the public notes and references</a> without opening the interactive notebook.</p></noscript>
   </div>
-  <dialog id="quest-dialog" aria-labelledby="quest-title">
-    <div class="dialog-top"><span class="eyebrow" id="quest-label"></span><button type="button" class="close" aria-label="Close quest">×</button></div>
-    <div class="folio-mark" aria-hidden="true"><span></span><span></span><span></span></div><div id="quest-detail"></div>
-    <div class="dialog-bottom"><button type="button" class="share">Copy quest link <span aria-hidden="true">↗</span></button><span id="share-status" role="status"></span></div>
-  </dialog>
 </body>
 </html>

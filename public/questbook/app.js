@@ -2,98 +2,18 @@
 
 const list = document.querySelector('#quests');
 const search = document.querySelector('#search');
-const dialog = document.querySelector('#quest-dialog');
-const detail = document.querySelector('#quest-detail');
 const status = document.querySelector('#result-status');
+const binding = document.querySelector('#binding');
+const emptyReader = document.querySelector('#empty-reader');
+const context = document.querySelector('#quest-context');
+const entry = document.querySelector('#entry-content');
+const index = document.querySelector('#note-index');
 let quests = [];
 let view = 'seeds';
-let currentQuest = null;
-let opener = null;
-let mode = 'field';
-const pins = document.querySelector('#seed-pins');
-const field = new window.QuestField(document.querySelector('#field-canvas'), placePins);
-
-function placePins(projected, viewport) {
-  const mobile = viewport.width < 600;
-  let previousBottom = 0;
-  for (const position of projected) {
-    const button = [...pins.children].find(item => item.dataset.quest === position.id);
-    if (!button) continue;
-    const width = button.offsetWidth;
-    const height = button.offsetHeight;
-    let x = Math.max(20, Math.min(viewport.width - width - 20, position.x - 14));
-    let y = Math.max(viewport.height * .45, Math.min(viewport.height - height - 160, position.y - 14));
-    if (mobile) {
-      x = position.index % 2 ? viewport.width - width - 20 : 20;
-      const copyBottom = document.querySelector('.world-copy').getBoundingClientRect().bottom + scrollY;
-      y = position.index === 0 ? Math.max(300, copyBottom + document.querySelector('#field-status').offsetHeight + 25) : previousBottom + 20;
-      previousBottom = y + height;
-      document.querySelector('#field-status').style.top = (copyBottom + 8) + 'px';
-      document.querySelector('#field-status').textContent = `${quests.length} seeds · drag the light, tap to ripple`;
-    }
-    button.style.left = '0';
-    button.style.top = '0';
-    button.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
-    const tether = document.querySelector(`#field-tethers [data-quest="${position.id}"]`);
-    if (tether) {
-      const endX = x + (mobile ? 6 : 9) + 14;
-      const endY = y + (mobile ? 6 : 9);
-      tether.setAttribute('d', `M${position.x},${position.y} Q${position.x},${endY} ${endX},${endY}`);
-    }
-  }
-  if (mobile && previousBottom) {
-    const headerHeight = document.querySelector('.topbar').offsetHeight;
-    document.querySelector('.field-footer').style.paddingTop = (previousBottom + 30 - headerHeight) + 'px';
-    document.querySelector('.world').style.minHeight = (previousBottom + 110 - headerHeight) + 'px';
-  } else {
-    document.querySelector('#field-status').style.top = '';
-    document.querySelector('#field-status').textContent = `${quests.length} seeds · all still becoming`;
-    document.querySelector('.field-footer').style.paddingTop = '';
-    document.querySelector('.world').style.minHeight = '';
-  }
-}
-
-function renderPins() {
-  pins.replaceChildren();
-  document.querySelector('#field-tethers').replaceChildren();
-  quests.forEach((quest, index) => {
-    const button = node('button', 'seed-pin');
-    button.type = 'button';
-    button.dataset.quest = quest.id;
-    button.style.setProperty('--seed-color', index % 2 ? '#ccb5ed' : '#f4c283');
-    const tether = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    tether.dataset.quest = quest.id;
-    tether.setAttribute('stroke', index % 2 ? '#ccb5ed' : '#f4c283');
-    document.querySelector('#field-tethers').append(tether);
-    button.setAttribute('aria-label', 'Open quest space: ' + quest.title);
-    const anchor = node('span', 'pin-anchor');
-    anchor.setAttribute('aria-hidden', 'true');
-    const label = node('span', 'pin-label');
-    const open = node('span', 'pin-open', 'Follow the threads ');
-    open.append(node('span', '', '↗'));
-    label.append(node('span', 'pin-domain', quest.domain), node('span', 'pin-name', quest.shortTitle || quest.title), open);
-    button.append(anchor, label);
-    button.addEventListener('pointerenter', () => { field.selected = index; field.requestFrame(); });
-    button.addEventListener('focus', () => { field.selected = index; field.requestFrame(); });
-    button.addEventListener('click', () => openQuest(quest, button));
-    pins.append(button);
-  });
-  document.querySelector('#field-status').textContent = `${quests.length} seeds · all still becoming`;
-  document.querySelector('#edition').textContent = `${quests.length} public seeds. Many possible futures.`;
-  field.setQuests(quests);
-  if (!field.gl) placePins(quests.map((quest,index) => ({id:quest.id,index,x:innerWidth*(index%2?.76:.26),y:innerHeight*.55})), {width:innerWidth,height:innerHeight});
-}
-
-function setMode(nextMode) {
-  mode = nextMode;
-  document.body.classList.toggle('pages-mode', mode === 'pages');
-  document.querySelector('#book').hidden = mode !== 'pages';
-  document.querySelector('.world').hidden = mode !== 'field';
-  document.querySelectorAll('[data-mode]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
-  field.setActive(mode === 'field' && !dialog.open);
-  if (!dialog.open) history.replaceState(null, '', mode === 'pages' ? '#book' : '#field');
-  scrollTo({top:0,behavior:'instant'});
-}
+let activeId = null;
+let section = 'notes';
+let noteIndex = 0;
+let overview = false;
 
 function node(tag, className, text) {
   const element = document.createElement(tag);
@@ -101,191 +21,229 @@ function node(tag, className, text) {
   if (text !== undefined) element.textContent = text;
   return element;
 }
-
-function render() {
+function activeQuest() { return quests.find(quest => quest.id === activeId); }
+function noteCount(quest) { return (quest.notes || []).length; }
+function stateName(quest) { return quest.state === 'seed' ? 'Seed' : quest.state === 'resting' ? 'Resting' : 'In progress'; }
+function contains(text, query) { return text.toLocaleLowerCase().includes(query); }
+function filteredQuests() {
   const query = search.value.trim().toLocaleLowerCase();
-  const selected = quests.filter(quest => {
+  return quests.filter(quest => {
     const inView = view === 'seeds' ? quest.state === 'seed' : view === 'progress' ? quest.state === 'in-progress' : Boolean(quest.next) && quest.state !== 'resting';
-    return inView && [quest.title, quest.subtitle, quest.domain, quest.why, quest.author, quest.steward, quest.next, ...(quest.notes || []).map(note => note.title + ' ' + note.body)].join(' ').toLocaleLowerCase().includes(query);
+    const text = [quest.title, quest.subtitle, quest.domain, quest.why, quest.author, quest.steward, quest.next, ...(quest.notes || []).map(note => note.title + ' ' + note.body)].join(' ');
+    return inView && contains(text, query);
   });
-  list.replaceChildren();
-  document.querySelector('#view-note').textContent = {
-    seeds: 'Ideas we want to keep, with room to become something.',
-    progress: 'Quests we have chosen to work on. Starting is a separate choice.',
-    next: 'A small invitation for the time and curiosity you have today.'
-  }[view];
-  document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === view)));
-  for (const quest of selected) {
-    const card = node('article', 'quest');
-    const top = node('div', 'card-top');
-    top.append(node('span', '', quest.domain), node('span', 'state', quest.state === 'seed' ? 'Seed' : 'In progress'));
-    card.append(top, node('h3', '', quest.title), node('p', 'subtitle', quest.subtitle));
-    if (view === 'next') card.append(node('span', 'effort', quest.effort));
-    const step = node('div', 'next-step');
-    step.append(node('span', 'small-label', 'A possible next step'), node('p', '', quest.next));
-    const foot = node('div', 'card-footer');
-    const attribution = node('div', 'attribution', 'Kept by');
-    attribution.append(node('span', '', quest.steward));
-    const button = node('button', 'open-quest', 'Open space ↗');
+}
+function showEmpty(title, text, retry) {
+  binding.hidden = true;
+  document.querySelector('#share').disabled = true;
+  emptyReader.hidden = false;
+  emptyReader.replaceChildren(node('h2', '', title), node('p', '', text));
+  if (retry) {
+    const button = node('button', '', retry.label);
     button.type = 'button';
-    button.setAttribute('aria-label', 'Explore ' + quest.title);
-    button.addEventListener('click', () => openQuest(quest, button));
-    foot.append(attribution, button);
-    card.append(step, foot);
-    list.append(card);
+    button.addEventListener('click', retry.action);
+    emptyReader.append(button);
   }
+}
+function renderCollection(matchNote = false) {
+  const selected = filteredQuests();
+  const focusedId = document.activeElement?.dataset.quest;
+  list.replaceChildren();
+  document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === view)));
   if (!selected.length) {
-    const empty = node('div', 'empty');
-    empty.append(node('h3', '', query ? 'No matching sparks.' : 'Room for a chosen adventure.'), node('p', '', query ? 'Try another word, or return to all the ideas in this view.' : 'These first ideas are still seeds. When we choose to develop one, its journey can begin here.'));
-    const reset = node('button', '', query ? 'Clear search' : 'Return to seeds');
-    reset.type = 'button';
-    reset.addEventListener('click', () => { if (query) search.value = ''; else view = 'seeds'; render(); });
-    empty.append(reset);
-    list.append(empty);
+    const isSearch = Boolean(search.value.trim());
+    list.append(node('p', 'collection-empty', isSearch ? 'No matching notebooks.' : 'No quests chosen for development yet.'));
+    showEmpty(isSearch ? 'That thread has not appeared here yet.' : 'An idea can take its time.', isSearch ? 'Try a different word, or return to the full collection.' : 'These first quests are seeds. Choosing to work on one is a separate step.', {
+      label: isSearch ? 'Clear search' : 'Return to seeds',
+      action: () => { search.value = ''; view = 'seeds'; renderCollection(); }
+    });
+    status.textContent = 'No matching quests.';
+    return;
   }
-  status.textContent = selected.length + (selected.length === 1 ? ' quest shown.' : ' quests shown.');
+  if (!selected.some(quest => quest.id === activeId)) {
+    activeId = selected[0].id;
+    section = 'notes'; noteIndex = 0; overview = false;
+  }
+  if (matchNote && search.value.trim()) {
+    const query = search.value.trim().toLocaleLowerCase();
+    const found = activeQuest().notes?.findIndex(note => contains(note.title + ' ' + note.body, query));
+    if (found >= 0) { section = 'notes'; noteIndex = found; overview = false; }
+  }
+  for (const quest of selected) {
+    const button = node('button', 'quest-choice');
+    button.type = 'button';
+    button.dataset.quest = quest.id;
+    button.setAttribute('aria-label', 'Open quest: ' + quest.title);
+    button.setAttribute('aria-pressed', String(quest.id === activeId));
+    const cover = node('span', 'mini-journal', String(quests.indexOf(quest) + 1).padStart(2, '0'));
+    cover.setAttribute('aria-hidden', 'true');
+    const copy = node('span', 'choice-copy');
+    copy.append(node('span', 'choice-domain', quest.domain), node('span', 'choice-title', quest.shortTitle || quest.title), node('span', 'choice-count', `${noteCount(quest)} ${noteCount(quest) === 1 ? 'note' : 'notes'} · ${quest.references.length} ${quest.references.length === 1 ? 'link' : 'links'}`));
+    button.append(cover, copy);
+    button.addEventListener('click', () => {
+      activeId = quest.id; section = 'notes'; noteIndex = 0; overview = false;
+      renderCollection();
+      if (innerWidth <= 650) document.querySelector('#notebook').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start'});
+    });
+    list.append(button);
+  }
+  if (focusedId) [...list.children].find(button => button.dataset.quest === focusedId)?.focus({preventScroll:true});
+  binding.hidden = false; emptyReader.hidden = true;
+  document.querySelector('#share').disabled = false;
+  document.querySelector('#notebook-label').textContent = 'OPEN NOTEBOOK · ' + stateName(activeQuest()).toUpperCase();
+  renderContext();
+  renderEntry();
+  updateHash();
+  status.textContent = selected.length + (selected.length === 1 ? ' quest found.' : ' quests found.');
 }
-
-function section(title, text, className = '') {
-  const block = node('section', 'detail-section ' + className);
-  block.append(node('h3', '', title), node('p', '', text));
-  return block;
+function renderContext() {
+  const quest = activeQuest();
+  context.replaceChildren();
+  const meta = node('div', 'quest-meta');
+  meta.append(node('span', 'seed-stamp', stateName(quest)), node('span', '', quest.domain), node('span', '', quest.audience));
+  context.append(meta, node('h2', 'quest-title', quest.shortTitle || quest.title), node('p', 'quest-subtitle', quest.subtitle), node('p', 'why-label', 'Why keep this?'), node('p', 'why-body', quest.why), node('p', 'quest-author', 'By ' + quest.author), node('p', 'contents-title', 'INSIDE THIS QUEST'));
+  const contents = node('div', 'contents');
+  contents.setAttribute('role', 'group'); contents.setAttribute('aria-label', 'Quest contents');
+  for (const item of [{id:'notes',label:'Notes',count:noteCount(quest)}, {id:'references',label:'References',count:quest.references.length}, {id:'next',label:'Next step',count:'↗'}]) {
+    const button = node('button', '', item.label);
+    button.type = 'button'; button.dataset.section = item.id;
+    button.setAttribute('aria-pressed', String(section === item.id));
+    button.append(node('span', '', String(item.count)));
+    button.addEventListener('click', () => {
+      section = item.id; overview = false;
+      document.querySelectorAll('[data-section]').forEach(control => control.setAttribute('aria-pressed', String(control.dataset.section === section)));
+      renderEntry(true); updateHash();
+    });
+    contents.append(button);
+  }
+  const details = node('details', 'quest-background');
+  details.append(node('summary', '', 'Background & origin'));
+  const mobileWhy = node('div', 'mobile-why');
+  mobileWhy.append(node('h3', '', 'Why keep this?'), node('p', '', quest.why), node('p', '', 'By ' + quest.author));
+  details.append(mobileWhy, node('h3', '', 'What it could become'), node('p', '', quest.possibility), node('h3', '', 'Where it began'), node('p', '', quest.origin), node('h3', '', 'This edition'), node('p', '', quest.boundary));
+  context.append(contents, details);
 }
-
-function openQuest(quest, sourceButton = null) {
-  currentQuest = quest;
-  opener = sourceButton;
-  detail.replaceChildren();
-  document.querySelector('#quest-label').textContent = quest.domain + ' · Seed';
-  const title = node('h2', 'detail-title', quest.title);
-  title.id = 'quest-title';
-  const meta = node('div', 'meta');
-  meta.append(node('span', '', quest.audience), node('span', '', 'By ' + quest.author));
-  detail.append(title, node('p', 'detail-subtitle', quest.subtitle), meta);
-  if (quest.notes?.length) {
-    const heading = node('div', 'threads-heading');
-    heading.append(node('h3', '', 'Loose threads'), node('span', '', quest.notes.length + ' field notes'));
-    const threads = node('div', 'threads');
-    for (const note of quest.notes) {
-      const clipping = node('article', 'clipping');
-      clipping.append(node('span', 'clip-kind', 'FIELD NOTE'), node('h4', '', note.title), node('p', '', note.body), node('div', 'clip-source', note.author + ' · ' + note.date));
-      threads.append(clipping);
+function renderEntry(animate = false) {
+  const quest = activeQuest();
+  if (!quest) return;
+  const notes = quest.notes || [];
+  noteIndex = Math.max(0, Math.min(notes.length - 1, noteIndex));
+  const focusedNote = document.activeElement?.dataset.note;
+  entry.replaceChildren(); index.replaceChildren();
+  document.querySelector('#entry-section').textContent = {notes:'LOOSE NOTES',references:'FOLLOW THE THREADS',next:'A POSSIBLE NEXT STEP'}[section];
+  document.querySelector('#show-notes').hidden = section !== 'notes' || !notes.length;
+  document.querySelector('#show-notes').textContent = overview ? 'Back to the note' : 'All notes';
+  index.hidden = section !== 'notes' || overview || !notes.length;
+  if (section === 'notes') {
+    notes.forEach((note, position) => {
+      const button = node('button', '', String(position + 1).padStart(2,'0'));
+      button.type = 'button'; button.dataset.note = String(position);
+      button.setAttribute('aria-label', 'Read note: ' + note.title);
+      button.setAttribute('aria-pressed', String(position === noteIndex));
+      button.title = note.title;
+      button.addEventListener('click', () => {noteIndex = position; overview = false; renderEntry(true); updateHash();});
+      index.append(button);
+    });
+    if (!notes.length) {
+      entry.append(node('h3', 'note-heading', 'Room for the first fragment.'), node('p', 'note-body', 'This quest has a place. Its first notes can come in their own time.'));
+    } else if (overview) {
+      const title = node('h3', 'note-heading', 'The notes gathered so far'); title.id = 'entry-title'; entry.append(title);
+      const previews = node('div', 'notes-overview');
+      notes.forEach((note, position) => {
+        const button = node('button', 'note-preview'); button.type = 'button'; button.dataset.note=String(position);
+        button.setAttribute('aria-label', 'Open note: ' + note.title);
+        const words = note.body.split(/\s+/);
+        const excerpt = words.slice(0,22).join(' ') + (words.length>22 ? '…' : '');
+        button.append(node('span', '', 'NOTE ' + String(position+1).padStart(2,'0')), node('strong', '', note.title), node('p', '', excerpt), node('span', '', note.author + ' · ' + note.date));
+        button.addEventListener('click', () => {noteIndex = position; overview = false; renderEntry(true); updateHash();});
+        previews.append(button);
+      });
+      entry.append(previews);
+    } else {
+      const note = notes[noteIndex];
+      const title = node('h3', 'note-heading', note.title); title.id = 'entry-title';
+      entry.append(title, node('p', 'note-body', note.body), node('p', 'note-attribution', note.author + ' · ' + note.date), node('span', 'note-type', 'Conversation note · summarized'), node('p', 'source-detail', 'Source: ' + note.source));
     }
-    detail.append(heading, threads, node('p', 'threads-caption', 'An idea can gather its fragments before it finds its shape.'));
-  }
-  detail.append(
-    section('Why keep this?', quest.why), section('What it could become', quest.possibility),
-    section('A possible next step', quest.next, 'detail-next'), section('A moment to return', quest.occasion),
-    section('Where the seed came from', quest.origin));
-  if (quest.references.length) {
-    const refs = node('section', 'detail-section');
-    refs.append(node('h3', '', 'Follow the threads'));
-    const links = node('div', 'references');
+  } else if (section === 'references') {
+    const title = node('h3', 'note-heading', 'Places this quest connects to'); title.id = 'entry-title';
+    entry.append(title, node('p', 'note-body', 'Follow the materials already linked to this theme. Each keeps its own home.'));
     for (const reference of quest.references) {
       const url = new URL(reference.url);
-      if (url.protocol !== 'https:' && url.protocol !== 'http:') continue;
-      const link = node('a', '', reference.title + ' ↗');
-      link.href = url.href;
-      links.append(link);
+      if (!['https:','http:'].includes(url.protocol)) continue;
+      const link = node('a', 'reference-card'); link.href = url.href;
+      link.append(node('strong', '', reference.title + ' ↗'), node('span', '', url.hostname));
+      entry.append(link);
     }
-    refs.append(links);
-    detail.append(refs);
+    if (!quest.references.length) entry.append(node('p', 'source-detail', 'No references have been gathered yet.'));
+  } else {
+    const title = node('h3', 'note-heading', 'A small way forward'); title.id = 'entry-title';
+    entry.append(title, node('p', 'next-label', 'An invitation to explore'), node('p', 'note-body', quest.next));
+    const occasion = node('section', 'next-occasion');
+    occasion.append(node('h3', '', 'A moment to return'), node('p', '', quest.occasion));
+    entry.append(occasion, node('p', 'source-detail', 'Keeping a possibility and choosing to work on it are separate moments.'));
   }
-  detail.append(node('p', 'boundary', quest.boundary));
+  if (!document.querySelector('#entry-title')) {
+    const title = entry.querySelector('h3'); if (title) title.id='entry-title';
+  }
+  document.querySelector('#page-position').textContent = section === 'notes' ? (overview ? `${notes.length} gathered notes` : notes.length ? `Note ${noteIndex+1} of ${notes.length}` : 'No notes yet') : section === 'references' ? `${quest.references.length} linked ${quest.references.length===1?'place':'places'}` : 'A possibility, ready to revisit';
+  const turns = document.querySelector('.page-turns'); turns.hidden = section !== 'notes' || overview || !notes.length;
+  document.querySelector('#previous').disabled = noteIndex === 0;
+  document.querySelector('#next').disabled = noteIndex >= notes.length - 1;
+  document.querySelector('#reader-hint').textContent = section === 'notes' ? 'Each page keeps the thread of where it came from.' : section === 'references' ? 'References lead to their original spaces.' : 'Rest is a valid chapter of a quest.';
   document.querySelector('#share-status').textContent = '';
-  history.replaceState(null, '', '#quest/' + quest.id);
-  field.select(quests.indexOf(quest));
-  if (!dialog.open) dialog.showModal();
-  field.setActive(false);
-  dialog.scrollTop = 0;
-}
-
-function openFromHash() {
-  const quest = quests.find(item => '#quest/' + item.id === location.hash);
-  if (quest) openQuest(quest);
-  else {
-    if (dialog.open) dialog.close();
-    if (location.hash === '#book') setMode('pages');
-    else if (location.hash === '#field') setMode('field');
+  if (focusedNote !== undefined) [...index.children].find(button => button.dataset.note === focusedNote)?.focus({preventScroll:true});
+  if (animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    entry.getAnimations().forEach(animation => animation.cancel());
+    entry.animate([{opacity:.35,transform:'translateX(9px)'},{opacity:1,transform:'translateX(0)'}], {duration:180,easing:'ease-out'});
   }
 }
-
-document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {
-  view = button.dataset.view;
-  render();
-}));
-document.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => setMode(button.dataset.mode)));
-document.querySelector('.skip').addEventListener('click', () => setMode('pages'));
-document.querySelector('#stir').addEventListener('click', () => { field.pointer=[.5,.5]; field.stir(); });
-document.querySelector('#wander').addEventListener('click', event => {
-  if (!quests.length) return;
-  const random = new Uint32Array(1);
-  crypto.getRandomValues(random);
-  openQuest(quests[random[0] % quests.length], event.currentTarget);
-});
-const motionButton = document.querySelector('#motion');
-function updateMotion() {
-  motionButton.textContent = field.paused ? 'Resume motion' : 'Pause motion';
-  motionButton.setAttribute('aria-pressed', String(field.paused));
+function updateHash() {
+  if (!activeQuest()) return;
+  const tail = section === 'notes' ? overview ? '/notes' : '/note/' + (noteIndex+1) : '/' + section;
+  history.replaceState(null, '', '#quest/' + activeId + tail);
 }
-motionButton.addEventListener('click', () => { field.setPaused(!field.paused); updateMotion(); });
-updateMotion();
-document.querySelector('#sound').addEventListener('click', async event => {
-  const button = event.currentTarget;
-  button.disabled = true;
-  const enabled = await field.setSound(!field.sound);
-  button.textContent = enabled ? 'Sound on' : 'Sound off';
-  button.setAttribute('aria-pressed', String(enabled));
-  button.disabled = false;
+function readHash() {
+  const match = location.hash.match(/^#quest\/([^/]+)(?:\/(notes|note|references|next)(?:\/(\d+))?)?$/);
+  if (!match || !quests.some(quest => quest.id === match[1])) return;
+  activeId = match[1]; section = ['references','next'].includes(match[2]) ? match[2] : 'notes';
+  noteIndex = match[3] ? Math.max(0,Number(match[3])-1) : 0;
+  overview = match[2] === 'notes';
+  // A direct public link remains reachable even after a collection filter.
+  search.value = ''; view = 'seeds';
+  if (activeQuest().state !== 'seed') view = activeQuest().state === 'in-progress' ? 'progress' : 'next';
+  renderCollection();
+}
+document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {view=button.dataset.view;renderCollection();}));
+search.addEventListener('input', () => renderCollection(true));
+document.querySelector('#previous').addEventListener('click', () => {noteIndex=Math.max(0,noteIndex-1);renderEntry(true);updateHash();});
+document.querySelector('#next').addEventListener('click', () => {noteIndex=Math.min(noteCount(activeQuest())-1,noteIndex+1);renderEntry(true);updateHash();});
+document.querySelector('#show-notes').addEventListener('click', () => {overview=!overview;renderEntry(true);updateHash();});
+document.querySelector('#share').addEventListener('click', async () => {
+  if (binding.hidden) return;
+  const output=document.querySelector('#share-status');
+  const url=new URL(location.href);url.search='';
+  output.textContent='Copying…';
+  try {await navigator.clipboard.writeText(url.href);output.textContent='Page link copied.';}
+  catch {output.textContent='Copy this link: '+url.href;}
 });
-search.addEventListener('input', render);
-document.querySelector('.close').addEventListener('click', () => dialog.close());
-dialog.addEventListener('close', () => {
-  if (location.hash.startsWith('#quest/')) history.replaceState(null, '', location.pathname + location.search + (mode === 'pages' ? '#book' : '#field'));
-  if (opener?.isConnected) opener.focus();
-  currentQuest = null;
-  field.setActive(mode === 'field');
-});
-document.querySelector('.share').addEventListener('click', async () => {
-  if (!currentQuest) return;
-  const output = document.querySelector('#share-status');
-  const url = new URL(location.href);
-  url.search = '';
-  url.hash = 'quest/' + currentQuest.id;
-  output.textContent = 'Copying…';
-  try {
-    await navigator.clipboard.writeText(url.href);
-    output.textContent = 'Quest link copied.';
-  } catch {
-    output.textContent = 'Copy this link: ' + url.href;
-  }
-});
-window.addEventListener('hashchange', openFromHash);
-
+window.addEventListener('hashchange', readHash);
 async function loadBook() {
   try {
-    const response = await fetch('quests.json');
-    if (!response.ok) throw new Error('Book unavailable');
-    const data = await response.json();
-    if (!Array.isArray(data.quests)) throw new Error('Invalid book');
-    quests = data.quests;
-    document.querySelector('#seed-count').textContent = quests.filter(quest => quest.state === 'seed').length;
-    document.querySelector('#progress-count').textContent = quests.filter(quest => quest.state === 'in-progress').length;
-    render();
-    renderPins();
-    if (location.hash === '#book') setMode('pages');
-    openFromHash();
-  } catch {
-    document.querySelector('#field-status').textContent = 'These seeds could not load. Open Pages to try again.';
-    list.replaceChildren();
-    const empty = node('div', 'empty');
-    empty.append(node('h3', '', 'The book could not open.'), node('p', '', 'Try opening these pages again in a moment.'));
-    const retry = node('button', '', 'Try again');
-    retry.type = 'button';
-    retry.addEventListener('click', loadBook);
-    empty.append(retry);
-    list.append(empty);
-    status.textContent = 'The book could not open.';
+    const response=await fetch('quests.json');
+    if(!response.ok)throw new Error('Collection unavailable');
+    const data=await response.json();
+    if(!Array.isArray(data.quests))throw new Error('Invalid collection');
+    quests=data.quests;
+    document.querySelector('#collection-count').textContent=String(quests.length).padStart(2,'0');
+    document.querySelector('#seed-count').textContent=quests.filter(quest=>quest.state==='seed').length;
+    document.querySelector('#progress-count').textContent=quests.filter(quest=>quest.state==='in-progress').length;
+    if(location.hash.startsWith('#quest/'))readHash();
+    else renderCollection();
+    if(!activeId)renderCollection();
+  }catch {
+    list.replaceChildren(node('p','collection-empty','The notebooks could not load.'));
+    showEmpty('The collection could not open.','Try opening the notebooks again in a moment.',{label:'Try again',action:loadBook});
+    status.textContent='The collection could not load.';
   }
 }
 loadBook();
