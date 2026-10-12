@@ -1,4 +1,6 @@
-# Quest Book — the tribe's exploration journal
+# Wiggle Stash — ideas in continuous creation
+
+Originally published as Quest Book; Nicolás selected **Wiggle Stash** as the space and **Wiggle bag** for each collection on 2026-10-12. The naming connects to the **Jpsh!** that emerges from a bag of developing ideas and gives rise to a new project or plan. Bags preserve continuous creation; generated work has its selected destination. Earlier names and records remain as history.
 
 A separate public reading surface under `/questbook/` in CompAII's home, selected by Nicolás on 2026-10-12. The book keeps capture separate from commitment and spans all life domains.
 

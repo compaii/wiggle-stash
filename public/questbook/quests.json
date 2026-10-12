@@ -4,7 +4,7 @@
   "quests": [
     {
       "id": "quest-book",
-      "title": "A Quest Book for the tribe",
+      "title": "Wiggle Stash — ideas in continuous creation",
       "subtitle": "Give the ideas we love a place to grow.",
       "domain": "Life & tribe",
       "state": "seed",
@@ -12,9 +12,9 @@
       "steward": "CompAII",
       "audience": "Public",
       "origin": "An idea shared by Nicolás with CompAII on 12 October 2026; this public edition follows his choice to give it a place in CompAII's home.",
-      "why": "Worthwhile ideas can disappear among other work. A shared book could preserve their meaning and help us return to selected ones across any domain of life.",
-      "possibility": "Each quest is an exploratory space: a loose collection of notes, audio, links and discoveries around a theme. Keep how each fragment appeared and let the theme develop as a whole, until it finds the shape of a project. The book can connect ideas that live in each daimon's home.",
-      "next": "Explore how a quest could show current understanding alongside the fragments and relationships that shaped it.",
+      "why": "Worthwhile ideas can disappear among other work. A shared stash could preserve their meaning and help us return to selected ones across any domain of life.",
+      "possibility": "Each Wiggle bag is an exploratory space: a loose collection of notes, audio, links and discoveries around a theme. Keep how each fragment appeared and let the theme develop as a whole, until it finds the shape of a project. The stash can connect ideas that live in each daimon's home.",
+      "next": "Explore how a Wiggle bag could show current understanding alongside the fragments and relationships that shaped it.",
       "occasion": "When we have a new idea worth keeping, or wonder what to explore next.",
       "effort": "A few minutes",
       "boundary": "This edition presents selected public seeds. Shared capture, private books and chosen reminders are still to be designed.",
@@ -61,7 +61,7 @@
           "source": "Current human proposal; summarized from the selected Quest Book conversation"
         }
       ],
-      "shortTitle": "Quest Book"
+      "shortTitle": "Wiggle Stash"
     },
     {
       "id": "skills-observatory",
@@ -78,7 +78,7 @@
       "next": "Choose one useful capability and one receiving need, then compare the existing support before deciding what to adapt.",
       "occasion": "When a useful capability appears in another harness, or a concrete need exposes a gap.",
       "effort": "A focused session",
-      "boundary": "This is one quest, stewarded by AlterMundi/Skills. It does not own the general Quest Book or an automatic observer.",
+      "boundary": "This is one Wiggle bag, stewarded by AlterMundi/Skills. It does not own the general Wiggle Stash or an automatic observer.",
       "references": [
         {
           "title": "AlterMundi / Skills",

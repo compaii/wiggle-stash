@@ -52,12 +52,12 @@ function renderCollection(matchNote = false) {
   document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === view)));
   if (!selected.length) {
     const isSearch = Boolean(search.value.trim());
-    list.append(node('p', 'collection-empty', isSearch ? 'No matching notebooks.' : 'No quests chosen for development yet.'));
-    showEmpty(isSearch ? 'That thread has not appeared here yet.' : 'An idea can take its time.', isSearch ? 'Try a different word, or return to the full collection.' : 'These first quests are seeds. Choosing to work on one is a separate step.', {
+    list.append(node('p', 'collection-empty', isSearch ? 'No matching Wiggle bags.' : 'No Wiggle bags chosen for development yet.'));
+    showEmpty(isSearch ? 'That thread has not appeared here yet.' : 'An idea can take its time.', isSearch ? 'Try a different word, or return to the full collection.' : 'These first Wiggle bags are seeds. Choosing to work on one is a separate step.', {
       label: isSearch ? 'Clear search' : 'Return to seeds',
       action: () => { search.value = ''; view = 'seeds'; renderCollection(); }
     });
-    status.textContent = 'No matching quests.';
+    status.textContent = 'No matching Wiggle bags.';
     return;
   }
   if (!selected.some(quest => quest.id === activeId)) {
@@ -73,7 +73,7 @@ function renderCollection(matchNote = false) {
     const button = node('button', 'quest-choice');
     button.type = 'button';
     button.dataset.quest = quest.id;
-    button.setAttribute('aria-label', 'Open quest: ' + quest.title);
+    button.setAttribute('aria-label', 'Open Wiggle bag: ' + quest.title);
     button.setAttribute('aria-pressed', String(quest.id === activeId));
     const cover = node('span', 'mini-journal', String(quests.indexOf(quest) + 1).padStart(2, '0'));
     cover.setAttribute('aria-hidden', 'true');
@@ -90,20 +90,20 @@ function renderCollection(matchNote = false) {
   if (focusedId) [...list.children].find(button => button.dataset.quest === focusedId)?.focus({preventScroll:true});
   binding.hidden = false; emptyReader.hidden = true;
   document.querySelector('#share').disabled = false;
-  document.querySelector('#notebook-label').textContent = 'OPEN NOTEBOOK · ' + stateName(activeQuest()).toUpperCase();
+  document.querySelector('#notebook-label').textContent = 'OPEN WIGGLE BAG · ' + stateName(activeQuest()).toUpperCase();
   renderContext();
   renderEntry();
   updateHash();
-  status.textContent = selected.length + (selected.length === 1 ? ' quest found.' : ' quests found.');
+  status.textContent = selected.length + (selected.length === 1 ? ' Wiggle bag found.' : ' Wiggle bags found.');
 }
 function renderContext() {
   const quest = activeQuest();
   context.replaceChildren();
   const meta = node('div', 'quest-meta');
   meta.append(node('span', 'seed-stamp', stateName(quest)), node('span', '', quest.domain), node('span', '', quest.audience));
-  context.append(meta, node('h2', 'quest-title', quest.shortTitle || quest.title), node('p', 'quest-subtitle', quest.subtitle), node('p', 'why-label', 'Why keep this?'), node('p', 'why-body', quest.why), node('p', 'quest-author', 'By ' + quest.author), node('p', 'contents-title', 'INSIDE THIS QUEST'));
+  context.append(meta, node('h2', 'quest-title', quest.shortTitle || quest.title), node('p', 'quest-subtitle', quest.subtitle), node('p', 'why-label', 'Why keep this?'), node('p', 'why-body', quest.why), node('p', 'quest-author', 'By ' + quest.author), node('p', 'contents-title', 'INSIDE THIS WIGGLE BAG'));
   const contents = node('div', 'contents');
-  contents.setAttribute('role', 'group'); contents.setAttribute('aria-label', 'Quest contents');
+  contents.setAttribute('role', 'group'); contents.setAttribute('aria-label', 'Wiggle bag contents');
   for (const item of [{id:'notes',label:'Notes',count:noteCount(quest)}, {id:'references',label:'References',count:quest.references.length}, {id:'next',label:'Next step',count:'↗'}]) {
     const button = node('button', '', item.label);
     button.type = 'button'; button.dataset.section = item.id;
@@ -145,7 +145,7 @@ function renderEntry(animate = false) {
       index.append(button);
     });
     if (!notes.length) {
-      entry.append(node('h3', 'note-heading', 'Room for the first fragment.'), node('p', 'note-body', 'This quest has a place. Its first notes can come in their own time.'));
+      entry.append(node('h3', 'note-heading', 'Room for the first fragment.'), node('p', 'note-body', 'This Wiggle bag has a place. Its first notes can come in their own time.'));
     } else if (overview) {
       const title = node('h3', 'note-heading', 'The notes gathered so far'); title.id = 'entry-title'; entry.append(title);
       const previews = node('div', 'notes-overview');
@@ -165,7 +165,7 @@ function renderEntry(animate = false) {
       entry.append(title, node('p', 'note-body', note.body), node('p', 'note-attribution', note.author + ' · ' + note.date), node('span', 'note-type', 'Conversation note · summarized'), node('p', 'source-detail', 'Source: ' + note.source));
     }
   } else if (section === 'references') {
-    const title = node('h3', 'note-heading', 'Places this quest connects to'); title.id = 'entry-title';
+    const title = node('h3', 'note-heading', 'Places this Wiggle bag connects to'); title.id = 'entry-title';
     entry.append(title, node('p', 'note-body', 'Follow the materials already linked to this theme. Each keeps its own home.'));
     for (const reference of quest.references) {
       const url = new URL(reference.url);
@@ -189,7 +189,7 @@ function renderEntry(animate = false) {
   const turns = document.querySelector('.page-turns'); turns.hidden = section !== 'notes' || overview || !notes.length;
   document.querySelector('#previous').disabled = noteIndex === 0;
   document.querySelector('#next').disabled = noteIndex >= notes.length - 1;
-  document.querySelector('#reader-hint').textContent = section === 'notes' ? 'Each page keeps the thread of where it came from.' : section === 'references' ? 'References lead to their original spaces.' : 'Rest is a valid chapter of a quest.';
+  document.querySelector('#reader-hint').textContent = section === 'notes' ? 'Each page keeps the thread of where it came from.' : section === 'references' ? 'References lead to their original spaces.' : 'A Wiggle bag can rest while its ideas take shape.';
   document.querySelector('#share-status').textContent = '';
   if (focusedNote !== undefined) [...index.children].find(button => button.dataset.note === focusedNote)?.focus({preventScroll:true});
   if (animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -244,8 +244,8 @@ async function loadBook() {
     else renderCollection();
     if(!activeId)renderCollection();
   }catch {
-    list.replaceChildren(node('p','collection-empty','The notebooks could not load.'));
-    showEmpty('The collection could not open.','Try opening the notebooks again in a moment.',{label:'Try again',action:loadBook});
+    list.replaceChildren(node('p','collection-empty','The Wiggle bags could not load.'));
+    showEmpty('The collection could not open.','Try opening the Wiggle bags again in a moment.',{label:'Try again',action:loadBook});
     status.textContent='The collection could not load.';
   }
 }
