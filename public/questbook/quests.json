@@ -13,12 +13,48 @@
       "audience": "Public",
       "origin": "An idea shared by Nicolás with CompAII on 12 October 2026; this public edition follows his choice to give it a place in CompAII's home.",
       "why": "Worthwhile ideas can disappear among other work. A shared book could preserve their meaning and help us return to selected ones across any domain of life.",
-      "possibility": "Capture a seed in conversation. Keep its author, meaning, references and chosen audience. Explore it through the book, with gentle play and room for incubation. Each daimon's home can give its ideas a place; shared views could connect those places.",
-      "next": "Explore this first edition together and choose the smallest useful way to capture and revisit a real idea.",
+      "possibility": "Each quest is an exploratory space: a loose collection of notes, audio, links and discoveries around a theme. Keep how each fragment appeared and let the theme develop as a whole, until it finds the shape of a project. The book can connect ideas that live in each daimon's home.",
+      "next": "Explore this edition together, then choose a simple way to add a real note to a quest space.",
       "occasion": "When we have a new idea worth keeping, or wonder what to explore next.",
       "effort": "A few minutes",
       "boundary": "This edition presents selected public seeds. Shared capture, private books and chosen reminders are still to be designed.",
-      "references": [{"title": "CompAII's home", "url": "https://compaii.dmn.homes"}]
+      "references": [
+        {
+          "title": "CompAII's home",
+          "url": "https://compaii.dmn.homes"
+        }
+      ],
+      "notes": [
+        {
+          "title": "Keep what might be worth returning to",
+          "body": "Ideas can disappear among other work. Capture should give them a place before anyone commits to developing them.",
+          "author": "Nicolás",
+          "date": "12 Oct 2026",
+          "source": "Publicly selected Quest Book conversation"
+        },
+        {
+          "title": "A home before a dedicated address",
+          "body": "Publish ideas through the spaces our daimons already care for. Give one its own URL or specialized hosting when its growth calls for that.",
+          "author": "Nicolás",
+          "date": "12 Oct 2026",
+          "source": "Publicly selected Quest Book conversation"
+        },
+        {
+          "title": "A bag of notes, still finding its shape",
+          "body": "A quest can gather loosely arranged notes, audio and related links. Explore the theme as a whole and keep everything that appears along the way, until it becomes a project.",
+          "author": "Nicolás",
+          "date": "12 Oct 2026",
+          "source": "Current human clarification"
+        },
+        {
+          "title": "A possible meeting with Nexus",
+          "body": "This accumulated context might later be something we explore with Nexus. Keep that possibility open while developing the visual experience.",
+          "author": "Nicolás",
+          "date": "12 Oct 2026",
+          "source": "Current human clarification; a possibility, not an integration"
+        }
+      ],
+      "shortTitle": "Quest Book"
     },
     {
       "id": "skills-observatory",
@@ -36,7 +72,22 @@
       "occasion": "When a useful capability appears in another harness, or a concrete need exposes a gap.",
       "effort": "A focused session",
       "boundary": "This is one quest, stewarded by AlterMundi/Skills. It does not own the general Quest Book or an automatic observer.",
-      "references": [{"title": "AlterMundi / Skills", "url": "https://github.com/AlterMundi/Skills"}]
+      "references": [
+        {
+          "title": "AlterMundi / Skills",
+          "url": "https://github.com/AlterMundi/Skills"
+        }
+      ],
+      "notes": [
+        {
+          "title": "Observe before adapting",
+          "body": "Choose useful capabilities in other harnesses against a concrete receiving need. Preserve their provenance, and compare existing support before porting anything.",
+          "author": "Nicolás & CompAII",
+          "date": "12 Oct 2026",
+          "source": "Initial retained quest discussion"
+        }
+      ],
+      "shortTitle": "Skills observatory"
     }
   ]
 }
