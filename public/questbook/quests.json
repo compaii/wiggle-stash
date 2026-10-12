@@ -14,7 +14,7 @@
       "origin": "An idea shared by Nicolás with CompAII on 12 October 2026; this public edition follows his choice to give it a place in CompAII's home.",
       "why": "Worthwhile ideas can disappear among other work. A shared book could preserve their meaning and help us return to selected ones across any domain of life.",
       "possibility": "Each quest is an exploratory space: a loose collection of notes, audio, links and discoveries around a theme. Keep how each fragment appeared and let the theme develop as a whole, until it finds the shape of a project. The book can connect ideas that live in each daimon's home.",
-      "next": "Explore this edition together, then choose a simple way to add a real note to a quest space.",
+      "next": "Explore how a quest could show current understanding alongside the fragments and relationships that shaped it.",
       "occasion": "When we have a new idea worth keeping, or wonder what to explore next.",
       "effort": "A few minutes",
       "boundary": "This edition presents selected public seeds. Shared capture, private books and chosen reminders are still to be designed.",
@@ -52,6 +52,13 @@
           "author": "Nicolás",
           "date": "12 Oct 2026",
           "source": "Current human clarification; a possibility, not an integration"
+        },
+        {
+          "title": "A window into CompAII’s understanding",
+          "body": "Each Quest could show CompAII’s current understanding of its theme and the relationships it finds. Relevant conversations and project discoveries could reshape that reading, while the original fragments, questions and changes remain available. We would care for the book through conversation. This is a direction to explore.",
+          "author": "Nicolás",
+          "date": "12 Oct 2026",
+          "source": "Current human proposal; summarized from the selected Quest Book conversation"
         }
       ],
       "shortTitle": "Quest Book"
