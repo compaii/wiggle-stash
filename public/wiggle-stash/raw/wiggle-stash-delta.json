@@ -5,12 +5,12 @@
     "visibility": "public"
   },
   "bag_id": "wiggle-stash",
-  "checked_at": "2026-10-13T02:59:56.391260+00:00",
+  "checked_at": "2026-10-13T03:05:15.865259+00:00",
   "cost": {
-    "context_candidates": 1,
-    "known_sources": 2,
+    "context_candidates": 0,
+    "known_sources": 4,
     "reading_traversal_performed": false,
-    "source_bytes_checked": 7925
+    "source_bytes_checked": 17121
   },
   "coverage": {
     "candidate_limit": 32,
@@ -37,27 +37,35 @@
   },
   "known_sources": [
     {
-      "checkpoint": "03583db302383ee5c6ac4d94cfd1cc9ce9421a618e27e4c782495c674d7402d1",
-      "current_version": "e105c71e6b89db21f85a8bb6f8dbe98b12b744a36c24fb0c11d91b443203ff2f",
+      "checkpoint": "d39e3432fead7161475fb27d6c5c7798cbbab9d06d169ef7a0c0714e191eadb0",
+      "current_version": "d39e3432fead7161475fb27d6c5c7798cbbab9d06d169ef7a0c0714e191eadb0",
       "id": "definition",
-      "status": "changed",
-      "uri": "https://github.com/compaii/wiggle-stash/blob/7a4ed6a95ca210a9ba46f2f68b0ee8f6769b1850/README.md"
+      "status": "unchanged",
+      "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/README.md"
     },
     {
-      "checkpoint": "1dec64902d1fe7e0320ebc7db985f2b796650fd8bc015a4f11e9312bdfd34f09",
+      "checkpoint": "19606a451abff25e77003995600ba1d48adb042d1c681192e183a4304797a47a",
       "current_version": "19606a451abff25e77003995600ba1d48adb042d1c681192e183a4304797a47a",
       "id": "roadmap",
-      "status": "changed",
-      "uri": "https://github.com/compaii/wiggle-stash/blob/7a4ed6a95ca210a9ba46f2f68b0ee8f6769b1850/ROADMAP.md"
-    }
-  ],
-  "potential_context": [
+      "status": "unchanged",
+      "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/ROADMAP.md"
+    },
     {
+      "checkpoint": "2dafddeecaa48b61b128c7b22b468647fbe500e63bedc7b52b87247ec4f6b068",
+      "current_version": "2dafddeecaa48b61b128c7b22b468647fbe500e63bedc7b52b87247ec4f6b068",
       "id": "reading-method",
-      "registered_at": "2026-10-13T01:30:05.557019+00:00",
-      "uri": "https://github.com/compaii/wiggle-stash/blob/6c0e267/docs/READING-RECIPE.md"
+      "status": "unchanged",
+      "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/docs/DELTA.md"
+    },
+    {
+      "checkpoint": "c6139d7fd393eff6fe650588c4cbc71056531e733d45c036488c24dd3735a83d",
+      "current_version": "c6139d7fd393eff6fe650588c4cbc71056531e733d45c036488c24dd3735a83d",
+      "id": "continuity",
+      "status": "unchanged",
+      "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/docs/CONTINUITY.md"
     }
   ],
-  "reading_id": "reading-20261013-b",
+  "potential_context": [],
+  "reading_id": "reading-20261013-c",
   "schema": "wiggle-stash.delta/v1"
 }
