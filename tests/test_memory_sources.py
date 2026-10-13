@@ -94,6 +94,25 @@ print(json.dumps({'being_ref':state.get('owner','fixture:being'),'pools':[{'pool
         self.assertIn('differs',changed['delta']['discovery_checks'][0]['reason'])
         self.assertEqual([json.loads(r)['action'] for r in self.trace.read_text().splitlines()],['checkpoint','checkpoint'])
 
+    def test_uninspected_matching_titles_do_not_enter_the_shared_projection(self):
+        from wiggle_stash.store import write_edition
+        register_discovery(self.store,'ideas','related','main','related idea',self.binding,audience('human'))
+        uid='22222222-2222-4222-8222-222222222222'
+        private_title='Unrelated private personal record matched by a shared keyword'
+        self.state.write_text(json.dumps({'revision':1,'status':'ok','items':[{'record_uid':uid,'revision':3,'title':private_title}]}))
+        result=read_cached(self.store,'ideas')
+        candidate=result['delta']['potential_context'][0]
+        self.assertEqual(candidate['uri'],'hmk://main/'+uid)
+        self.assertEqual(candidate['version'],'3')
+        self.assertEqual(candidate['inspection_status'],'not_inspected')
+        self.assertNotIn(private_title,json.dumps(result))
+        edition=self.store.edition(['ideas'],audience('human'))
+        output=Path(self.temp.name)/'shared';write_edition(output,edition,self.store.directory)
+        self.assertEqual(json.loads((output/'raw/ideas-delta.json').read_text()),edition['bags'][0]['delta'])
+        self.assertNotIn(private_title,(output/'bags.json').read_text())
+        self.assertNotIn(private_title,(output/'raw/ideas-delta.json').read_text())
+        self.assertFalse(result['delta']['cost']['reading_traversal_performed'])
+
     def test_restored_discovery_checkpoint_requires_a_new_local_binding(self):
         from wiggle_stash.portable import export,restore
         from wiggle_stash.store import Store

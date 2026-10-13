@@ -34,4 +34,6 @@ The owner-only provider file uses `wiggle-stash.memory-provider/v1`, an expected
 
 Provider files/commands and live source/query bindings never enter the public edition or archive. The retained reading contains source identities, queries and original inspected evidence under its own chosen audience. After moving hosts, re-register the private bindings; independent restoration preserves reading/check history and does not claim new live source verification.
 
+Uninspected memory matches retain only a generic candidate label, stable locator/revision, route and explicit `not_inspected` status in the shared projection. A keyword match does not select an unrelated private record's title for disclosure. Original titles and relevant selected excerpts enter the association inventory only after its foreground evidence inspection and audience selection. Candidate checkpoints still allow a later traversal to resolve the record; no candidate text is loaded by the cheap check.
+
 Retained memory discovery routes include `adapter: hmk-navigation` alongside their ID/query. A new check on a restored host reports each missing or incompatible local route as unavailable, even if every consulted file is unchanged. Historical checks remain dated evidence; only explicit re-registration enables another foreground route check.

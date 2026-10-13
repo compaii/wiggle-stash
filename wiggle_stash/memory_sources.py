@@ -106,7 +106,10 @@ def discover(store,bag_id,reading,selected,limit):
             for item in items:
                 uri=source_uri('hmk://'+binding['pool']+'/'+item['record_uid'])
                 if type(item.get('revision')) is not int or item['revision']<1:raise ValueError('Invalid candidate revision')
-                if uri not in consulted:selected_candidates[uri]={'id':'memory-'+item['record_uid'],'uri':uri,'version':str(item['revision']),'title':item.get('title','Memory candidate'),'route_id':route['id']}
+                # A ranked match has not been inspected or selected for disclosure.
+                # Keep its checkpoint for a future traversal without projecting
+                # unrelated private record titles into the bag's shared edition.
+                if uri not in consulted:selected_candidates[uri]={'id':'memory-'+item['record_uid'],'uri':uri,'version':str(item['revision']),'title':'Uninspected memory candidate','inspection_status':'not_inspected','route_id':route['id']}
             candidates.update(selected_candidates)
         except (ValueError,KeyError,TypeError,OSError):check.update(status='unavailable',reason='Selected navigation route could not be checked')
         checks.append(check)
