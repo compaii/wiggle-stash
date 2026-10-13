@@ -113,7 +113,9 @@ class Store:
 
     def create(self, bag_id, title, operation_id, selected_audience=None, entries=None, presentation=None):
         if not title.strip(): raise ValueError('A bag needs a name')
-        selected_audience = selected_audience or audience()
+        from .custody import current
+        policy=current(self)
+        selected_audience = selected_audience or (policy["audience"] if policy else audience())
         audience(selected_audience['visibility'], selected_audience['recipients'], selected_audience['tribes'])
         request = {'action':'create', 'title':title, 'audience':selected_audience, 'entries':entries or [], 'presentation':presentation or {}}
         def change(previous):

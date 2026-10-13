@@ -4,6 +4,8 @@ import json
 import os
 from pathlib import Path
 import sys
+import sqlite3
+import zipfile
 from .store import Store, audience, write_edition
 
 def main():
@@ -11,10 +13,13 @@ def main():
     parser.add_argument('--store', default=os.environ.get('WIGGLE_STASH_STORE',str(Path.home()/'.local/share/wiggle-stash')))
     commands = parser.add_subparsers(dest='command',required=True)
     commands.add_parser('list')
+    custody=commands.add_parser('custody');custody.add_argument('--recipient',action='append',required=True);custody.add_argument('--author',required=True);custody.add_argument('--source',required=True)
+    portable=commands.add_parser('archive');portable.add_argument('--bag',action='append',required=True);portable.add_argument('--output',type=Path,required=True)
+    recovery=commands.add_parser('restore');recovery.add_argument('--archive',type=Path,required=True);recovery.add_argument('--destination',type=Path,required=True)
     create = commands.add_parser('create')
     create.add_argument('--bag',required=True); create.add_argument('--title',required=True)
     create.add_argument('--operation-id',required=True)
-    create.add_argument('--visibility',default='human',choices=['public','human','vpn','individual','tribe'])
+    create.add_argument('--visibility',choices=['public','human','vpn','individual','tribe'])
     create.add_argument('--recipient',action='append',default=[]); create.add_argument('--tribe',action='append',default=[])
     for name in ['capture','correct']:
         capture = commands.add_parser(name)
@@ -56,9 +61,18 @@ def main():
     args = parser.parse_args()
     store = None
     try:
+        if args.command=='restore':
+            from .portable import restore
+            print(json.dumps(restore(args.archive,args.destination),ensure_ascii=False,indent=2));return
         store = Store(args.store)
         if args.command == 'list': result = store.list()
-        elif args.command == 'create': result = store.create(args.bag,args.title,args.operation_id,audience(args.visibility,args.recipient,args.tribe))
+        elif args.command=='archive':
+            from .portable import export
+            result=export(store,args.bag,args.output)
+        elif args.command == 'create': result = store.create(args.bag,args.title,args.operation_id,audience(args.visibility,args.recipient,args.tribe) if args.visibility else None)
+        elif args.command=='custody':
+            from .custody import select
+            result=select(store,args.recipient,args.author,args.source)
         elif args.command in ['capture','correct']:
             text = args.text_file.read_bytes().decode('utf-8') if args.text_file else None
             result = store.capture(args.bag,args.entry,args.title,args.author,args.source,args.operation_id,
@@ -91,7 +105,7 @@ def main():
             result = store.edition(args.bag); write_edition(args.output,result,store.directory)
             result = {'status':'generated','bags':[{'id':b['id'],'version':b['package']['version']} for b in result['bags']]}
         print(json.dumps(result,ensure_ascii=False,indent=2))
-    except (ValueError, OSError, KeyError) as error:
+    except (ValueError, OSError, KeyError, sqlite3.DatabaseError, zipfile.BadZipFile) as error:
         parser.exit(1,'Wiggle Stash: '+str(error)+'\n')
     finally:
         if store: store.close()
