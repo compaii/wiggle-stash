@@ -1,6 +1,6 @@
 {
   "schema": "wiggle-stash.public-edition/v1",
-  "edition": "2026-10-12",
+  "edition": "2026-10-13",
   "bags": [
     {
       "subtitle": "Give the ideas we love a place to grow.",
@@ -73,6 +73,8 @@
           "url": "https://compaii.dmn.homes"
         }
       ],
+      "materials": [],
+      "annotations": [],
       "package": {
         "schema": "wiggle-stash.bag/v1",
         "version": {
@@ -221,6 +223,8 @@
           "url": "https://github.com/AlterMundi/Skills"
         }
       ],
+      "materials": [],
+      "annotations": [],
       "package": {
         "schema": "wiggle-stash.bag/v1",
         "version": {

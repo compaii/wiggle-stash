@@ -16,7 +16,9 @@ EXTENSIONS = {'audio/wav':'.wav','audio/x-wav':'.wav','audio/ogg':'.ogg','audio/
 
 def content_path(attachment):
     if not HASH.fullmatch(attachment['sha256']): raise ValueError('Invalid object digest')
-    return 'media/'+attachment['sha256']+EXTENSIONS.get(attachment['media_type'],'.bin')
+    path = 'media/'+attachment['sha256']+EXTENSIONS.get(attachment['media_type'],'.bin')
+    if attachment.get('content_path',path) != path: raise ValueError('Original content path does not match its digest/type')
+    return path
 
 def url(value):
     parsed = urlsplit(value)
@@ -54,6 +56,7 @@ def retain(directory, source, media_type=None, max_bytes=MAX_BYTES):
         selected_type = media_type or mimetypes.guess_type(source.name)[0] or 'application/octet-stream'
         if not re.fullmatch(r'[a-zA-Z0-9.+-]+/[a-zA-Z0-9.+-]+',selected_type): raise ValueError('Invalid media type')
         attachment = {'sha256':hasher.hexdigest(), 'size':size, 'media_type':selected_type, 'original_name':source.name}
+        attachment['content_path'] = content_path(attachment)
         destination = object_path(directory,attachment['sha256'])
         if destination.exists(): verify(directory,attachment)
         else:

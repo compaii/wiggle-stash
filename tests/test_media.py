@@ -29,6 +29,7 @@ class MediaTests(unittest.TestCase):
         first = self.attach(); entry = first['entries'][0]
         self.assertEqual(entry['kind'],'audio')
         self.assertEqual(entry['attachment']['original_name'],self.audio.name)
+        self.assertEqual(entry['attachment']['content_path'],content_path(entry['attachment']))
         self.assertEqual(self.attach(),first)
         self.store.close(); self.store = Store(self.root/'store')
         self.assertEqual(verify(self.store.directory,entry['attachment']).read_bytes(),self.audio.read_bytes())
