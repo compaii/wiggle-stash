@@ -50,6 +50,8 @@ def main():
     reading.add_argument('--bag',required=True);reading.add_argument('--file',type=Path,required=True)
     reading.add_argument('--expected-revision',type=int,required=True)
     reading.add_argument('--allow-historical-input',action='store_true')
+    reading.add_argument('--visibility',choices=['public','human','vpn','individual','tribe'])
+    reading.add_argument('--recipient',action='append',default=[]);reading.add_argument('--tribe',action='append',default=[])
     history = commands.add_parser('readings');history.add_argument('--bag',required=True)
     retire=commands.add_parser('retire')
     for arg in ['bag','entry','reason','source','operation-id']:retire.add_argument('--'+arg,required=True)
@@ -109,7 +111,9 @@ def main():
                 args.operation_id,args.expected_revision,kind=args.kind,media_type=args.media_type)
         elif args.command == 'record-reading':
             from .readings import record
-            result = record(store,args.bag,json.loads(args.file.read_text()),args.expected_revision,allow_historical_input=args.allow_historical_input)
+            if not args.visibility and (args.recipient or args.tribe):raise ValueError('Select reading visibility explicitly when selecting audience targets')
+            selected=audience(args.visibility,args.recipient,args.tribe) if args.visibility else None
+            result = record(store,args.bag,json.loads(args.file.read_text()),args.expected_revision,selected_audience=selected,allow_historical_input=args.allow_historical_input)
         elif args.command == 'readings':
             from .readings import list_readings
             result = list_readings(store,args.bag)

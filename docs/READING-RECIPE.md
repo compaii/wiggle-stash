@@ -38,3 +38,7 @@ Each record retains an exact `input_snapshot`, so inspecting an earlier connecti
 The My reading view exposes current and earlier readings, dated input, supported connections, interpretations, possibilities and their inspectable basis. Stable fragments include the selected reading ID. Unknown/unselected IDs show an honest unavailable state. The AI receives the identical selected history at `raw/<bag-id>-readings.json`; raw bag input remains independently accessible.
 
 On 2026-10-13, CompAII followed this recipe on the real Wiggle Stash revision 1. The first reading inspected all five retained summaries, the selected home link and the public definition. The second followed the continuity question into the public roadmap, adding that checkpoint, a stronger Jpsh! basis and explicit continuity/Field connections. Both readings preserve the same unchanged raw revision; neither is simulated human feedback. Factual excerpt/checkpoint verification and browser history/evidence checks are retained with the delivery evidence.
+
+## Selected reading audience
+
+`record-reading` defaults to the selected input's audience. Explicit `--visibility` and resolved `--recipient` or `--tribe` flags select a private reading of public input. A private input requires its identical selected reading audience, checked against the authoritative package independently of the draft's source classification. Generation never reclassifies raw input or grants new readership. Public editions omit private readings; selected private editions retain compatible interpretations.

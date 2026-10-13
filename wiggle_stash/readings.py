@@ -67,8 +67,9 @@ def record(store, bag_id, draft, expected_revision, selected_audience=None, allo
     package = store.package(bag_id,expected_revision)
     selected_audience = selected_audience or package['bag']['audience']
     audience(selected_audience['visibility'],selected_audience['recipients'],selected_audience['tribes'])
-    if selected_audience != package['bag']['audience'] and selected_audience['visibility']=='public':
-        raise ValueError('A private bag cannot generate a public reading')
+    original_audience=package['bag']['audience']
+    if original_audience['visibility']!='public' and selected_audience!=original_audience:
+        raise ValueError('A private bag requires its identical selected reading audience')
     validate(package,draft,selected_audience)
     request = {'draft':draft,'input':package['version'],'audience':selected_audience,'historical_input_selected':allow_historical_input}
     request_digest = digest(request)
