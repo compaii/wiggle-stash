@@ -1,9 +1,60 @@
 """Retain a foreground daimon's evidenced reading without mutating bag input."""
 import json
+import re
+from urllib.parse import urlsplit
 from .store import audience, check_id, canonical, digest, now
 from .media import url
 
 RECIPE = 'wiggle-stash.reading-recipe/v1'
+ASSOCIATION_RECIPE = 'wiggle-stash.association-recipe/v2'
+
+def source_uri(value):
+    """A memory locator identifies a selected record; it is not an HTTP promise."""
+    if isinstance(value,str) and value.startswith('hmk://'):
+        parsed=urlsplit(value)
+        if not re.fullmatch(r'[a-z][a-z0-9_-]{0,39}',parsed.netloc) or not re.fullmatch(r'/[a-f0-9-]{36}',parsed.path) or parsed.query or parsed.fragment:
+            raise ValueError('Use a stable HMK pool/record locator')
+        return value
+    return url(value)
+
+def validate_evidence(evidence, sources):
+    if not isinstance(evidence,list) or not evidence:raise ValueError('Inspected association evidence is required')
+    for item in evidence:
+        source=sources.get(item.get('source_id'))
+        if source is None or item.get('anchor') not in source['anchors']:
+            raise ValueError('Association evidence must resolve to an inspected source anchor')
+
+def validate_associations(draft, sources):
+    for key in ('associations','observations','discovery'):
+        if not isinstance(draft.get(key),list):raise ValueError('Association reading requires '+key)
+    if not isinstance(draft.get('generation_reason'),str) or not draft['generation_reason'].strip():
+        raise ValueError('Explain the occasion for this reading')
+    if draft['understanding'] or draft['connections']:
+        raise ValueError('Use associations and optional observations for the new recipe, preserving legacy fields empty')
+    if len(draft['observations'])>3 or any(not isinstance(p,str) or not p.strip() or len(p)>500 for p in draft['observations']):
+        raise ValueError('Keep optional observations to at most three brief points')
+    ids=set()
+    for item in draft['associations']:
+        for key in ('id','title','kind','relation','why','evidence'):
+            if key not in item:raise ValueError('Association is missing '+key)
+        check_id(item['id'])
+        if item['id'] in ids:raise ValueError('Duplicate association identity')
+        ids.add(item['id'])
+        if item['kind'] not in ('memory','conversation','document','bag','development','material'):raise ValueError('Unknown association kind')
+        if item['relation'] not in ('supported','interpretation','possibility'):raise ValueError('Unknown association relationship')
+        if not isinstance(item['title'],str) or not item['title'].strip() or not isinstance(item['why'],str) or not item['why'].strip() or len(item['why'])>700:
+            raise ValueError('An association needs a title and brief reason')
+        validate_evidence(item['evidence'],sources)
+    for source in sources.values():
+        if not isinstance(source.get('title'),str) or not source['title'].strip() or not isinstance(source.get('provenance'),dict) or not source['provenance'].get('reference'):
+            raise ValueError('Retain source title and original provenance')
+        if source['id']!='bag':
+            locators=source.get('locators',{})
+            if any(not source.get('excerpts',{}).get(anchor) and not locators.get(anchor) for anchor in source['anchors']):
+                raise ValueError('Retain a faithful excerpt or locator for each inspected external anchor')
+    for route in draft['discovery']:
+        if not isinstance(route,dict) or not all(route.get(key) for key in ('provider','query','checked_at','status')) or not isinstance(route.get('limits'),dict):
+            raise ValueError('Retain discovery route, date, status and limits')
 
 def initialize(store):
     store.db.executescript('''
@@ -22,8 +73,8 @@ def validate(package, draft, selected_audience):
     for key in ('id','author','source_instance','recipe','understanding','sources','connections','questions','uncertainty','coverage','exclusions','changes'):
         if key not in draft: raise ValueError('Missing reading field: '+key)
     check_id(draft['id'])
-    if draft['recipe']!=RECIPE: raise ValueError('Unknown reading recipe')
-    if not all(isinstance(draft[key],str) and draft[key].strip() for key in ('author','source_instance','understanding')):
+    if draft['recipe'] not in (RECIPE,ASSOCIATION_RECIPE): raise ValueError('Unknown reading recipe')
+    if not all(isinstance(draft[key],str) and draft[key].strip() for key in ('author','source_instance')) or not isinstance(draft['understanding'],str) or (draft['recipe']==RECIPE and not draft['understanding'].strip()):
         raise ValueError('Reading authorship, body and understanding are required')
     for key in ('sources','connections','questions','uncertainty','exclusions','changes'):
         if not isinstance(draft[key],list): raise ValueError('Reading field must be a list: '+key)
@@ -32,7 +83,7 @@ def validate(package, draft, selected_audience):
     for source in draft['sources']:
         if not all(key in source for key in ('id','uri','version','audience','reason','anchors')):
             raise ValueError('Source checkpoint is incomplete')
-        check_id(source['id']);url(source['uri'])
+        check_id(source['id']);source_uri(source['uri'])
         if source['id'] in sources: raise ValueError('Duplicate source ID')
         if not isinstance(source['version'],str) or not source['version']: raise ValueError('Source version required')
         if not source['reason'] or not isinstance(source['anchors'],list) or not source['anchors']:
@@ -50,6 +101,7 @@ def validate(package, draft, selected_audience):
     entries = {entry['id'] for entry in package['entries']}
     for anchor in sources['bag']['anchors']:
         if anchor.startswith('entry:') and anchor[6:] not in entries: raise ValueError('Unknown selected-entry source anchor')
+    if draft['recipe']==ASSOCIATION_RECIPE:validate_associations(draft,sources)
     for connection in draft['connections']:
         if not all(key in connection for key in ('target','relation','explanation','evidence')): raise ValueError('Connection requires rationale and evidence')
         if connection['relation'] not in ('supported','interpretation','possibility'): raise ValueError('Invalid connection status')

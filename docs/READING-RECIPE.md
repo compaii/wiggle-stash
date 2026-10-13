@@ -44,3 +44,11 @@ On 2026-10-13, CompAII followed this recipe on the real Wiggle Stash revision 1.
 ## Selected reading audience
 
 `record-reading` defaults to the selected input's audience. Explicit `--visibility` and resolved `--recipient` or `--tribe` flags select a private reading of public input. A private input requires its identical selected reading audience, checked against the authoritative package independently of the draft's source classification. Generation never reclassifies raw input or grants new readership. Public editions omit private readings; selected private editions retain compatible interpretations.
+
+## Association recipe v2 contract
+
+The retained record accepts `wiggle-stash.association-recipe/v2` alongside historical v1. It keeps the same input snapshot, authorship, audience, dates and source checkpoints. Legacy `understanding` and `connections` remain empty for v2; `associations` carries the complete identified inventory and `observations` contains zero to three brief strong points.
+
+Each association has a stable ID, original/recognizable title, kind (memory, conversation, document, bag, development or material), supported/interpretation/possibility relationship, brief `why` and inspected source/anchor evidence. Sources retain title and original provenance plus a faithful excerpt or locator for every external anchor. HMK sources use `hmk://POOL/RECORD_UID` as retrievable memory identities, not fictional public links.
+
+`generation_reason` explains the occasion. `discovery` retains actual provider/query/date/status and limits for each search route. Empty inventory and no generated observation are valid outcomes; unavailable or limited evidence stays explicit. The generator daimon still performs the real traversal; persistence does not manufacture knowledge. Human/AI editions retain identical v2 records and independent archives retain both methods.

@@ -190,12 +190,18 @@ function renderEntry(animate = false) {
       current.addEventListener('click',()=>{missingReadingId=null;readingIndex=null;renderEntry();updateHash();});
       entry.append(title,node('p','note-body','We can return to the selected reading, or discuss another version in our conversation.'),current);
     } else if(!readings.length) {
-      const title=node('h3','note-heading','A reading can begin here.');title.id='entry-title';entry.append(title,node('p','note-body','We can generate my understanding and connections in our conversation. It will keep its date, sources and earlier readings, alongside your input.'));
+      const title=node('h3','note-heading','What does this bag bring to mind?');title.id='entry-title';entry.append(title,node('p','note-body','Ask me in our conversation to gather what I know that connects with this bag, and where it comes from.'),node('p','reading-request','You can say: “Make your reading of '+bag.title+'.”'),node('p','source-detail','I will keep the date, sources and earlier readings alongside your original input. Opening this page does not generate a reading.'));
     } else {
       if(readingIndex===null || readingIndex>=readings.length)readingIndex=readings.length-1;
       const reading=readings[readingIndex];
-      const title=node('h3','note-heading',reading.author+'’s understanding');title.id='entry-title';
-      entry.append(title,node('p','note-attribution','Generated '+reading.generated_at.slice(0,16).replace('T',' ')+' UTC · input revision '+reading.input.revision));
+      const associations=reading.recipe==='wiggle-stash.association-recipe/v2';
+      const title=node('h3','note-heading',associations?'What this bag brings to mind':reading.author+'’s understanding');title.id='entry-title';
+      entry.append(title,node('p','note-attribution',reading.author+' · Generated '+reading.generated_at.slice(0,16).replace('T',' ')+' UTC · input revision '+reading.input.revision));
+      if(reading.generation_reason)entry.append(node('p','reading-occasion',reading.generation_reason));
+      const changeSummary=node('section','reading-changes');changeSummary.setAttribute('aria-label','Why this version');changeSummary.append(node('h4','connections-heading',reading.previous_reading?'Why this version?':'First retained reading'));
+      if(reading.changes.length)for(const change of reading.changes)changeSummary.append(node('p','',change));else changeSummary.append(node('p','',reading.generation_reason||'Initial foreground reading of the identified input and sources.'));
+      if(!associations)changeSummary.append(node('p','source-detail','Earlier interpretation format · original input and source checkpoints remain preserved.'));
+      entry.append(changeSummary);
       if(reading.input.digest!==bag.package.version.digest)entry.append(node('p','reading-change','The bag has changed since this reading. Its original input is still preserved.'));
       const cached=bag.reading_states?.[reading.id];
       const cache=node('section','reading-cache');cache.setAttribute('aria-label','Reading freshness');
@@ -208,8 +214,10 @@ function renderEntry(animate = false) {
       cache.append(node('p','source-detail','Checks compare the selected input and registered local source copies. Context outside the index and upstream changes remain unknown. We can check again or regenerate in our conversation.'));
       entry.append(cache);
       const history=node('div','reading-history');history.setAttribute('role','group');history.setAttribute('aria-label','Reading history');
-      readings.forEach((item,position)=>{const button=node('button','','Reading '+(position+1));button.type='button';button.setAttribute('aria-pressed',String(position===readingIndex));button.addEventListener('click',()=>{readingIndex=position;renderEntry();updateHash();});history.append(button);});
-      entry.append(history,node('p','note-body',reading.understanding),node('h4','connections-heading','Connections I see'));
+      readings.forEach((item,position)=>{const button=node('button','','Reading '+(position+1)+(position===readings.length-1?' · Current':''));button.title='Generated '+item.generated_at.slice(0,16).replace('T',' ')+' UTC';button.type='button';button.setAttribute('aria-pressed',String(position===readingIndex));button.addEventListener('click',()=>{readingIndex=position;renderEntry();updateHash();});history.append(button);});
+      entry.append(history);
+      if(associations)renderAssociations(reading);
+      else entry.append(node('p','note-body',reading.understanding),node('h4','connections-heading','Connections I see'));
       const map=node('div','connection-map');
       for(const connection of reading.connections) {
         const card=node('section','connection-card');
@@ -226,8 +234,8 @@ function renderEntry(animate = false) {
       }entry.append(map);
       if(reading.questions.length){entry.append(node('h4','connections-heading','What remains open'));for(const question of reading.questions)entry.append(node('p','',question));}
       if(reading.coverage){const details=document.createElement('details');details.append(node('summary','','Uncertainty and coverage'));for(const text of reading.uncertainty)details.append(node('p','',text));details.append(node('p','source-detail',reading.coverage.description||'Only the identified sources were inspected.'));for(const exclusion of reading.exclusions)details.append(node('p','source-detail',typeof exclusion==='string'?exclusion:exclusion.reason));entry.append(details);}
-      if(reading.changes.length){const details=document.createElement('details');details.append(node('summary','','What changed in this reading'));for(const change of reading.changes)details.append(node('p','',change));entry.append(details);}
-      entry.append(node('p','source-detail','Method: foreground reading recipe, version 1. Your selected input is kept separately.'));
+
+      entry.append(node('p','source-detail',associations?'Method: attributed associations, version 2. Your selected input is kept separately.':'Method: foreground reading recipe, version 1. Your selected input is kept separately.'));
     }
   } else if(section === 'delta') {
     const delta=bag.delta;
@@ -322,6 +330,40 @@ function renderEntry(animate = false) {
     entry.getAnimations().forEach(animation => animation.cancel());
     entry.animate([{opacity:.35,transform:'translateX(9px)'},{opacity:1,transform:'translateX(0)'}], {duration:180,easing:'ease-out'});
   }
+}
+function renderAssociations(reading) {
+  const kinds={memory:'Remembered material',conversation:'Conversations',document:'Documents',bag:'Related bags',development:'Developments',material:'Materials'};
+  const labels={supported:'From the sources',interpretation:'My association',possibility:'A possibility'};
+  entry.append(node('p','source-detail',(reading.associations||[]).length+' recovered associations · each keeps its inspected basis.'));
+  for(const [kind,label] of Object.entries(kinds)) {
+    const items=(reading.associations||[]).filter(item=>item.kind===kind);if(!items.length)continue;
+    const group=node('section','association-group');group.append(node('h4','connections-heading',label));
+    for(const item of items) {
+      const card=node('article','connection-card');card.id='association-'+item.id;
+      card.append(node('h5','',item.title),node('span','connection-status',labels[item.relation]),node('p','',item.why));
+      for(const evidence of item.evidence) {
+        const source=reading.sources.find(s=>s.id===evidence.source_id);if(!source)continue;
+        const origin=node('p','source-detail',source.title+' · version '+source.version);card.append(origin);
+        const basis=document.createElement('details');basis.append(node('summary','','Where this comes from'));
+        if(evidence.source_id==='bag'&&evidence.anchor.startsWith('entry:')) {
+          const original=reading.input_snapshot.entries.find(e=>e.id===evidence.anchor.slice(6));
+          if(original)basis.append(node('strong','',original.title),node('p','note-body',original.text||original.url||original.attachment?.original_name),node('p','source-detail',original.author+' · '+original.representation));
+        } else {
+          if(source.excerpts?.[evidence.anchor])basis.append(node('p','note-body',source.excerpts[evidence.anchor]));
+          basis.append(node('p','source-detail','Locator: '+(source.locators?.[evidence.anchor]||evidence.anchor)));
+        }
+        if(source.provenance)for(const [key,value] of Object.entries(source.provenance))basis.append(node('p','source-detail',key+': '+(typeof value==='string'?value:JSON.stringify(value))));
+        if(/^https?:\/\//.test(source.uri)) {const link=node('a','','Open the inspected source ↗');link.href=source.uri;basis.append(link);}
+        else basis.append(node('p','source-detail','Memory reference: '+source.uri+' · we can retrieve this source in our conversation.'));
+        card.append(basis);
+      }group.append(card);
+    }entry.append(group);
+  }
+  if(!reading.associations?.length)entry.append(node('p','','No inspected associations were retained in this traversal. Its search scope remains recorded.'));
+  if(reading.observations?.length){entry.append(node('h4','connections-heading','Strong points that emerge'));for(const point of reading.observations)entry.append(node('p','',point));}
+  const discovery=document.createElement('details');discovery.append(node('summary','','Where I looked'));
+  for(const route of reading.discovery||[])discovery.append(node('p','',route.provider+' · '+route.query+' · '+route.status),node('p','source-detail','Checked '+route.checked_at+' · '+JSON.stringify(route.limits)));
+  discovery.append(node('p','source-detail','This inventory contains the relevant material recovered and inspected in the recorded scope; it does not establish complete knowledge of every possible source.'));entry.append(discovery);
 }
 function updateHash() {
   if (!activeBag()) return;
