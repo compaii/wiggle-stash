@@ -31,11 +31,12 @@ function activeBag() { return bags.find(bag => bag.id === activeId); }
 function noteCount(bag) { return (bag.notes || []).length; }
 function stateName(bag) { return bag.state === 'seed' ? 'Seed' : bag.state === 'resting' ? 'Resting' : 'In progress'; }
 function contains(text, query) { return text.toLocaleLowerCase().includes(query); }
+function materialText(material) {return [material.title,material.attachment.original_name,material.author,material.source.reference].join(' ');}
 function filteredBags() {
   const query = search.value.trim().toLocaleLowerCase();
   return bags.filter(bag => {
     const inView = view === 'seeds' ? bag.state === 'seed' : view === 'progress' ? bag.state === 'in-progress' : Boolean(bag.next) && bag.state !== 'resting';
-    const text = [bag.title, bag.subtitle, bag.domain, bag.why, bag.author, bag.steward, bag.next, ...(bag.notes || []).map(note => note.title + ' ' + note.body)].join(' ');
+    const text = [bag.title, bag.subtitle, bag.domain, bag.why, bag.author, bag.steward, bag.next, ...(bag.notes || []).map(note => note.title + ' ' + note.body), ...(bag.materials||[]).map(materialText), ...bag.references.map(reference=>reference.title+' '+reference.url)].join(' ');
     return inView && contains(text, query);
   });
 }
@@ -74,6 +75,8 @@ function renderCollection(matchNote = false) {
     const query = search.value.trim().toLocaleLowerCase();
     const found = activeBag().notes?.findIndex(note => contains(note.title + ' ' + note.body, query));
     if (found >= 0) { section = 'notes'; noteIndex = found; overview = false; }
+    else if((activeBag().materials||[]).some(material=>contains(materialText(material),query)))section='materials';
+    else if(activeBag().references.some(reference=>contains(reference.title+' '+reference.url,query)))section='references';
   }
   for (const bag of selected) {
     const button = node('button', 'bag-choice');
@@ -84,7 +87,8 @@ function renderCollection(matchNote = false) {
     const cover = node('span', 'mini-journal', String(bags.indexOf(bag) + 1).padStart(2, '0'));
     cover.setAttribute('aria-hidden', 'true');
     const copy = node('span', 'choice-copy');
-    copy.append(node('span', 'choice-domain', bag.domain), node('span', 'choice-title', bag.shortTitle || bag.title), node('span', 'choice-count', `${noteCount(bag)} ${noteCount(bag) === 1 ? 'note' : 'notes'} · ${bag.references.length} ${bag.references.length === 1 ? 'link' : 'links'}`));
+    const originals=(bag.materials||[]).length;
+    copy.append(node('span', 'choice-domain', bag.domain), node('span', 'choice-title', bag.shortTitle || bag.title), node('span', 'choice-count', `${noteCount(bag)} ${noteCount(bag) === 1 ? 'note' : 'notes'}${originals?' · '+originals+' '+(originals===1?'original':'originals'):''} · ${bag.references.length} ${bag.references.length === 1 ? 'link' : 'links'}`));
     button.append(cover, copy);
     button.addEventListener('click', () => {
       activeId = bag.id; section = 'notes'; noteIndex = 0; overview = false;
