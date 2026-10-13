@@ -8,7 +8,7 @@ import tempfile
 import zipfile
 from .store import Store, canonical, digest, check_id, now
 from .media import attachments, verify
-from . import readings, delta, custody
+from . import readings, delta, custody, visits
 
 SCHEMA='wiggle-stash.archive/v1'
 MAX_BYTES=2*1024*1024*1024
@@ -26,11 +26,11 @@ def export(store, bag_ids, destination):
     try:
         for bag_id in bag_ids:check_id(bag_id);store.package(bag_id)
         available={r[0] for r in store.db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
-        for table in ('bags','revisions','operations','readings','delta_checks'):
+        for table in ('bags','revisions','operations','readings','delta_checks','visits'):
             if table not in available:continue
             key='id' if table=='bags' else 'bag_id'
             rows=[]
-            for bag_id in bag_ids:rows.extend(dict(r) for r in store.db.execute(f'SELECT * FROM {table} WHERE {key}=?',(bag_id,)))
+            for bag_id in bag_ids:rows.extend(dict(r) for r in store.db.execute(f'SELECT * FROM {table} WHERE {key}=? ORDER BY rowid',(bag_id,)))
             tables[table]=rows
         for row in tables['revisions']:packages.append(store.package(row['bag_id'],row['revision']))
         for bag_id in bag_ids:readings.list_readings(store,bag_id)
@@ -85,13 +85,13 @@ def restore(archive_path,destination):
         ids=document['selected_bags'];tables=document['tables']
         if not ids or len(ids)!=len(set(ids)):raise ValueError('Invalid bag inventory')
         for bag_id in ids:check_id(bag_id)
-        if set(tables)-{'bags','revisions','operations','readings','delta_checks'}:raise ValueError('Unknown history table')
-        store=Store(stage);readings.initialize(store);delta.initialize(store)
+        if set(tables)-{'bags','revisions','operations','readings','delta_checks','visits'}:raise ValueError('Unknown history table')
+        store=Store(stage);readings.initialize(store);delta.initialize(store);visits.initialize(store)
         custody.initialize(store)
         with store.db:
             if document.get('custody'):
                 policy=document['custody'];store.db.execute('INSERT INTO custody VALUES (1,?,?)',(canonical(policy),digest(policy)))
-            for table in ('bags','revisions','operations','readings','delta_checks'):
+            for table in ('bags','revisions','operations','readings','delta_checks','visits'):
                 for row in tables.get(table,[]):
                     if row['id' if table=='bags' else 'bag_id'] not in ids:raise ValueError('Unselected bag in archive')
                     columns=list(row)
@@ -110,6 +110,8 @@ def restore(archive_path,destination):
                 for a in attachments(package):verify(stage,a);expected_objects.add('objects/'+a['sha256'])
             for reading in readings.list_readings(store,bag_id):
                 if reading['input_snapshot']!=store.package(bag_id,reading['input']['revision']):raise ValueError('Reading input checkpoint differs')
+            for visit in visits.history(store,bag_id):
+                if visit["input_snapshot"]!=store.package(bag_id,visit["input"]["revision"]):raise ValueError("Visit input checkpoint differs")
             for row in store.db.execute('SELECT payload,digest FROM delta_checks WHERE bag_id=?',(bag_id,)):
                 if digest(json.loads(row['payload']))!=row['digest']:raise ValueError('Delta history integrity failure')
         if set(files)-{'history.json'}!=expected_objects:raise ValueError('Original object inventory differs')

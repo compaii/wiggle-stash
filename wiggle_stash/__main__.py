@@ -13,6 +13,11 @@ def main():
     parser.add_argument('--store', default=os.environ.get('WIGGLE_STASH_STORE',str(Path.home()/'.local/share/wiggle-stash')))
     commands = parser.add_subparsers(dest='command',required=True)
     commands.add_parser('list')
+    preparation=commands.add_parser('prepare-visit')
+    for arg in ['bag','visit','table','purpose','selected-by','selection-source']:preparation.add_argument('--'+arg,required=True)
+    preparation.add_argument('--revision',type=int,required=True);preparation.add_argument('--participant',action='append',required=True);preparation.add_argument('--recipient',action='append',required=True);preparation.add_argument('--output',type=Path,required=True)
+    visit_receipt=commands.add_parser('retain-visit');visit_receipt.add_argument('--bag',required=True);visit_receipt.add_argument('--visit-file',type=Path,required=True);visit_receipt.add_argument('--receipt-file',type=Path,required=True)
+    visit_history=commands.add_parser('visits');visit_history.add_argument('--bag',required=True)
     custody=commands.add_parser('custody');custody.add_argument('--recipient',action='append',required=True);custody.add_argument('--author',required=True);custody.add_argument('--source',required=True)
     portable=commands.add_parser('archive');portable.add_argument('--bag',action='append',required=True);portable.add_argument('--output',type=Path,required=True)
     recovery=commands.add_parser('restore');recovery.add_argument('--archive',type=Path,required=True);recovery.add_argument('--destination',type=Path,required=True)
@@ -66,10 +71,24 @@ def main():
             print(json.dumps(restore(args.archive,args.destination),ensure_ascii=False,indent=2));return
         store = Store(args.store)
         if args.command == 'list': result = store.list()
+        elif args.command=='prepare-visit':
+            from .visits import prepare
+            result=prepare(store,args.bag,args.revision,args.visit,args.table,args.purpose,args.participant,audience('individual',args.recipient),args.selected_by,args.selection_source)
+            with args.output.open('x') as output:
+                args.output.chmod(0o600);output.write(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+            result={'status':'prepared','input':result['package']['version'],'publication_or_import':False}
+        elif args.command=='retain-visit':
+            from .visits import retain
+            result=retain(store,args.bag,json.loads(args.visit_file.read_text()),json.loads(args.receipt_file.read_text()))
+        elif args.command=='visits':
+            from .visits import history
+            result=history(store,args.bag)
         elif args.command=='archive':
             from .portable import export
             result=export(store,args.bag,args.output)
-        elif args.command == 'create': result = store.create(args.bag,args.title,args.operation_id,audience(args.visibility,args.recipient,args.tribe) if args.visibility else None)
+        elif args.command == 'create':
+            if not args.visibility and (args.recipient or args.tribe):raise ValueError('Select visibility explicitly when selecting audience targets')
+            result = store.create(args.bag,args.title,args.operation_id,audience(args.visibility,args.recipient,args.tribe) if args.visibility else None)
         elif args.command=='custody':
             from .custody import select
             result=select(store,args.recipient,args.author,args.source)
