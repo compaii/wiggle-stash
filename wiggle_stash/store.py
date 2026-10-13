@@ -166,6 +166,17 @@ class Store:
             presentation = {k:v for k,v in bag.items() if k not in ('id','title','audience','notes','references')}
             self.create(bag['id'],bag['title'],operation_prefix+':'+bag['id'],audience('public'),entries,presentation)
 
+    def retire(self, bag_id, entry_id, reason, source, operation_id, expected_revision):
+        check_id(entry_id)
+        if not reason.strip() or not source.strip(): raise ValueError('An explicit retirement reason and source are required')
+        def change(payload):
+            if payload is None or not any(e['id']==entry_id for e in payload['entries']): raise ValueError('Unknown selected entry')
+            payload['entries']=[e for e in payload['entries'] if e['id']!=entry_id]
+            payload['annotations']=[a for a in payload.get('annotations',[]) if a['entry_id']!=entry_id]
+            payload.setdefault('retirements',[]).append({'entry_id':entry_id,'reason':reason,'source':source,'retired_at':now()})
+            return payload
+        return self._write(bag_id,{'action':'retire','entry_id':entry_id,'reason':reason,'source':source},operation_id,expected_revision,change)
+
     def attach(self, bag_id, entry_id, title, author, source, file, operation_id, expected_revision,
                media_type=None, source_date=None, snapshot_of=None, max_bytes=None):
         from . import media
@@ -232,7 +243,10 @@ class Store:
             annotations = [{**a,'content_path':content_path(a['attachment'])} for a in package.get('annotations',[])]
             from .readings import list_readings
             readings = [r for r in list_readings(self,bag_id) if r['audience']['visibility']=='public']
-            bags.append({**presentation, 'id':bag_id, 'title':package['bag']['title'], 'audience':'Public', 'notes':notes, 'references':links, 'materials':materials,'annotations':annotations,'readings':readings, 'package':package})
+            from .delta import latest
+            delta=latest(self,bag_id)
+            if delta and delta['audience']['visibility']!='public':delta=None
+            bags.append({**presentation, 'id':bag_id, 'title':package['bag']['title'], 'audience':'Public', 'notes':notes, 'references':links, 'materials':materials,'annotations':annotations,'readings':readings,'delta':delta, 'package':package})
         return {'schema':'wiggle-stash.public-edition/v1', 'edition':now()[:10], 'bags':bags}
 
 def write_edition(directory, edition, store_directory=None):
@@ -254,6 +268,8 @@ def write_edition(directory, edition, store_directory=None):
         (packages/filename).write_text(json.dumps(bag['package'],ensure_ascii=False,indent=2)+'\n')
         (packages/(bag['id']+'-readings.json')).write_text(json.dumps(bag.get('readings',[]),ensure_ascii=False,indent=2)+'\n')
         selected.add(bag['id']+'-readings.json')
+        (packages/(bag['id']+'-delta.json')).write_text(json.dumps(bag.get('delta'),ensure_ascii=False,indent=2)+'\n')
+        selected.add(bag['id']+'-delta.json')
     for previous in packages.glob('*.json'):
         if previous.name not in selected: previous.unlink()
     (directory/'bags.json').write_text(json.dumps(edition,ensure_ascii=False,indent=2)+'\n')

@@ -41,6 +41,14 @@ def main():
     reading.add_argument('--expected-revision',type=int,required=True)
     reading.add_argument('--allow-historical-input',action='store_true')
     history = commands.add_parser('readings');history.add_argument('--bag',required=True)
+    retire=commands.add_parser('retire')
+    for arg in ['bag','entry','reason','source','operation-id']:retire.add_argument('--'+arg,required=True)
+    retire.add_argument('--expected-revision',type=int,required=True)
+    registration=commands.add_parser('register-source')
+    for arg in ['bag','id','uri']:registration.add_argument('--'+arg,required=True)
+    registration.add_argument('--file',type=Path,required=True);registration.add_argument('--visibility',choices=['public','human','vpn'],default='human')
+    delta=commands.add_parser('delta');delta.add_argument('--bag',required=True);delta.add_argument('--reading')
+    delta.add_argument('--skip-sources',action='store_true');delta.add_argument('--discovery-limit',type=int,default=32)
     migrate = commands.add_parser('import-edition')
     migrate.add_argument('--file',type=Path,required=True); migrate.add_argument('--operation-prefix',required=True)
     edition = commands.add_parser('export-edition')
@@ -69,6 +77,14 @@ def main():
         elif args.command == 'readings':
             from .readings import list_readings
             result = list_readings(store,args.bag)
+        elif args.command == 'retire':result=store.retire(args.bag,args.entry,args.reason,args.source,args.operation_id,args.expected_revision)
+        elif args.command == 'register-source':
+            from .delta import register
+            result=register(store,args.bag,args.id,args.uri,args.file,audience(args.visibility))
+        elif args.command == 'delta':
+            from .delta import check
+            if not 0<=args.discovery_limit<=128:raise ValueError('Select a discovery limit between 0 and 128')
+            result=check(store,args.bag,args.reading,not args.skip_sources,args.discovery_limit)
         elif args.command == 'import-edition':
             store.import_edition(json.loads(args.file.read_text()),args.operation_prefix); result = store.list()
         else:

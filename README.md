@@ -29,3 +29,5 @@ Nicolás visits and maintains the experience through conversation with CompAII. 
 One private local `operations/record.md` preserves development, validation and publication evidence.
 
 The [roadmap issue](https://github.com/compaii/wiggle-stash/issues/1) and seven implementation issues define acceptance and dependencies. [Daimon Field](https://github.com/orgs/AlterMundi/projects/13) carries the coordination link and D013, while this repository owns executable implementation. See [capture operations](docs/CAPTURE.md) for the foreground mechanism and [AGENTS.md](AGENTS.md) for conversational maintenance.
+
+Cheap foreground change checks are available separately from interpretation: see [docs/DELTA.md](docs/DELTA.md). The same dated report appears in the human edition and selected AI export, with explicit unknown coverage.

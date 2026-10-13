@@ -120,7 +120,7 @@ function renderContext() {
   context.append(meta, node('h2', 'bag-title', bag.shortTitle || bag.title), node('p', 'bag-subtitle', bag.subtitle), node('p', 'why-label', 'Why keep this?'), node('p', 'why-body', bag.why), node('p', 'bag-author', 'By ' + bag.author), node('p', 'contents-title', 'INSIDE THIS WIGGLE BAG'));
   const contents = node('div', 'contents');
   contents.setAttribute('role', 'group'); contents.setAttribute('aria-label', 'Wiggle bag contents');
-  for (const item of [{id:'notes',label:'Notes',count:noteCount(bag)}, {id:'materials',label:'Materials',count:(bag.materials||[]).length}, {id:'references',label:'References',count:bag.references.length}, {id:'understanding',label:'My reading',count:(bag.readings||[]).length}, {id:'next',label:'Next step',count:'↗'}]) {
+  for (const item of [{id:'notes',label:'Notes',count:noteCount(bag)}, {id:'materials',label:'Materials',count:(bag.materials||[]).length}, {id:'references',label:'References',count:bag.references.length}, {id:'understanding',label:'My reading',count:(bag.readings||[]).length}, {id:'delta',label:'Since my reading',count:bag.delta?'•':'—'}, {id:'next',label:'Next step',count:'↗'}]) {
     const button = node('button', '', item.label);
     button.type = 'button'; button.dataset.section = item.id;
     button.setAttribute('aria-pressed', String(section === item.id));
@@ -147,7 +147,7 @@ function renderEntry(animate = false) {
   noteIndex = Math.max(0, Math.min(notes.length - 1, noteIndex));
   const focusedNote = document.activeElement?.dataset.note;
   entry.replaceChildren(); index.replaceChildren();
-  document.querySelector('#entry-section').textContent = {notes:'LOOSE NOTES',materials:'ORIGINAL MATERIAL',references:'FOLLOW THE THREADS',understanding:'AN ATTRIBUTED READING',next:'A POSSIBLE NEXT STEP'}[section];
+  document.querySelector('#entry-section').textContent = {notes:'LOOSE NOTES',materials:'ORIGINAL MATERIAL',references:'FOLLOW THE THREADS',understanding:'AN ATTRIBUTED READING',delta:'A CHECK, WITHOUT A NEW READING',next:'A POSSIBLE NEXT STEP'}[section];
   document.querySelector('#show-notes').hidden = section !== 'notes' || !notes.length;
   document.querySelector('#show-notes').textContent = overview ? 'Back to the note' : 'All notes';
   index.hidden = section !== 'notes' || overview || !notes.length;
@@ -218,6 +218,25 @@ function renderEntry(animate = false) {
       if(reading.changes.length){const details=document.createElement('details');details.append(node('summary','','What changed in this reading'));for(const change of reading.changes)details.append(node('p','',change));entry.append(details);}
       entry.append(node('p','source-detail','Method: foreground reading recipe, version 1. Your selected input is kept separately.'));
     }
+  } else if(section === 'delta') {
+    const delta=bag.delta;
+    const title=node('h3','note-heading','What changed since my reading?');title.id='entry-title';entry.append(title);
+    if(!delta)entry.append(node('p','note-body','No delta check has been made for this bag yet. We can ask for one in our conversation.'));
+    else {
+      entry.append(node('p','note-attribution','Checked '+delta.checked_at.slice(0,16).replace('T',' ')+' UTC · compared with '+delta.reading_id));
+      const stale=delta.input.current.digest!==bag.package.version.digest;
+      if(stale)entry.append(node('p','reading-change','This check predates the selected bag version. Ask for a fresh check.'));
+      entry.append(node('h4','connections-heading','Selected input'),node('p','note-body',delta.input.changed?'The bag changed after that reading.':'The selected input was unchanged at this check.'));
+      const titles=new Map(bag.package.entries.map(item=>[item.id,item.title]));
+      for(const [key,label] of [['added','Added'],['changed_entries','Corrected'],['removed','Retired']])for(const id of delta.input[key])entry.append(node('p','source-detail',label+': '+(titles.get(id)||id)));
+      entry.append(node('h4','connections-heading','Known sources'));
+      if(!delta.known_sources.length)entry.append(node('p','','No external sources were in that reading.'));
+      for(const source of delta.known_sources)entry.append(node('p','',source.id+' · '+{changed:'Changed',unchanged:'Unchanged',unavailable:'Unavailable',unknown:'Not checked'}[source.status]+(source.reason?' · '+source.reason:'')));
+      entry.append(node('h4','connections-heading','Possible new context'));
+      if(!delta.potential_context.length)entry.append(node('p','','No candidates in the checked portion of the registered index.'));
+      for(const candidate of delta.potential_context)entry.append(node('p','',candidate.id+' · '+candidate.uri));
+      entry.append(node('p','source-detail','These are candidates to inspect, rather than established connections. Context outside the registered index remains unknown.'+ (delta.coverage.index_truncated?' The bounded check did not cover the entire index.':'')),node('p','source-detail','Source comparison uses registered local copies; unqueried upstream changes remain unknown.'),node('p','source-detail','This check inspected '+delta.cost.source_bytes_checked+' source bytes and '+delta.cost.context_candidates+' candidates. It did not perform or regenerate a reading.'));
+    }
   } else if(section === 'materials') {
     const title=node('h3','note-heading','The materials gathered here');title.id='entry-title';entry.append(title);
     for(const material of bag.materials||[]) {
@@ -281,7 +300,7 @@ function renderEntry(animate = false) {
   if (!document.querySelector('#entry-title')) {
     const title = entry.querySelector('h3'); if (title) title.id='entry-title';
   }
-  document.querySelector('#page-position').textContent = section === 'notes' ? (overview ? `${notes.length} gathered notes` : notes.length ? `Note ${noteIndex+1} of ${notes.length}` : 'No notes yet') : section === 'materials' ? `${(bag.materials||[]).length} original materials` : section === 'understanding' ? (missingReadingId?'Reading unavailable in this edition':bag.readings?.length?'Reading '+(readingIndex+1)+' of '+bag.readings.length:'No reading generated yet') : section === 'references' ? `${bag.references.length} linked ${bag.references.length===1?'place':'places'}` : 'A possibility, ready to revisit';
+  document.querySelector('#page-position').textContent = section === 'notes' ? (overview ? `${notes.length} gathered notes` : notes.length ? `Note ${noteIndex+1} of ${notes.length}` : 'No notes yet') : section === 'materials' ? `${(bag.materials||[]).length} original materials` : section === 'understanding' ? (missingReadingId?'Reading unavailable in this edition':bag.readings?.length?'Reading '+(readingIndex+1)+' of '+bag.readings.length:'No reading generated yet') : section === 'delta' ? 'Last retained change check' : section === 'references' ? `${bag.references.length} linked ${bag.references.length===1?'place':'places'}` : 'A possibility, ready to revisit';
   const turns = document.querySelector('.page-turns'); turns.hidden = section !== 'notes' || overview || !notes.length;
   document.querySelector('#previous').disabled = noteIndex === 0;
   document.querySelector('#next').disabled = noteIndex >= notes.length - 1;
@@ -303,10 +322,10 @@ function updateHash() {
   }
 }
 function readHash() {
-  const match = location.hash.match(/^#bag\/([^/]+)(?:\/(notes|note|materials|references|understanding|next)(?:\/([a-z0-9-]+))?)?$/);
+  const match = location.hash.match(/^#bag\/([^/]+)(?:\/(notes|note|materials|references|understanding|delta|next)(?:\/([a-z0-9-]+))?)?$/);
   if (!match || !bags.some(bag => bag.id === match[1])) return;
   if(activeId!==match[1])readingIndex=null;
-  activeId = match[1]; section = ['materials','references','understanding','next'].includes(match[2]) ? match[2] : 'notes';
+  activeId = match[1]; section = ['materials','references','understanding','delta','next'].includes(match[2]) ? match[2] : 'notes';
   if(section==='understanding') {
     const selected=(activeBag().readings||[]).findIndex(reading=>reading.id===match[3]);
     readingIndex=selected>=0?selected:null;
