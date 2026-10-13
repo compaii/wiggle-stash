@@ -23,7 +23,7 @@ The operator mechanism persists the reading produced by the foreground daimon tr
 
 ## Checkpoint and cheap delta
 
-The checkpoint stores the selected bag revision/digest and consulted source IDs/versions, plus the discovery boundary. Issue #5 compares those versions through supported cheap source adapters without generating another reading. It reports confirmed selected-input changes, known-source changes, potentially relevant new context and unavailable/unknown coverage separately. An unchanged tracked set never proves that nothing relevant happened elsewhere.
+The checkpoint stores the selected bag revision/digest and consulted source IDs/versions, plus the discovery boundary. For an access request, `reading --bag ID` first performs the cheap foreground check and returns the retained interpretation with its dated cache decision; it does not follow this generation recipe again. A request for regeneration follows the full recipe and retains a new reading ID. Issue #5 compares those versions through supported cheap source adapters without generating another reading. It reports confirmed selected-input changes, known-source changes, potentially relevant new context and unavailable/unknown coverage separately. An unchanged tracked set never proves that nothing relevant happened elsewhere.
 
 ## Qualification on a real bag
 

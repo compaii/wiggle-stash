@@ -602,6 +602,79 @@
           "understanding": "I now see continuity as the organizing purpose of Wiggle Stash. The selected material records what you chose to keep while an idea was forming. My dated readings add a situated account of the directions and relationships I was seeing. Preserving both, with their differences, can make the development of the idea legible later.\n\nThat gives a project a particular place: it can emerge from a bag and express part of its intuition, while the bag keeps the wider unfinished thread. A Nexus visit could help us explore a pinned version and produce something useful elsewhere. The roadmap reinforces that the original input remains with Wiggle Stash and that chosen privacy applies from the first capture."
         }
       ],
+      "reading_states": {
+        "reading-20261013-a": {
+          "schema": "wiggle-stash.reading-state/v1",
+          "reading_id": "reading-20261013-a",
+          "generated_at": "2026-10-13T00:46:24.010896+00:00",
+          "input": {
+            "created_at": "2026-10-12T22:14:17.554032+00:00",
+            "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+            "revision": 1
+          },
+          "current": {
+            "revision": 1,
+            "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+            "created_at": "2026-10-12T22:14:17.554032+00:00"
+          },
+          "status": "unverified",
+          "reasons": [
+            "No matching check for this reading and selected input version."
+          ],
+          "checked_at": null,
+          "changed_sources": [],
+          "unverified_sources": [],
+          "potential_context": [],
+          "revisit_suggested": false,
+          "coverage": {
+            "scope": "Selected input and checked registered local source copies only",
+            "outside_index": "unknown",
+            "upstream_state": "unknown",
+            "index_truncated": false
+          },
+          "reading_traversal_performed": false
+        },
+        "reading-20261013-b": {
+          "schema": "wiggle-stash.reading-state/v1",
+          "reading_id": "reading-20261013-b",
+          "generated_at": "2026-10-13T00:48:24.208918+00:00",
+          "input": {
+            "created_at": "2026-10-12T22:14:17.554032+00:00",
+            "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+            "revision": 1
+          },
+          "current": {
+            "revision": 1,
+            "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+            "created_at": "2026-10-12T22:14:17.554032+00:00"
+          },
+          "status": "stale",
+          "reasons": [
+            "Known source copies changed: definition, roadmap."
+          ],
+          "checked_at": "2026-10-13T02:59:56.391260+00:00",
+          "changed_sources": [
+            "definition",
+            "roadmap"
+          ],
+          "unverified_sources": [],
+          "potential_context": [
+            {
+              "id": "reading-method",
+              "registered_at": "2026-10-13T01:30:05.557019+00:00",
+              "uri": "https://github.com/compaii/wiggle-stash/blob/6c0e267/docs/READING-RECIPE.md"
+            }
+          ],
+          "revisit_suggested": true,
+          "coverage": {
+            "scope": "Selected input and checked registered local source copies only",
+            "outside_index": "unknown",
+            "upstream_state": "unknown",
+            "index_truncated": false
+          },
+          "reading_traversal_performed": false
+        }
+      },
       "delta": {
         "audience": {
           "recipients": [],
@@ -609,12 +682,12 @@
           "visibility": "public"
         },
         "bag_id": "wiggle-stash",
-        "checked_at": "2026-10-13T01:30:05.560977+00:00",
+        "checked_at": "2026-10-13T02:59:56.391260+00:00",
         "cost": {
           "context_candidates": 1,
           "known_sources": 2,
           "reading_traversal_performed": false,
-          "source_bytes_checked": 7078
+          "source_bytes_checked": 7925
         },
         "coverage": {
           "candidate_limit": 32,
@@ -642,16 +715,16 @@
         "known_sources": [
           {
             "checkpoint": "03583db302383ee5c6ac4d94cfd1cc9ce9421a618e27e4c782495c674d7402d1",
-            "current_version": "38cc82dc1b99ceb4b62ee1da1af0c1a30b93fcce9970526f6e42ff5d975c94a6",
+            "current_version": "e105c71e6b89db21f85a8bb6f8dbe98b12b744a36c24fb0c11d91b443203ff2f",
             "id": "definition",
             "status": "changed",
             "uri": "https://github.com/compaii/wiggle-stash/blob/7a4ed6a95ca210a9ba46f2f68b0ee8f6769b1850/README.md"
           },
           {
             "checkpoint": "1dec64902d1fe7e0320ebc7db985f2b796650fd8bc015a4f11e9312bdfd34f09",
-            "current_version": "1dec64902d1fe7e0320ebc7db985f2b796650fd8bc015a4f11e9312bdfd34f09",
+            "current_version": "19606a451abff25e77003995600ba1d48adb042d1c681192e183a4304797a47a",
             "id": "roadmap",
-            "status": "unchanged",
+            "status": "changed",
             "uri": "https://github.com/compaii/wiggle-stash/blob/7a4ed6a95ca210a9ba46f2f68b0ee8f6769b1850/ROADMAP.md"
           }
         ],
@@ -816,6 +889,7 @@
       "materials": [],
       "annotations": [],
       "readings": [],
+      "reading_states": {},
       "delta": null,
       "package": {
         "schema": "wiggle-stash.bag/v1",

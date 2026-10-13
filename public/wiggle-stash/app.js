@@ -197,6 +197,16 @@ function renderEntry(animate = false) {
       const title=node('h3','note-heading',reading.author+'’s understanding');title.id='entry-title';
       entry.append(title,node('p','note-attribution','Generated '+reading.generated_at.slice(0,16).replace('T',' ')+' UTC · input revision '+reading.input.revision));
       if(reading.input.digest!==bag.package.version.digest)entry.append(node('p','reading-change','The bag has changed since this reading. Its original input is still preserved.'));
+      const cached=bag.reading_states?.[reading.id];
+      const cache=node('section','reading-cache');cache.setAttribute('aria-label','Reading freshness');
+      const matched=cached?.reading_id===reading.id&&cached?.current.digest===bag.package.version.digest;
+      const status=matched?cached.status:'unverified';
+      cache.append(node('h4','connections-heading',{reusable:'Reusable within checked sources',stale:'This reading needs revisiting',unverified:'Freshness is unverified'}[status]||'Freshness is unverified'));
+      if(matched&&cached.checked_at)cache.append(node('p','source-detail','Last checked '+cached.checked_at.slice(0,16).replace('T',' ')+' UTC. This is a retained checkpoint.'));
+      for(const reason of matched?cached.reasons:['No matching check for this reading and selected input version.'])cache.append(node('p','',reason));
+      if(matched&&cached.revisit_suggested)cache.append(node('p','','There is possible new context to inspect'+(cached.coverage.index_truncated?' and part of the registered index was not checked.':'.')));
+      cache.append(node('p','source-detail','Checks compare the selected input and registered local source copies. Context outside the index and upstream changes remain unknown. We can check again or regenerate in our conversation.'));
+      entry.append(cache);
       const history=node('div','reading-history');history.setAttribute('role','group');history.setAttribute('aria-label','Reading history');
       readings.forEach((item,position)=>{const button=node('button','','Reading '+(position+1));button.type='button';button.setAttribute('aria-pressed',String(position===readingIndex));button.addEventListener('click',()=>{readingIndex=position;renderEntry();updateHash();});history.append(button);});
       entry.append(history,node('p','note-body',reading.understanding),node('h4','connections-heading','Connections I see'));

@@ -53,6 +53,7 @@ def check(store, bag_id, reading_id=None, check_sources=True, discovery_limit=32
     old={entry['id']:entry for entry in previous['entries']};new={entry['id']:entry for entry in current['entries']}
     changed=[key for key in old.keys()&new.keys() if digest(old[key])!=digest(new[key])]
     selected=current['bag']['audience']
+    if selected['visibility']=='public' and reading['audience']['visibility']!='public':selected=reading['audience']
     if not compatible(reading['audience'],selected): raise ValueError('Reading audience incompatible with current bag')
     registered={row['id']:dict(row) for row in store.db.execute('SELECT * FROM context_sources WHERE bag_id=? ORDER BY registered_at,id',(bag_id,))}
     known=[];bytes_checked=0
@@ -82,10 +83,43 @@ def check(store, bag_id, reading_id=None, check_sources=True, discovery_limit=32
     with store.db:store.db.execute('INSERT INTO delta_checks(bag_id,payload,digest) VALUES (?,?,?)',(bag_id,canonical(result),digest(result)))
     return result
 
-def latest(store, bag_id):
+def latest(store, bag_id, reading_id=None, selected_audience=None):
     if not store.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='delta_checks'").fetchone():return None
-    row=store.db.execute('SELECT payload,digest FROM delta_checks WHERE bag_id=? ORDER BY id DESC LIMIT 1',(bag_id,)).fetchone()
-    if row is None:return None
-    payload=json.loads(row['payload'])
-    if digest(payload)!=row['digest']:raise ValueError('Delta check integrity failure')
-    return payload
+    for row in store.db.execute('SELECT payload,digest FROM delta_checks WHERE bag_id=? ORDER BY id DESC',(bag_id,)):
+        payload=json.loads(row['payload'])
+        if digest(payload)!=row['digest']:raise ValueError('Delta check integrity failure')
+        if reading_id is not None and payload['reading_id']!=reading_id:continue
+        if selected_audience is not None and not compatible(payload['audience'],selected_audience):continue
+        return payload
+    return None
+
+def reading_state(reading, current, delta=None):
+    """Rebuild a bounded cache decision from retained evidence, without checking sources."""
+    input_changed=reading['input']['digest']!=current['version']['digest']
+    matches=bool(delta and delta['bag_id']==current['bag']['id'] and delta['reading_id']==reading['id']
+        and delta['input']['checkpoint']==reading['input'] and delta['input']['current']==current['version'])
+    known=delta['known_sources'] if matches else []
+    changed=[source['id'] for source in known if source['status']=='changed']
+    unavailable=[source['id'] for source in known if source['status'] not in ('changed','unchanged')]
+    reasons=[]
+    if input_changed:reasons.append('Selected input changed after this reading.')
+    if changed:reasons.append('Known source copies changed: '+', '.join(changed)+'.')
+    if not matches:reasons.append('No matching check for this reading and selected input version.')
+    if unavailable:reasons.append('Known sources could not be verified: '+', '.join(unavailable)+'.')
+    status='stale' if input_changed or changed else 'unverified' if not matches or unavailable else 'reusable'
+    candidates=delta['potential_context'] if matches else []
+    truncated=bool(matches and delta['coverage']['index_truncated'])
+    return {'schema':'wiggle-stash.reading-state/v1','reading_id':reading['id'],
+        'generated_at':reading['generated_at'],'input':reading['input'],'current':current['version'],
+        'status':status,'reasons':reasons,'checked_at':delta['checked_at'] if matches else None,
+        'changed_sources':changed,'unverified_sources':unavailable,
+        'potential_context':candidates,'revisit_suggested':bool(candidates or truncated),
+        'coverage':{'scope':'Selected input and checked registered local source copies only',
+            'outside_index':'unknown','upstream_state':'unknown','index_truncated':truncated},
+        'reading_traversal_performed':False}
+
+def read_cached(store, bag_id, reading_id=None, check_sources=True, discovery_limit=32):
+    """Foreground reading access: cheap check first, then return the retained interpretation."""
+    delta=check(store,bag_id,reading_id,check_sources,discovery_limit)
+    reading=next(r for r in list_readings(store,bag_id) if r['id']==delta['reading_id'])
+    return {'reading':reading,'state':reading_state(reading,store.package(bag_id),delta),'delta':delta}

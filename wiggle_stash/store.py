@@ -248,10 +248,10 @@ class Store:
             annotations = [{**a,'content_path':content_path(a['attachment'])} for a in package.get('annotations',[])]
             from .readings import list_readings
             readings = [r for r in list_readings(self,bag_id) if r['audience']['visibility']=='public' or r['audience']==selected_audience]
-            from .delta import latest
-            delta=latest(self,bag_id)
-            if delta and delta['audience']['visibility']!='public' and delta['audience']!=selected_audience:delta=None
-            bags.append({**presentation, 'id':bag_id, 'title':package['bag']['title'], 'audience':{'public':'Public','human':'Paired human','individual':'Selected individuals','tribe':'Selected tribe','vpn':'Dedicated VPN'}[original['visibility']], 'notes':notes, 'references':links, 'materials':materials,'annotations':annotations,'readings':readings,'delta':delta, 'package':package})
+            from .delta import latest, reading_state
+            delta=latest(self,bag_id,selected_audience=selected_audience)
+            states={r['id']:reading_state(r,package,latest(self,bag_id,r['id'],selected_audience)) for r in readings}
+            bags.append({**presentation, 'id':bag_id, 'title':package['bag']['title'], 'audience':{'public':'Public','human':'Paired human','individual':'Selected individuals','tribe':'Selected tribe','vpn':'Dedicated VPN'}[original['visibility']], 'notes':notes, 'references':links, 'materials':materials,'annotations':annotations,'readings':readings,'reading_states':states,'delta':delta, 'package':package})
         return {'schema':'wiggle-stash.public-edition/v1' if selected_audience['visibility']=='public' else 'wiggle-stash.reading-edition/v1','audience':selected_audience,'edition':now()[:10],'bags':bags}
 
 def write_edition(directory, edition, store_directory=None):
@@ -276,6 +276,8 @@ def write_edition(directory, edition, store_directory=None):
         (packages/filename).write_text(json.dumps(bag['package'],ensure_ascii=False,indent=2)+'\n')
         (packages/(bag['id']+'-readings.json')).write_text(json.dumps(bag.get('readings',[]),ensure_ascii=False,indent=2)+'\n')
         selected.add(bag['id']+'-readings.json')
+        (packages/(bag['id']+'-reading-states.json')).write_text(json.dumps(bag.get('reading_states',{}),ensure_ascii=False,indent=2)+'\n')
+        selected.add(bag['id']+'-reading-states.json')
         (packages/(bag['id']+'-delta.json')).write_text(json.dumps(bag.get('delta'),ensure_ascii=False,indent=2)+'\n')
         selected.add(bag['id']+'-delta.json')
     for previous in packages.glob('*.json'):

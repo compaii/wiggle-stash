@@ -12,7 +12,7 @@ Capture is separate from commitment and spans all life domains. A bag contains i
 
 Conversation or a future Nexus experience can consume a bag. Resulting work belongs in its chosen repositories, issues, documents, publications or other output destinations. Outputs join a bag only when explicitly associated with it.
 
-A separate, attributed view should show CompAII’s understanding and connections. Its designed foreground traversal should record generation time, input version, consulted sources and method, preserve earlier readings, and allow regeneration on request. A cheap delta check should compare input and known source versions without repeating the full traversal, distinguishing confirmed changes, potentially relevant new context and unknown coverage.
+A separate, attributed view should show CompAII’s understanding and connections. Its designed foreground traversal should record generation time, input version, consulted sources and method, preserve earlier readings, and allow regeneration on request. A cheap delta check compares input and known source versions without repeating the full traversal, distinguishing confirmed changes, potentially relevant new context and unknown coverage. Each retained reading has a dated reusable, stale or unverified cache state; tracked local copies cannot establish complete upstream freshness.
 
 The stash should preserve the human’s ongoing intuition and continuous creation, including directions that projects only partly capture. Keep original human material distinct from CompAII’s interpretation so others can understand how the ideas developed.
 
@@ -30,6 +30,6 @@ One private local `operations/record.md` preserves development, validation and p
 
 The [roadmap issue](https://github.com/compaii/wiggle-stash/issues/1) and seven implementation issues define acceptance and dependencies. [Daimon Field](https://github.com/orgs/AlterMundi/projects/13) carries the coordination link and D013, while this repository owns executable implementation. See [capture operations](docs/CAPTURE.md) for the foreground mechanism and [AGENTS.md](AGENTS.md) for conversational maintenance.
 
-Cheap foreground change checks are available separately from interpretation: see [docs/DELTA.md](docs/DELTA.md). The same dated report appears in the human edition and selected AI export, with explicit unknown coverage.
+Cheap foreground change checks are available separately from interpretation: see [docs/DELTA.md](docs/DELTA.md). The same dated report and per-reading cache decisions appear in the human edition and selected AI export, with explicit unknown coverage. Foreground reading access checks first and returns the unchanged interpretation; regeneration remains a separate full traversal.
 
 Full selected-history export, independent recovery and human-selected stewardship are described in [docs/CONTINUITY.md](docs/CONTINUITY.md). Archives remain private and publication uses the existing shared access authority.

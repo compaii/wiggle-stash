@@ -56,9 +56,11 @@ def main():
     retire.add_argument('--expected-revision',type=int,required=True)
     registration=commands.add_parser('register-source')
     for arg in ['bag','id','uri']:registration.add_argument('--'+arg,required=True)
-    registration.add_argument('--file',type=Path,required=True);registration.add_argument('--visibility',choices=['public','human','vpn'],default='human')
-    delta=commands.add_parser('delta');delta.add_argument('--bag',required=True);delta.add_argument('--reading')
-    delta.add_argument('--skip-sources',action='store_true');delta.add_argument('--discovery-limit',type=int,default=32)
+    registration.add_argument('--file',type=Path,required=True);registration.add_argument('--visibility',choices=['public','human','vpn','individual','tribe'],default='human')
+    registration.add_argument('--recipient',action='append',default=[]);registration.add_argument('--tribe',action='append',default=[])
+    for name in ['delta','reading']:
+        delta=commands.add_parser(name);delta.add_argument('--bag',required=True);delta.add_argument('--reading')
+        delta.add_argument('--skip-sources',action='store_true');delta.add_argument('--discovery-limit',type=int,default=32)
     migrate = commands.add_parser('import-edition')
     migrate.add_argument('--file',type=Path,required=True); migrate.add_argument('--operation-prefix',required=True)
     edition = commands.add_parser('export-edition')
@@ -114,11 +116,11 @@ def main():
         elif args.command == 'retire':result=store.retire(args.bag,args.entry,args.reason,args.source,args.operation_id,args.expected_revision)
         elif args.command == 'register-source':
             from .delta import register
-            result=register(store,args.bag,args.id,args.uri,args.file,audience(args.visibility))
-        elif args.command == 'delta':
-            from .delta import check
+            result=register(store,args.bag,args.id,args.uri,args.file,audience(args.visibility,args.recipient,args.tribe))
+        elif args.command in ('delta','reading'):
+            from .delta import check, read_cached
             if not 0<=args.discovery_limit<=128:raise ValueError('Select a discovery limit between 0 and 128')
-            result=check(store,args.bag,args.reading,not args.skip_sources,args.discovery_limit)
+            result=(read_cached if args.command=='reading' else check)(store,args.bag,args.reading,not args.skip_sources,args.discovery_limit)
         elif args.command == 'import-edition':
             store.import_edition(json.loads(args.file.read_text()),args.operation_prefix); result = store.list()
         else:
