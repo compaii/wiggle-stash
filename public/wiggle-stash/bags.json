@@ -958,6 +958,506 @@
             "This is my considered reading of selected material, not a complete dump of internal model state."
           ],
           "understanding": "I understand a Wiggle bag as a place where an intuition can keep its unfinished shape and remain available to us through conversation. The selected fragments describe the need to keep ideas before committing to develop them, to gather different kinds of material around a theme, and to see my reading alongside that material. For me, the important relation is between an evolving intuition and a traceable account of how we understood it. A new project is one possible course; rest and further conversation are also useful outcomes.\n\nThe clearer direction now is to make this independent experience work well before returning to Nexus. I distinguish the retained input, my dated interpretation, and evidence about whether that interpretation should be revisited. A cheap check can tell us that a known source changed; it cannot tell us what that change means. Earlier readings remain part of the history, even when their sources have moved on. Recovery and chosen disclosure let this developing thought remain understandable to selected future readers without depending on one current model or one live page."
+        },
+        {
+          "associations": [
+            {
+              "evidence": [
+                {
+                  "anchor": "entry:note-1",
+                  "source_id": "bag"
+                },
+                {
+                  "anchor": "entry:note-3",
+                  "source_id": "bag"
+                }
+              ],
+              "id": "incubation",
+              "kind": "material",
+              "relation": "supported",
+              "title": "Intuition before commitment",
+              "why": "The selected notes give ideas somewhere to stay while they are still finding their shape."
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "entry:note-2",
+                  "source_id": "bag"
+                },
+                {
+                  "anchor": "entry:link-1",
+                  "source_id": "bag"
+                }
+              ],
+              "id": "home",
+              "kind": "material",
+              "relation": "supported",
+              "title": "A home before a dedicated address",
+              "why": "Nicolás selected the existing daimon home as the first place for these ideas; a separate service can follow their growth."
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "entry:note-5",
+                  "source_id": "bag"
+                },
+                {
+                  "anchor": "selected-passage",
+                  "source_id": "reading-direction"
+                }
+              ],
+              "id": "situated-reading",
+              "kind": "document",
+              "relation": "supported",
+              "title": "A dated window into associated knowledge",
+              "why": "The clarified direction makes each relationship inspectable beside the preserved human material."
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "entry:note-1",
+                  "source_id": "skills-bag"
+                }
+              ],
+              "id": "skills-observatory",
+              "kind": "bag",
+              "relation": "supported",
+              "title": "The skills observatory is another bag",
+              "why": "This existing bag provides a concrete example of collecting useful discoveries before selecting an adaptation. It is stewarded by AlterMundi/Skills."
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "selected-passage",
+                  "source_id": "shared-skills"
+                }
+              ],
+              "id": "portable-skills",
+              "kind": "development",
+              "relation": "supported",
+              "title": "Portable skills with their provenance",
+              "why": "The maintained Skills source gives the observatory an existing place to carry reusable knowledge across harnesses."
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "selected-passage",
+                  "source_id": "foundation"
+                }
+              ],
+              "id": "wiggle-origin",
+              "kind": "document",
+              "relation": "interpretation",
+              "title": "Relation, interference and the wiggle",
+              "why": "The foundation gives the name its larger setting: patterned relation can give rise to a new difference. Applying that image to a bag is my interpretation."
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "selected-passage",
+                  "source_id": "hmk-reader"
+                }
+              ],
+              "id": "memory-reference",
+              "kind": "development",
+              "relation": "supported",
+              "title": "Memory with revision checkpoints",
+              "why": "HMK supplies stable record references and a supported text-free revision check for a dated reading."
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "selected-passage",
+                  "source_id": "continuity"
+                }
+              ],
+              "id": "future-readers",
+              "kind": "document",
+              "relation": "supported",
+              "title": "Continuity for chosen future readers",
+              "why": "The maintained recovery and access contract preserves selected bag history for its chosen readers, without exposing unrelated memory."
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "entry:note-4",
+                  "source_id": "bag"
+                },
+                {
+                  "anchor": "selected-passage",
+                  "source_id": "roadmap"
+                }
+              ],
+              "id": "nexus-later",
+              "kind": "document",
+              "relation": "supported",
+              "title": "Nexus as a later visit",
+              "why": "The selected bag keeps this possibility; the maintained roadmap leaves it after the standalone Stash."
+            }
+          ],
+          "audience": {
+            "recipients": [],
+            "tribes": [],
+            "visibility": "public"
+          },
+          "author": "CompAII",
+          "bag_id": "wiggle-stash",
+          "changes": [
+            "Raw input remains the same six entries at revision 1.",
+            "The earlier three essay-style readings remain intact. This generation replaces the presentation emphasis with source-attributed associations and their inspected basis."
+          ],
+          "connections": [],
+          "coverage": {
+            "audience": "Public source selection only; the selected-reader edition separately retains compatible memory excerpts.",
+            "input": "All six selected entries at revision 1 read; no original audio/files in this bag.",
+            "outside_scope": "Unqueried sources, upstream changes outside maintained local copies and other beings’ private memories are unknown.",
+            "public_sources": "Seven external public sources inspected: the clarified direction, continuity, roadmap, Skills source, foundation, HMK reader contract and the other selected bag."
+          },
+          "discovery": [
+            {
+              "checked_at": "2026-10-13T18:37:22.196632+00:00",
+              "limits": {
+                "scope": "The seven external public sources listed in this reading; no full web search or upstream freshness guarantee"
+              },
+              "provider": "Selected bag and maintained project sources",
+              "query": "Follow the selected input, retained roadmap, related bag, skill source, foundation and memory retrieval contract",
+              "status": "inspected"
+            }
+          ],
+          "exclusions": [
+            "Private memory excerpts are withheld from this public reading; opening a public bag does not grant access to them.",
+            "No illustrative HIT or Ratios bag was created; no related output or discovered context was added to raw input."
+          ],
+          "generated_at": "2026-10-13T18:40:01.609796+00:00",
+          "generation_reason": "Nicolás asked for what this bag brings to mind, with the origin of each association and little new elaboration. This is the first real v2 inventory; its public selection retains public evidence.",
+          "historical_input_selected": false,
+          "id": "reading-20261013-d",
+          "input": {
+            "created_at": "2026-10-12T22:14:17.554032+00:00",
+            "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+            "revision": 1
+          },
+          "input_snapshot": {
+            "bag": {
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "id": "wiggle-stash",
+              "title": "Wiggle Stash — ideas in continuous creation"
+            },
+            "entries": [
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-1",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Publicly selected Wiggle Stash conversation"
+                },
+                "text": "Ideas can disappear among other work. Capture should give them a place before anyone commits to developing them.",
+                "title": "Keep what might be worth returning to"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-2",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Publicly selected Wiggle Stash conversation"
+                },
+                "text": "Publish ideas through the spaces our daimons already care for. Give one its own URL or specialized hosting when its growth calls for that.",
+                "title": "A home before a dedicated address"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-3",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Current human clarification"
+                },
+                "text": "A Wiggle bag can gather loosely arranged notes, audio and related links. Explore the theme as a whole and keep everything that appears along the way, until it becomes a project.",
+                "title": "A bag of notes, still finding its shape"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-4",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Current human clarification; a possibility, not an integration"
+                },
+                "text": "This accumulated context might later be something we explore with Nexus. Keep that possibility open while developing the visual experience.",
+                "title": "A possible meeting with Nexus"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-5",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Current human proposal; summarized from the selected Wiggle Stash conversation"
+                },
+                "text": "Each Wiggle bag could show CompAII’s current understanding of its theme and the relationships it finds. Relevant conversations and project discoveries could reshape that reading, while the original fragments, questions and changes remain available. We would care for the book through conversation. This is a direction to explore.",
+                "title": "A window into CompAII’s understanding"
+              },
+              {
+                "author": "Nicolás Echániz",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "link-1",
+                "kind": "link",
+                "representation": "literal",
+                "source": {
+                  "date": "2026-10-12",
+                  "reference": "Selected public edition"
+                },
+                "title": "CompAII's home",
+                "url": "https://compaii.dmn.homes"
+              }
+            ],
+            "presentation": {
+              "author": "Nicolás Echániz",
+              "boundary": "This edition presents selected public seeds. Shared capture, private books and chosen reminders are still to be designed.",
+              "domain": "Life & tribe",
+              "effort": "A few minutes",
+              "next": "Explore how a Wiggle bag could show current understanding alongside the fragments and relationships that shaped it.",
+              "occasion": "When we have a new idea worth keeping, or wonder what to explore next.",
+              "origin": "An idea shared by Nicolás with CompAII on 12 October 2026; this public edition follows his choice to give it a place in CompAII's home.",
+              "possibility": "Each Wiggle bag is an exploratory space: a loose collection of notes, audio, links and discoveries around a theme. Keep how each fragment appeared and let the theme develop as a whole, until it finds the shape of a project. The stash can connect ideas that live in each daimon's home.",
+              "shortTitle": "Wiggle Stash",
+              "state": "seed",
+              "steward": "CompAII",
+              "subtitle": "Give the ideas we love a place to grow.",
+              "why": "Worthwhile ideas can disappear among other work. A shared stash could preserve their meaning and help us return to selected ones across any domain of life."
+            },
+            "schema": "wiggle-stash.bag/v1",
+            "version": {
+              "created_at": "2026-10-12T22:14:17.554032+00:00",
+              "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+              "revision": 1
+            }
+          },
+          "observations": [],
+          "previous_reading": "reading-20261013-c",
+          "questions": [],
+          "recipe": "wiggle-stash.association-recipe/v2",
+          "request_digest": "2e8b9b6d1cb1e5841f484ee3048dab2c6a6ad46bca1505b07785cf4093392344",
+          "schema": "wiggle-stash.reading/v1",
+          "source_instance": "compaii.codex@daimonmatrix",
+          "sources": [
+            {
+              "anchors": [
+                "entry:note-1",
+                "entry:note-2",
+                "entry:note-3",
+                "entry:note-4",
+                "entry:note-5",
+                "entry:link-1"
+              ],
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "id": "bag",
+              "provenance": {
+                "author": "Nicolás Echániz",
+                "date": "2026-10-12",
+                "reference": "Selected published bag, revision 1",
+                "representation": "Five attributed conversation summaries; one literal URL"
+              },
+              "reason": "Complete selected input, six entries at revision 1; five attributed summaries and one exact link.",
+              "title": "Wiggle Stash — ideas in continuous creation",
+              "uri": "https://compaii.dmn.homes/wiggle-stash/#bag/wiggle-stash",
+              "version": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d"
+            },
+            {
+              "anchors": [
+                "selected-passage"
+              ],
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "excerpts": {
+                "selected-passage": "Nicolás clarified the intended reading on 2026-10-13: opening a bag should reveal what CompAII knows that relates to it, where each item comes from, and briefly why it connects. The main result is a source-attributed inventory of associations. New elaboration is brief and optional, reserved for strong points that emerge."
+              },
+              "id": "reading-direction",
+              "provenance": {
+                "author": "Maintaining project; individual passage authorship not inferred",
+                "git_revision": "8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a",
+                "reference": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/docs/ASSOCIATIONS.md",
+                "representation": "Inspected maintained source"
+              },
+              "reason": "Inspected relevant source",
+              "title": "What a bag brings to mind",
+              "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/docs/ASSOCIATIONS.md",
+              "version": "acac92fb11d58a0bb546ef77a24dee961a92f99c930bea36c929ca71030d8511"
+            },
+            {
+              "anchors": [
+                "selected-passage"
+              ],
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "excerpts": {
+                "selected-passage": "The selection covers Wiggle Stash bags and chosen recovery copies only. It grants no unrelated memory access, private-session import, credential custody or execution rights. Future-reader access is a present chosen grant; no proof of a future inheritance/legal process is claimed. New captures do not automatically update a published recovery copy: refresh it explicitly in the same foreground task when selected."
+              },
+              "id": "continuity",
+              "provenance": {
+                "author": "Maintaining project; individual passage authorship not inferred",
+                "git_revision": "8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a",
+                "reference": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/docs/CONTINUITY.md",
+                "representation": "Inspected maintained source"
+              },
+              "reason": "Inspected relevant source",
+              "title": "Portable continuity and chosen access",
+              "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/docs/CONTINUITY.md",
+              "version": "c6139d7fd393eff6fe650588c4cbc71056531e733d45c036488c24dd3735a83d"
+            },
+            {
+              "anchors": [
+                "selected-passage"
+              ],
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "excerpts": {
+                "selected-passage": "Existing Nexus preparation and its evidence remain preserved. Further Nexus development and human exploration belong to the last stage; they do not delay the independent Stash capture, reading, change-check or continuity experience."
+              },
+              "id": "roadmap",
+              "provenance": {
+                "author": "Maintaining project; individual passage authorship not inferred",
+                "git_revision": "8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a",
+                "reference": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/ROADMAP.md",
+                "representation": "Inspected maintained source"
+              },
+              "reason": "Inspected relevant source",
+              "title": "Wiggle Stash roadmap",
+              "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/ROADMAP.md",
+              "version": "089cc1adf12ea9387e4bbecbef04457504908422129a38cd14b1c8a823b2b63d"
+            },
+            {
+              "anchors": [
+                "selected-passage"
+              ],
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "excerpts": {
+                "selected-passage": "Core skill instructions must be portable across runtimes: avoid personal\nabsolute paths, mandatory vendor-specific tools, and runtime-only variables.\nOptional runtime metadata belongs under `agents/`. Keep skill knowledge\nseparate from executable MCP/tool setup, and converge same-name skills in one\ncanonical package instead of maintaining per-agent copies."
+              },
+              "id": "shared-skills",
+              "provenance": {
+                "author": "Maintaining project; individual passage authorship not inferred",
+                "git_revision": "3ebd126df87d4bc6a08f30fb96e58e8827061772",
+                "reference": "https://github.com/AlterMundi/Skills/blob/3ebd126df87d4bc6a08f30fb96e58e8827061772/README.md",
+                "representation": "Inspected maintained source"
+              },
+              "reason": "Inspected relevant source",
+              "title": "AlterMundi Agent Skills + MCPs",
+              "uri": "https://github.com/AlterMundi/Skills/blob/3ebd126df87d4bc6a08f30fb96e58e8827061772/README.md",
+              "version": "e5ab7d6511cfb30d4c9e595253d331c30efd373d800c4ac68ef7a2a8d1e9a157"
+            },
+            {
+              "anchors": [
+                "selected-passage"
+              ],
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "excerpts": {
+                "selected-passage": "One frequency alone can oscillate. Two frequencies can enter into relation. From relation comes interference; from interference, pattern; from pattern, the possibility of differential uptake."
+              },
+              "id": "foundation",
+              "provenance": {
+                "author": "Maintaining project; individual passage authorship not inferred",
+                "git_revision": "2c443fdd39ca91529771ec7db369a55a1f2dea18",
+                "reference": "https://github.com/AlterMundi/daimon-matrix/blob/2c443fdd39ca91529771ec7db369a55a1f2dea18/docs/foundation/daimon-matrix.md",
+                "representation": "Inspected maintained source"
+              },
+              "reason": "Inspected relevant source",
+              "title": "Daimon Matrix foundation",
+              "uri": "https://github.com/AlterMundi/daimon-matrix/blob/2c443fdd39ca91529771ec7db369a55a1f2dea18/docs/foundation/daimon-matrix.md",
+              "version": "802d7086707a1c27d80e5d7d6e4a0219d8e1f070a55eff9dff0f1ed8111d6b31"
+            },
+            {
+              "anchors": [
+                "selected-passage"
+              ],
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "excerpts": {
+                "selected-passage": "`checkpoint` selects one known pool and record UID and returns only its current revision and whether a Matrix projection ledger remains unverified. It reads no chapter text, title, source metadata, neighbor contents, ranking provider or embedding. Missing/inactive/unselected records stay unavailable to that selected reader; checkpoint equality is local revision evidence, not a verified external ledger or semantic freshness claim. An explicitly pinned selection still refuses a changed selected revision."
+              },
+              "id": "hmk-reader",
+              "provenance": {
+                "author": "Maintaining project; individual passage authorship not inferred",
+                "git_revision": "84211b6fd5f5703c58876822e244eb7016c37843",
+                "reference": "https://github.com/nicoechaniz/hermes-memory-kit/blob/84211b6fd5f5703c58876822e244eb7016c37843/docs/live-mcp-recall.md",
+                "representation": "Inspected maintained source"
+              },
+              "reason": "Inspected relevant source",
+              "title": "Live HMK recall through a native MCP client",
+              "uri": "https://github.com/nicoechaniz/hermes-memory-kit/blob/84211b6fd5f5703c58876822e244eb7016c37843/docs/live-mcp-recall.md",
+              "version": "e0abf995c0cb08bafb1b6085d118de700b7ee35857a411c519b28150577fbc9e"
+            },
+            {
+              "anchors": [
+                "entry:note-1"
+              ],
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "excerpts": {
+                "entry:note-1": "Choose useful capabilities in other harnesses against a concrete receiving need. Preserve their provenance, and compare existing support before porting anything."
+              },
+              "id": "skills-bag",
+              "provenance": {
+                "author": "Nicolás & CompAII",
+                "bag_digest": "3ba3f7a5a901b7795e496ee29748363a2f3220f37a6864685fefcf6d0d144efd",
+                "date": "2026-10-12",
+                "reference": "Selected published skills-observatory bag, revision 1",
+                "representation": "Attributed summary"
+              },
+              "reason": "Another explicitly selected real bag, at unchanged revision 1.",
+              "title": "A cross-harness skills observatory",
+              "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/public/wiggle-stash/raw/skills-observatory.json",
+              "version": "bc17874b51542b60174e5450714ea1bd38e9cf6559ac71814c58e33c098df35a"
+            }
+          ],
+          "uncertainty": [
+            "This is an inspected, dated selection of relationships, not a complete inventory of every possible source or an internal-model state dump.",
+            "The first five bag notes are attributed summaries; their original conversation transcripts are not contained in this package."
+          ],
+          "understanding": ""
         }
       ],
       "reading_states": {
@@ -983,9 +1483,10 @@
           "changed_sources": [],
           "unverified_sources": [],
           "potential_context": [],
+          "discovery_checks": [],
           "revisit_suggested": false,
           "coverage": {
-            "scope": "Selected input and checked registered local source copies only",
+            "scope": "Selected input, registered local files and checked owner-bound HMK revisions only",
             "outside_index": "unknown",
             "upstream_state": "unknown",
             "index_truncated": false
@@ -1023,9 +1524,10 @@
               "uri": "https://github.com/compaii/wiggle-stash/blob/6c0e267/docs/READING-RECIPE.md"
             }
           ],
+          "discovery_checks": [],
           "revisit_suggested": true,
           "coverage": {
-            "scope": "Selected input and checked registered local source copies only",
+            "scope": "Selected input, registered local files and checked owner-bound HMK revisions only",
             "outside_index": "unknown",
             "upstream_state": "unknown",
             "index_truncated": false
@@ -1052,9 +1554,51 @@
           "changed_sources": [],
           "unverified_sources": [],
           "potential_context": [],
+          "discovery_checks": [],
           "revisit_suggested": false,
           "coverage": {
-            "scope": "Selected input and checked registered local source copies only",
+            "scope": "Selected input, registered local files and checked owner-bound HMK revisions only",
+            "outside_index": "unknown",
+            "upstream_state": "unknown",
+            "index_truncated": false
+          },
+          "reading_traversal_performed": false
+        },
+        "reading-20261013-d": {
+          "schema": "wiggle-stash.reading-state/v1",
+          "reading_id": "reading-20261013-d",
+          "generated_at": "2026-10-13T18:40:01.609796+00:00",
+          "input": {
+            "created_at": "2026-10-12T22:14:17.554032+00:00",
+            "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+            "revision": 1
+          },
+          "current": {
+            "revision": 1,
+            "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+            "created_at": "2026-10-12T22:14:17.554032+00:00"
+          },
+          "status": "reusable",
+          "reasons": [],
+          "checked_at": "2026-10-13T18:40:01.795027+00:00",
+          "changed_sources": [],
+          "unverified_sources": [],
+          "potential_context": [
+            {
+              "id": "definition",
+              "registered_at": "2026-10-13T03:05:15.852023+00:00",
+              "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/README.md"
+            },
+            {
+              "id": "reading-method",
+              "registered_at": "2026-10-13T03:05:15.855759+00:00",
+              "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/docs/DELTA.md"
+            }
+          ],
+          "discovery_checks": [],
+          "revisit_suggested": true,
+          "coverage": {
+            "scope": "Selected input, registered local files and checked owner-bound HMK revisions only",
             "outside_index": "unknown",
             "upstream_state": "unknown",
             "index_truncated": false
@@ -1069,20 +1613,24 @@
           "visibility": "public"
         },
         "bag_id": "wiggle-stash",
-        "checked_at": "2026-10-13T03:05:15.865259+00:00",
+        "checked_at": "2026-10-13T18:40:01.795027+00:00",
         "cost": {
-          "context_candidates": 0,
-          "known_sources": 4,
+          "context_candidates": 2,
+          "known_sources": 7,
+          "metadata_checkpoints": 0,
+          "navigation_provider_cost": "Configured retrieval cost not measured here",
+          "navigation_requests": 0,
           "reading_traversal_performed": false,
-          "source_bytes_checked": 17121
+          "source_bytes_checked": 34829
         },
         "coverage": {
           "candidate_limit": 32,
-          "discovery": "Bounded registered context index only",
+          "discovery": "Bounded registered context index and selected memory-navigation routes only",
           "index_truncated": false,
-          "known_source_versions": "Local registered copies, not unqueried upstream state",
+          "known_source_versions": "Registered local files and owner-bound HMK record revisions; upstream and external ledger state remain unknown",
           "outside_index": "unknown"
         },
+        "discovery_checks": [],
         "input": {
           "added": [],
           "changed": false,
@@ -1101,36 +1649,68 @@
         },
         "known_sources": [
           {
-            "checkpoint": "d39e3432fead7161475fb27d6c5c7798cbbab9d06d169ef7a0c0714e191eadb0",
-            "current_version": "d39e3432fead7161475fb27d6c5c7798cbbab9d06d169ef7a0c0714e191eadb0",
-            "id": "definition",
+            "checkpoint": "acac92fb11d58a0bb546ef77a24dee961a92f99c930bea36c929ca71030d8511",
+            "current_version": "acac92fb11d58a0bb546ef77a24dee961a92f99c930bea36c929ca71030d8511",
+            "id": "reading-direction",
             "status": "unchanged",
-            "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/README.md"
-          },
-          {
-            "checkpoint": "19606a451abff25e77003995600ba1d48adb042d1c681192e183a4304797a47a",
-            "current_version": "19606a451abff25e77003995600ba1d48adb042d1c681192e183a4304797a47a",
-            "id": "roadmap",
-            "status": "unchanged",
-            "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/ROADMAP.md"
-          },
-          {
-            "checkpoint": "2dafddeecaa48b61b128c7b22b468647fbe500e63bedc7b52b87247ec4f6b068",
-            "current_version": "2dafddeecaa48b61b128c7b22b468647fbe500e63bedc7b52b87247ec4f6b068",
-            "id": "reading-method",
-            "status": "unchanged",
-            "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/docs/DELTA.md"
+            "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/docs/ASSOCIATIONS.md"
           },
           {
             "checkpoint": "c6139d7fd393eff6fe650588c4cbc71056531e733d45c036488c24dd3735a83d",
             "current_version": "c6139d7fd393eff6fe650588c4cbc71056531e733d45c036488c24dd3735a83d",
             "id": "continuity",
             "status": "unchanged",
-            "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/docs/CONTINUITY.md"
+            "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/docs/CONTINUITY.md"
+          },
+          {
+            "checkpoint": "089cc1adf12ea9387e4bbecbef04457504908422129a38cd14b1c8a823b2b63d",
+            "current_version": "089cc1adf12ea9387e4bbecbef04457504908422129a38cd14b1c8a823b2b63d",
+            "id": "roadmap",
+            "status": "unchanged",
+            "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/ROADMAP.md"
+          },
+          {
+            "checkpoint": "e5ab7d6511cfb30d4c9e595253d331c30efd373d800c4ac68ef7a2a8d1e9a157",
+            "current_version": "e5ab7d6511cfb30d4c9e595253d331c30efd373d800c4ac68ef7a2a8d1e9a157",
+            "id": "shared-skills",
+            "status": "unchanged",
+            "uri": "https://github.com/AlterMundi/Skills/blob/3ebd126df87d4bc6a08f30fb96e58e8827061772/README.md"
+          },
+          {
+            "checkpoint": "802d7086707a1c27d80e5d7d6e4a0219d8e1f070a55eff9dff0f1ed8111d6b31",
+            "current_version": "802d7086707a1c27d80e5d7d6e4a0219d8e1f070a55eff9dff0f1ed8111d6b31",
+            "id": "foundation",
+            "status": "unchanged",
+            "uri": "https://github.com/AlterMundi/daimon-matrix/blob/2c443fdd39ca91529771ec7db369a55a1f2dea18/docs/foundation/daimon-matrix.md"
+          },
+          {
+            "checkpoint": "e0abf995c0cb08bafb1b6085d118de700b7ee35857a411c519b28150577fbc9e",
+            "current_version": "e0abf995c0cb08bafb1b6085d118de700b7ee35857a411c519b28150577fbc9e",
+            "id": "hmk-reader",
+            "status": "unchanged",
+            "uri": "https://github.com/nicoechaniz/hermes-memory-kit/blob/84211b6fd5f5703c58876822e244eb7016c37843/docs/live-mcp-recall.md"
+          },
+          {
+            "checkpoint": "bc17874b51542b60174e5450714ea1bd38e9cf6559ac71814c58e33c098df35a",
+            "current_version": "bc17874b51542b60174e5450714ea1bd38e9cf6559ac71814c58e33c098df35a",
+            "id": "skills-bag",
+            "status": "unchanged",
+            "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/public/wiggle-stash/raw/skills-observatory.json"
           }
         ],
-        "potential_context": [],
-        "reading_id": "reading-20261013-c",
+        "potential_context": [
+          {
+            "id": "definition",
+            "registered_at": "2026-10-13T03:05:15.852023+00:00",
+            "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/README.md"
+          },
+          {
+            "id": "reading-method",
+            "registered_at": "2026-10-13T03:05:15.855759+00:00",
+            "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/docs/DELTA.md"
+          }
+        ],
+        "reading_id": "reading-20261013-d",
         "schema": "wiggle-stash.delta/v1"
       },
       "package": {
@@ -1347,5 +1927,14 @@
         }
       }
     }
-  ]
+  ],
+  "edition_links": {
+    "self": "https://compaii.dmn.homes/wiggle-stash/",
+    "related": [
+      {
+        "label": "Shared edition",
+        "url": "https://compaii.dmn.homes/view/39f7995fd07940e497fd2bc8d3bc1e4e?display=work"
+      }
+    ]
+  }
 }

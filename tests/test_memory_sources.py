@@ -21,6 +21,7 @@ from pathlib import Path
 request=json.load(sys.stdin)
 Path(sys.argv[2]).open('a').write(json.dumps(request)+'\\n')
 state=json.loads(Path(sys.argv[1]).read_text())
+if 'response' in state:print(json.dumps(state['response']));sys.exit()
 result={'status':state['status'],'metadata_only':True,'content_loaded':False,'current_reference':{'record_uid':request['record_uid'],'revision':state['revision']}}
 if request['action']=='search':result={'status':state.get('search_status','ok'),'navigation_only':True,'items':state.get('items',[]),'retrieval':'lexical','detail':'Bounded synthetic navigation'}
 if state.get('raw'):result['raw']='Unexpected private original'
@@ -50,6 +51,15 @@ print(json.dumps({'being_ref':state.get('owner','fixture:being'),'pools':[{'pool
             self.state.write_text(json.dumps({'revision':1,'status':'ok',**fields}));result=read_cached(self.store,'ideas')
             self.assertEqual(result['state']['status'],'unverified');self.assertEqual(result['delta']['known_sources'][0]['status'],'unavailable')
             self.assertNotIn('Unexpected private original',json.dumps(result))
+
+    def test_malformed_json_shapes_are_unavailable_not_a_crashed_cache_request(self):
+        for response in [[],{'being_ref':'fixture:being','pools':[None]},
+            {'being_ref':'fixture:being','pools':[{'pool':'main','result':[]}]},
+            {'being_ref':'fixture:being','pools':[{'pool':'main','result':{'status':'ok','metadata_only':True,'content_loaded':False,'current_reference':None}}]}]:
+            self.state.write_text(json.dumps({'response':response}));result=read_cached(self.store,'ideas')
+            self.assertEqual(result['state']['status'],'unverified')
+            self.assertEqual(result['delta']['known_sources'][0]['status'],'unavailable')
+            self.assertEqual(result['reading']['input_snapshot'],self.input)
 
     def test_incompatible_source_and_public_registration_do_not_query_private_provider(self):
         selected=audience('individual',['human:other'])

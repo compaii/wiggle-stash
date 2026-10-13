@@ -5,20 +5,24 @@
     "visibility": "public"
   },
   "bag_id": "wiggle-stash",
-  "checked_at": "2026-10-13T03:05:15.865259+00:00",
+  "checked_at": "2026-10-13T18:40:01.795027+00:00",
   "cost": {
-    "context_candidates": 0,
-    "known_sources": 4,
+    "context_candidates": 2,
+    "known_sources": 7,
+    "metadata_checkpoints": 0,
+    "navigation_provider_cost": "Configured retrieval cost not measured here",
+    "navigation_requests": 0,
     "reading_traversal_performed": false,
-    "source_bytes_checked": 17121
+    "source_bytes_checked": 34829
   },
   "coverage": {
     "candidate_limit": 32,
-    "discovery": "Bounded registered context index only",
+    "discovery": "Bounded registered context index and selected memory-navigation routes only",
     "index_truncated": false,
-    "known_source_versions": "Local registered copies, not unqueried upstream state",
+    "known_source_versions": "Registered local files and owner-bound HMK record revisions; upstream and external ledger state remain unknown",
     "outside_index": "unknown"
   },
+  "discovery_checks": [],
   "input": {
     "added": [],
     "changed": false,
@@ -37,35 +41,67 @@
   },
   "known_sources": [
     {
-      "checkpoint": "d39e3432fead7161475fb27d6c5c7798cbbab9d06d169ef7a0c0714e191eadb0",
-      "current_version": "d39e3432fead7161475fb27d6c5c7798cbbab9d06d169ef7a0c0714e191eadb0",
-      "id": "definition",
+      "checkpoint": "acac92fb11d58a0bb546ef77a24dee961a92f99c930bea36c929ca71030d8511",
+      "current_version": "acac92fb11d58a0bb546ef77a24dee961a92f99c930bea36c929ca71030d8511",
+      "id": "reading-direction",
       "status": "unchanged",
-      "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/README.md"
-    },
-    {
-      "checkpoint": "19606a451abff25e77003995600ba1d48adb042d1c681192e183a4304797a47a",
-      "current_version": "19606a451abff25e77003995600ba1d48adb042d1c681192e183a4304797a47a",
-      "id": "roadmap",
-      "status": "unchanged",
-      "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/ROADMAP.md"
-    },
-    {
-      "checkpoint": "2dafddeecaa48b61b128c7b22b468647fbe500e63bedc7b52b87247ec4f6b068",
-      "current_version": "2dafddeecaa48b61b128c7b22b468647fbe500e63bedc7b52b87247ec4f6b068",
-      "id": "reading-method",
-      "status": "unchanged",
-      "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/docs/DELTA.md"
+      "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/docs/ASSOCIATIONS.md"
     },
     {
       "checkpoint": "c6139d7fd393eff6fe650588c4cbc71056531e733d45c036488c24dd3735a83d",
       "current_version": "c6139d7fd393eff6fe650588c4cbc71056531e733d45c036488c24dd3735a83d",
       "id": "continuity",
       "status": "unchanged",
-      "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/docs/CONTINUITY.md"
+      "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/docs/CONTINUITY.md"
+    },
+    {
+      "checkpoint": "089cc1adf12ea9387e4bbecbef04457504908422129a38cd14b1c8a823b2b63d",
+      "current_version": "089cc1adf12ea9387e4bbecbef04457504908422129a38cd14b1c8a823b2b63d",
+      "id": "roadmap",
+      "status": "unchanged",
+      "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/ROADMAP.md"
+    },
+    {
+      "checkpoint": "e5ab7d6511cfb30d4c9e595253d331c30efd373d800c4ac68ef7a2a8d1e9a157",
+      "current_version": "e5ab7d6511cfb30d4c9e595253d331c30efd373d800c4ac68ef7a2a8d1e9a157",
+      "id": "shared-skills",
+      "status": "unchanged",
+      "uri": "https://github.com/AlterMundi/Skills/blob/3ebd126df87d4bc6a08f30fb96e58e8827061772/README.md"
+    },
+    {
+      "checkpoint": "802d7086707a1c27d80e5d7d6e4a0219d8e1f070a55eff9dff0f1ed8111d6b31",
+      "current_version": "802d7086707a1c27d80e5d7d6e4a0219d8e1f070a55eff9dff0f1ed8111d6b31",
+      "id": "foundation",
+      "status": "unchanged",
+      "uri": "https://github.com/AlterMundi/daimon-matrix/blob/2c443fdd39ca91529771ec7db369a55a1f2dea18/docs/foundation/daimon-matrix.md"
+    },
+    {
+      "checkpoint": "e0abf995c0cb08bafb1b6085d118de700b7ee35857a411c519b28150577fbc9e",
+      "current_version": "e0abf995c0cb08bafb1b6085d118de700b7ee35857a411c519b28150577fbc9e",
+      "id": "hmk-reader",
+      "status": "unchanged",
+      "uri": "https://github.com/nicoechaniz/hermes-memory-kit/blob/84211b6fd5f5703c58876822e244eb7016c37843/docs/live-mcp-recall.md"
+    },
+    {
+      "checkpoint": "bc17874b51542b60174e5450714ea1bd38e9cf6559ac71814c58e33c098df35a",
+      "current_version": "bc17874b51542b60174e5450714ea1bd38e9cf6559ac71814c58e33c098df35a",
+      "id": "skills-bag",
+      "status": "unchanged",
+      "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/public/wiggle-stash/raw/skills-observatory.json"
     }
   ],
-  "potential_context": [],
-  "reading_id": "reading-20261013-c",
+  "potential_context": [
+    {
+      "id": "definition",
+      "registered_at": "2026-10-13T03:05:15.852023+00:00",
+      "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/README.md"
+    },
+    {
+      "id": "reading-method",
+      "registered_at": "2026-10-13T03:05:15.855759+00:00",
+      "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/docs/DELTA.md"
+    }
+  ],
+  "reading_id": "reading-20261013-d",
   "schema": "wiggle-stash.delta/v1"
 }

@@ -30,6 +30,20 @@ function node(tag, className, text) {
   if (text !== undefined) element.textContent = text;
   return element;
 }
+function webReference(label, address) {
+  const link=node('a','',label);link.href=address;
+  if(window.parent!==window) {
+    link.textContent='Copy link: '+label;
+    link.addEventListener('click',async event=>{
+      event.preventDefault();
+      let result=link.nextElementSibling;
+      if(!result?.classList.contains('link-copy-result')){result=node('span','link-copy-result');result.setAttribute('role','status');link.after(result);}
+      try {await navigator.clipboard.writeText(link.href);result.textContent='Link copied. Open it in your browser.';}
+      catch {result.textContent='Open this address in your browser: '+link.href;}
+    });
+  }
+  return link;
+}
 function activeBag() { return bags.find(bag => bag.id === activeId); }
 function noteCount(bag) { return (bag.notes || []).length; }
 function stateName(bag) { return bag.state === 'seed' ? 'Seed' : bag.state === 'resting' ? 'Resting' : 'In progress'; }
@@ -306,8 +320,8 @@ function renderEntry(animate = false) {
     for (const reference of bag.references) {
       const url = new URL(reference.url);
       if (!['https:','http:'].includes(url.protocol)) continue;
-      const link = node('a', 'reference-card'); link.href = url.href;
-      link.append(node('strong', '', reference.title + ' ↗'), node('span', '', url.hostname));
+      const link = webReference(reference.title,url.href);link.className='reference-card';
+      link.replaceChildren(node('strong', '', reference.title + ' ↗'), node('span', '', url.hostname),node('span','',window.parent!==window?'Copy link':'Open link'));
       entry.append(link);
     }
     if (!bag.references.length) entry.append(node('p', 'source-detail', 'No references have been gathered yet.'));
@@ -355,7 +369,7 @@ function renderAssociations(reading) {
           basis.append(node('p','source-detail','Locator: '+(source.locators?.[evidence.anchor]||evidence.anchor)));
         }
         if(source.provenance)for(const [key,value] of Object.entries(source.provenance))basis.append(node('p','source-detail',key+': '+(typeof value==='string'?value:JSON.stringify(value))));
-        if(/^https?:\/\//.test(source.uri)) {const link=node('a','','Open the inspected source ↗');link.href=source.uri;basis.append(link);}
+        if(/^https?:\/\//.test(source.uri))basis.append(webReference('Inspected source ↗',source.uri));
         else basis.append(node('p','source-detail','Memory reference: '+source.uri+' · we can retrieve this source in our conversation.'));
         card.append(basis);
       }group.append(card);
@@ -423,7 +437,7 @@ async function loadBook() {
     editionAddress=data.edition_links?.self?editionLink(data.edition_links.self):'https://compaii.dmn.homes/wiggle-stash/';
     const editions=document.querySelector('#edition-links');editions.replaceChildren();
     for(const related of data.edition_links?.related||[]) {
-      const link=node('a','',related.label);link.href=editionLink(related.url);editions.append(link);
+      editions.append(webReference(related.label,editionLink(related.url)));
     }
     editions.hidden=!editions.childElementCount;
     const sameAudience=(a,b)=>a.visibility===b.visibility&&JSON.stringify([...(a.recipients||[])].sort())===JSON.stringify([...(b.recipients||[])].sort())&&JSON.stringify([...(a.tribes||[])].sort())===JSON.stringify([...(b.tribes||[])].sort());

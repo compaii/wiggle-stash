@@ -31,9 +31,9 @@ def request(binding, action, pool, uid='', query=''):
         if len(result.stdout.encode())>32768:raise ValueError('Memory response exceeds its bounded size')
         value=json.loads(result.stdout)
     except (OSError,subprocess.SubprocessError,json.JSONDecodeError):raise ValueError('Selected memory provider is unavailable') from None
-    if value.get('being_ref')!=binding['being_ref']:raise ValueError('Memory response owner mismatch')
+    if not isinstance(value,dict) or value.get('being_ref')!=binding['being_ref']:raise ValueError('Memory response owner mismatch')
     pools=value.get('pools')
-    if not isinstance(pools,list) or len(pools)!=1 or pools[0].get('pool')!=pool:raise ValueError('Memory response pool mismatch')
+    if not isinstance(pools,list) or len(pools)!=1 or not isinstance(pools[0],dict) or pools[0].get('pool')!=pool or not isinstance(pools[0].get('result'),dict):raise ValueError('Memory response pool mismatch')
     return pools[0]['result']
 
 
@@ -42,7 +42,7 @@ def version(binding):
     current=result.get('current_reference',{})
     if result.get('status')!='ok' or result.get('metadata_only') is not True or result.get('content_loaded') is not False or 'raw' in result or 'record' in result:
         raise ValueError('Memory checkpoint unavailable or not metadata-only')
-    if current.get('record_uid')!=binding['record_uid'] or type(current.get('revision')) is not int or current['revision']<1:
+    if not isinstance(current,dict) or current.get('record_uid')!=binding['record_uid'] or type(current.get('revision')) is not int or current['revision']<1:
         raise ValueError('Memory checkpoint identity/version mismatch')
     return str(current['revision']),0
 

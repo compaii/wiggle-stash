@@ -21,9 +21,10 @@
     "changed_sources": [],
     "unverified_sources": [],
     "potential_context": [],
+    "discovery_checks": [],
     "revisit_suggested": false,
     "coverage": {
-      "scope": "Selected input and checked registered local source copies only",
+      "scope": "Selected input, registered local files and checked owner-bound HMK revisions only",
       "outside_index": "unknown",
       "upstream_state": "unknown",
       "index_truncated": false
@@ -61,9 +62,10 @@
         "uri": "https://github.com/compaii/wiggle-stash/blob/6c0e267/docs/READING-RECIPE.md"
       }
     ],
+    "discovery_checks": [],
     "revisit_suggested": true,
     "coverage": {
-      "scope": "Selected input and checked registered local source copies only",
+      "scope": "Selected input, registered local files and checked owner-bound HMK revisions only",
       "outside_index": "unknown",
       "upstream_state": "unknown",
       "index_truncated": false
@@ -90,9 +92,51 @@
     "changed_sources": [],
     "unverified_sources": [],
     "potential_context": [],
+    "discovery_checks": [],
     "revisit_suggested": false,
     "coverage": {
-      "scope": "Selected input and checked registered local source copies only",
+      "scope": "Selected input, registered local files and checked owner-bound HMK revisions only",
+      "outside_index": "unknown",
+      "upstream_state": "unknown",
+      "index_truncated": false
+    },
+    "reading_traversal_performed": false
+  },
+  "reading-20261013-d": {
+    "schema": "wiggle-stash.reading-state/v1",
+    "reading_id": "reading-20261013-d",
+    "generated_at": "2026-10-13T18:40:01.609796+00:00",
+    "input": {
+      "created_at": "2026-10-12T22:14:17.554032+00:00",
+      "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+      "revision": 1
+    },
+    "current": {
+      "revision": 1,
+      "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+      "created_at": "2026-10-12T22:14:17.554032+00:00"
+    },
+    "status": "reusable",
+    "reasons": [],
+    "checked_at": "2026-10-13T18:40:01.795027+00:00",
+    "changed_sources": [],
+    "unverified_sources": [],
+    "potential_context": [
+      {
+        "id": "definition",
+        "registered_at": "2026-10-13T03:05:15.852023+00:00",
+        "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/README.md"
+      },
+      {
+        "id": "reading-method",
+        "registered_at": "2026-10-13T03:05:15.855759+00:00",
+        "uri": "https://github.com/compaii/wiggle-stash/blob/2061258fa79e090dfcc8dc40d116bd917aa52878/docs/DELTA.md"
+      }
+    ],
+    "discovery_checks": [],
+    "revisit_suggested": true,
+    "coverage": {
+      "scope": "Selected input, registered local files and checked owner-bound HMK revisions only",
       "outside_index": "unknown",
       "upstream_state": "unknown",
       "index_truncated": false
