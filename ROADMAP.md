@@ -1,18 +1,20 @@
 # Wiggle Stash roadmap
 
-The [umbrella issue](https://github.com/compaii/wiggle-stash/issues/1) tracks completion. Issues own current status and acceptance evidence; this file records the delivery order selected with Nicolás on 2026-10-12.
+The [umbrella issue](https://github.com/compaii/wiggle-stash/issues/1) tracks completion. Issues own current status and acceptance evidence; this file records the delivery order selected with Nicolás on 2026-10-12 and revised on 2026-10-13: finish the standalone Stash before returning to Nexus.
 
 | Stage | Issue | Result | Dependencies |
 | --- | --- | --- | --- |
 | First useful loop | [#2](https://github.com/compaii/wiggle-stash/issues/2) | Conversational note/link capture, immutable revisions and matching human/AI packages | None |
 | Original evidence | [#3](https://github.com/compaii/wiggle-stash/issues/3) | Files/audio, original bytes, transcripts and selected linked content | #2 |
 | Situated reading | [#4](https://github.com/compaii/wiggle-stash/issues/4) | Known traversal, dated understanding and evidenced connections, retaining earlier readings | #2; #3 when media is included |
-| Delta | [#5](https://github.com/compaii/wiggle-stash/issues/5) | Cheap comparison to the last reading, with explicit coverage limits | #2 and #4 checkpoint |
-| Optional exploration | [#6](https://github.com/compaii/wiggle-stash/issues/6) | Version-pinned Nexus visit and selected output destinations | #2 and receiving Nexus contract |
+| Delta | [#5](https://github.com/compaii/wiggle-stash/issues/5) | Cheap comparison and explicit cached-reading reuse, stale and unverified states, with coverage limits | #2 and #4 checkpoint |
 | Portable continuity | [#7](https://github.com/compaii/wiggle-stash/issues/7) | Full export/recovery and audience-preserving sharing | #2; extends #3/#4 |
 | Shared visual language | [#8](https://github.com/compaii/wiggle-stash/issues/8) | Star Trek / Resonancia design with useful navigation | Parallel; consumes #2 package contract |
+| Optional exploration — last | [#6](https://github.com/compaii/wiggle-stash/issues/6) | Version-pinned Nexus visit and selected output destinations | Standalone acceptance for #3–5/#7–8, then the receiving Nexus contract |
 
 Continuity, original wording and chosen privacy apply from the first increment. A bag stays useful through ordinary conversation without requiring Nexus, a project commitment or a deadline. Public presentation is a selected edition, not blanket publication of all captured input.
+
+Existing Nexus preparation and its evidence remain preserved. Further Nexus development and human exploration belong to the last stage; they do not delay the independent Stash capture, reading, change-check or continuity experience.
 
 ## Daimon Field relationship
 

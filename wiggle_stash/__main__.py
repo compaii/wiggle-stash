@@ -63,6 +63,7 @@ def main():
     migrate.add_argument('--file',type=Path,required=True); migrate.add_argument('--operation-prefix',required=True)
     edition = commands.add_parser('export-edition')
     edition.add_argument('--bag',action='append',required=True); edition.add_argument('--output',type=Path,required=True)
+    edition.add_argument('--visibility',default='public',choices=['public','human','individual','tribe','vpn']);edition.add_argument('--recipient',action='append',default=[]);edition.add_argument('--tribe',action='append',default=[])
     args = parser.parse_args()
     store = None
     try:
@@ -121,7 +122,7 @@ def main():
         elif args.command == 'import-edition':
             store.import_edition(json.loads(args.file.read_text()),args.operation_prefix); result = store.list()
         else:
-            result = store.edition(args.bag); write_edition(args.output,result,store.directory)
+            result = store.edition(args.bag,audience(args.visibility,args.recipient,args.tribe)); write_edition(args.output,result,store.directory)
             result = {'status':'generated','bags':[{'id':b['id'],'version':b['package']['version']} for b in result['bags']]}
         print(json.dumps(result,ensure_ascii=False,indent=2))
     except (ValueError, OSError, KeyError, sqlite3.DatabaseError, zipfile.BadZipFile) as error:

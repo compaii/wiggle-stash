@@ -120,7 +120,7 @@ function renderContext() {
   context.append(meta, node('h2', 'bag-title', bag.shortTitle || bag.title), node('p', 'bag-subtitle', bag.subtitle), node('p', 'contents-title', 'INSIDE THIS WIGGLE BAG'));
   const contents = node('div', 'contents');
   contents.setAttribute('role', 'group'); contents.setAttribute('aria-label', 'Wiggle bag contents');
-  for (const item of [{id:'notes',label:'Notes',count:noteCount(bag)}, {id:'materials',label:'Materials',count:(bag.materials||[]).length}, {id:'references',label:'References',count:bag.references.length}, {id:'understanding',label:'My reading',count:(bag.readings||[]).length}, {id:'delta',label:'Since my reading',count:bag.delta?'•':'—'}, {id:'next',label:'Next step',count:'↗'}]) {
+  for (const item of [{id:'notes',label:'Notes',count:noteCount(bag)}, {id:'materials',label:'Materials',count:(bag.materials||[]).length}, {id:'references',label:'References',count:bag.references.length}, {id:'understanding',label:'My reading',count:(bag.readings||[]).length}, {id:'delta',label:'Since my reading',count:bag.delta?'•':'—'}, ...((bag.next||bag.occasion)?[{id:'next',label:'Next step',count:'↗'}]:[])]) {
     const button = node('button', '', item.label);
     button.type = 'button'; button.dataset.section = item.id;
     button.setAttribute('aria-pressed', String(section === item.id));
@@ -138,7 +138,8 @@ function renderContext() {
   const mobileWhy = node('div', 'mobile-why');
   mobileWhy.append(node('h3', '', 'Why keep this?'), node('p', '', bag.why), node('p', '', 'By ' + bag.author));
   details.append(mobileWhy, node('h3', '', 'What it could become'), node('p', '', bag.possibility), node('h3', '', 'Where it began'), node('p', '', bag.origin), node('h3', '', 'This edition'), node('p', '', bag.boundary));
-  context.append(contents, details);
+  context.append(contents);
+  if(bag.why||bag.possibility||bag.origin||bag.boundary)context.append(details);
 }
 function renderEntry(animate = false) {
   const bag = activeBag();
@@ -358,12 +359,16 @@ async function loadBook() {
     if(!response.ok)throw new Error('Collection unavailable');
     const data=await response.json();
     if(!Array.isArray(data.bags))throw new Error('Invalid collection');
+    const selectedAudience=data.audience||{visibility:'public',recipients:[],tribes:[]};
+    if(!['public','human','individual','tribe','vpn'].includes(selectedAudience.visibility))throw new Error('Invalid edition audience');
+    const sameAudience=(a,b)=>a.visibility===b.visibility&&JSON.stringify([...(a.recipients||[])].sort())===JSON.stringify([...(b.recipients||[])].sort())&&JSON.stringify([...(a.tribes||[])].sort())===JSON.stringify([...(b.tribes||[])].sort());
+    document.querySelector('.public-label').textContent={public:'Public reading edition',human:'Paired-human reading edition',individual:'Selected-reader edition',tribe:'Selected-tribe edition',vpn:'Dedicated-VPN edition'}[selectedAudience.visibility];
     bags=data.bags;
     // The package is the selected content; display fields are a rebuildable view.
     for(const bag of bags) {
       const pack=bag.package;
       if(!pack || pack.schema!=='wiggle-stash.bag/v1')throw new Error('Missing shared package');
-      if(pack.bag.id!==bag.id || pack.bag.audience.visibility!=='public')throw new Error('Invalid package audience');
+      if(pack.bag.id!==bag.id || (pack.bag.audience.visibility!=='public'&&!sameAudience(pack.bag.audience,selectedAudience)))throw new Error('Invalid package audience');
       bag.title=pack.bag.title;
       bag.notes=pack.entries.filter(item=>item.kind==='note').map(item=>({id:item.id,title:item.title,body:item.text,author:item.author,date:item.source.date||item.captured_at.slice(0,10),source:item.source.reference,representation:item.representation}));
       bag.references=pack.entries.filter(item=>item.kind==='link').map(item=>({id:item.id,title:item.title,url:item.url}));

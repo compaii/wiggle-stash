@@ -21,3 +21,9 @@ The selection covers Wiggle Stash bags and chosen recovery copies only. It grant
 Use the installed daimon-home publisher, preserving resource identity/history and explicit visibility. Its shared Matrix resource registry supports public, paired human, VPN, selected individuals and selected tribes with independent enforcement. A receiving adapter that lacks an audience must refuse it, never broaden to complete publication. Every preview, original, range and dependency follows current and original audience checks. The public catalog omits private titles and bytes.
 
 Qualification includes allowed/denied reads and revocation for every audience in the owning Cluster tests, plus a live selected-individual recovery copy: anonymous original/metadata reads are denied, an authorized current body retrieves exact selected bytes and restores all real bag versions/readings/checks independently. This does not claim that another human or being has opened the copy; they use their own existing authenticated access, without shared credentials.
+
+## Selected reader editions
+
+`export-edition --bag ID --output DIRECTORY` defaults to public and refuses private input. Select `--visibility human|individual|tribe|vpn` and its resolved `--recipient` or `--tribe` references for a private edition. A private bag requires its identical chosen audience; compatible public input can also appear there. The edition includes only public readings/checks or those with that same selected audience, retaining exact input versions and the matching raw packages. Private generated directories are owner-only.
+
+Copy the maintained reader assets into that private directory, then publish only that selected directory with the same explicit audience using the installed home publisher. Generation creates no grant or publication. The reader labels the edition's chosen scope; enforcement belongs to the shared authority. A private reading of public input does not enter the public edition.

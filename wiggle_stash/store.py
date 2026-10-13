@@ -225,15 +225,18 @@ class Store:
             return payload
         return self._write(bag_id,{'action':'annotate','annotation':annotation},operation_id,expected_revision,change)
 
-    def edition(self, bag_ids):
-        if not bag_ids or len(set(bag_ids)) != len(bag_ids): raise ValueError('Select distinct public bags explicitly')
+    def edition(self, bag_ids, selected_audience=None):
+        if not bag_ids or len(set(bag_ids)) != len(bag_ids): raise ValueError('Select distinct bags explicitly')
+        selected_audience=selected_audience or audience('public')
+        audience(selected_audience['visibility'],selected_audience['recipients'],selected_audience['tribes'])
         bags = []
         for bag_id in bag_ids:
             package = self.package(bag_id)
-            if package['bag']['audience']['visibility'] != 'public':
-                raise ValueError('Non-public bag cannot enter a public edition: ' + bag_id)
+            original=package['bag']['audience']
+            if original['visibility']!='public' and original!=selected_audience:
+                raise ValueError('Non-public bag requires its identical selected audience: '+bag_id)
             from .media import attachments, verify
-            for original in attachments(package): verify(self.directory,original)
+            for attachment in attachments(package): verify(self.directory,attachment)
             defaults = {'subtitle':'Ideas in continuous creation.', 'domain':'Ideas', 'state':'seed', 'author':'',
                 'steward':'CompAII', 'origin':'', 'why':'', 'possibility':'', 'next':'', 'occasion':'', 'boundary':''}
             presentation = {**defaults, **package['presentation']}
@@ -244,20 +247,23 @@ class Store:
             materials = [{**e,'content_path':content_path(e['attachment'])} for e in package['entries'] if 'attachment' in e]
             annotations = [{**a,'content_path':content_path(a['attachment'])} for a in package.get('annotations',[])]
             from .readings import list_readings
-            readings = [r for r in list_readings(self,bag_id) if r['audience']['visibility']=='public']
+            readings = [r for r in list_readings(self,bag_id) if r['audience']['visibility']=='public' or r['audience']==selected_audience]
             from .delta import latest
             delta=latest(self,bag_id)
-            if delta and delta['audience']['visibility']!='public':delta=None
-            bags.append({**presentation, 'id':bag_id, 'title':package['bag']['title'], 'audience':'Public', 'notes':notes, 'references':links, 'materials':materials,'annotations':annotations,'readings':readings,'delta':delta, 'package':package})
-        return {'schema':'wiggle-stash.public-edition/v1', 'edition':now()[:10], 'bags':bags}
+            if delta and delta['audience']['visibility']!='public' and delta['audience']!=selected_audience:delta=None
+            bags.append({**presentation, 'id':bag_id, 'title':package['bag']['title'], 'audience':{'public':'Public','human':'Paired human','individual':'Selected individuals','tribe':'Selected tribe','vpn':'Dedicated VPN'}[original['visibility']], 'notes':notes, 'references':links, 'materials':materials,'annotations':annotations,'readings':readings,'delta':delta, 'package':package})
+        return {'schema':'wiggle-stash.public-edition/v1' if selected_audience['visibility']=='public' else 'wiggle-stash.reading-edition/v1','audience':selected_audience,'edition':now()[:10],'bags':bags}
 
 def write_edition(directory, edition, store_directory=None):
     """Generate selected data only; do not invoke publication or a server."""
     directory = Path(directory)
-    directory.mkdir(parents=True, exist_ok=True)
     # Validate every audience before any bytes are written.
+    selected_audience=edition.get('audience',audience('public'))
     for bag in edition['bags']:
-        if bag['package']['bag']['audience']['visibility'] != 'public': raise ValueError('Non-public export refused')
+        original=bag['package']['bag']['audience']
+        if original['visibility']!='public' and original!=selected_audience: raise ValueError('Non-public export audience mismatch')
+    directory.mkdir(parents=True, exist_ok=True, mode=0o700 if selected_audience['visibility']!='public' else 0o755)
+    if selected_audience['visibility']!='public': directory.chmod(0o700)
     from .media import attachments, export_objects
     selected = [b['package'] for b in edition['bags']]
     if any(attachments(p) for p in selected) and store_directory is None: raise ValueError('Media export requires its selected store')

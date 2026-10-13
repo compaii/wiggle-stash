@@ -1,5 +1,10 @@
 {
   "schema": "wiggle-stash.public-edition/v1",
+  "audience": {
+    "visibility": "public",
+    "recipients": [],
+    "tribes": []
+  },
   "edition": "2026-10-13",
   "bags": [
     {
