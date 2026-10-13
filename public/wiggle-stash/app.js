@@ -20,6 +20,8 @@ let activeId = null;
 let section = 'notes';
 let noteIndex = 0;
 let overview = false;
+let readingIndex = null;
+let missingReadingId = null;
 
 function node(tag, className, text) {
   const element = document.createElement(tag);
@@ -69,6 +71,8 @@ function renderCollection(matchNote = false) {
   }
   if (!selected.some(bag => bag.id === activeId)) {
     activeId = selected[0].id;
+    readingIndex=null;
+    missingReadingId=null;
     section = 'notes'; noteIndex = 0; overview = false;
   }
   if (matchNote && search.value.trim()) {
@@ -91,7 +95,7 @@ function renderCollection(matchNote = false) {
     copy.append(node('span', 'choice-domain', bag.domain), node('span', 'choice-title', bag.shortTitle || bag.title), node('span', 'choice-count', `${noteCount(bag)} ${noteCount(bag) === 1 ? 'note' : 'notes'}${originals?' · '+originals+' '+(originals===1?'original':'originals'):''} · ${bag.references.length} ${bag.references.length === 1 ? 'link' : 'links'}`));
     button.append(cover, copy);
     button.addEventListener('click', () => {
-      activeId = bag.id; section = 'notes'; noteIndex = 0; overview = false;
+      activeId = bag.id; section = 'notes'; noteIndex = 0; overview = false;readingIndex=null;missingReadingId=null;
       renderCollection();
       if (innerWidth <= 650) document.querySelector('#notebook').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start'});
     });
@@ -116,13 +120,14 @@ function renderContext() {
   context.append(meta, node('h2', 'bag-title', bag.shortTitle || bag.title), node('p', 'bag-subtitle', bag.subtitle), node('p', 'why-label', 'Why keep this?'), node('p', 'why-body', bag.why), node('p', 'bag-author', 'By ' + bag.author), node('p', 'contents-title', 'INSIDE THIS WIGGLE BAG'));
   const contents = node('div', 'contents');
   contents.setAttribute('role', 'group'); contents.setAttribute('aria-label', 'Wiggle bag contents');
-  for (const item of [{id:'notes',label:'Notes',count:noteCount(bag)}, {id:'materials',label:'Materials',count:(bag.materials||[]).length}, {id:'references',label:'References',count:bag.references.length}, {id:'next',label:'Next step',count:'↗'}]) {
+  for (const item of [{id:'notes',label:'Notes',count:noteCount(bag)}, {id:'materials',label:'Materials',count:(bag.materials||[]).length}, {id:'references',label:'References',count:bag.references.length}, {id:'understanding',label:'My reading',count:(bag.readings||[]).length}, {id:'next',label:'Next step',count:'↗'}]) {
     const button = node('button', '', item.label);
     button.type = 'button'; button.dataset.section = item.id;
     button.setAttribute('aria-pressed', String(section === item.id));
     button.append(node('span', '', String(item.count)));
     button.addEventListener('click', () => {
       section = item.id; overview = false;
+      if(section==='understanding')missingReadingId=null;
       document.querySelectorAll('[data-section]').forEach(control => control.setAttribute('aria-pressed', String(control.dataset.section === section)));
       renderEntry(true); updateHash();
     });
@@ -142,7 +147,7 @@ function renderEntry(animate = false) {
   noteIndex = Math.max(0, Math.min(notes.length - 1, noteIndex));
   const focusedNote = document.activeElement?.dataset.note;
   entry.replaceChildren(); index.replaceChildren();
-  document.querySelector('#entry-section').textContent = {notes:'LOOSE NOTES',materials:'ORIGINAL MATERIAL',references:'FOLLOW THE THREADS',next:'A POSSIBLE NEXT STEP'}[section];
+  document.querySelector('#entry-section').textContent = {notes:'LOOSE NOTES',materials:'ORIGINAL MATERIAL',references:'FOLLOW THE THREADS',understanding:'AN ATTRIBUTED READING',next:'A POSSIBLE NEXT STEP'}[section];
   document.querySelector('#show-notes').hidden = section !== 'notes' || !notes.length;
   document.querySelector('#show-notes').textContent = overview ? 'Back to the note' : 'All notes';
   index.hidden = section !== 'notes' || overview || !notes.length;
@@ -175,6 +180,43 @@ function renderEntry(animate = false) {
       const note = notes[noteIndex];
       const title = node('h3', 'note-heading', note.title); title.id = 'entry-title';
       entry.append(title, node('p', 'note-body', note.body), node('p', 'note-attribution', note.author + ' · ' + note.date), node('span', 'note-type', note.representation === 'literal' ? 'Original note · exact wording' : 'Conversation note · summarized'), node('p', 'source-detail', 'Source: ' + note.source));
+    }
+  } else if(section === 'understanding') {
+    const readings=bag.readings||[];
+    if(missingReadingId) {
+      const title=node('h3','note-heading','That reading is not in this edition.');title.id='entry-title';
+      const current=node('button','material-download','Open the current reading');current.type='button';
+      current.addEventListener('click',()=>{missingReadingId=null;readingIndex=null;renderEntry();updateHash();});
+      entry.append(title,node('p','note-body','We can return to the selected reading, or discuss another version in our conversation.'),current);
+    } else if(!readings.length) {
+      const title=node('h3','note-heading','A reading can begin here.');title.id='entry-title';entry.append(title,node('p','note-body','We can generate my understanding and connections in our conversation. It will keep its date, sources and earlier readings, alongside your input.'));
+    } else {
+      if(readingIndex===null || readingIndex>=readings.length)readingIndex=readings.length-1;
+      const reading=readings[readingIndex];
+      const title=node('h3','note-heading',reading.author+'’s understanding');title.id='entry-title';
+      entry.append(title,node('p','note-attribution','Generated '+reading.generated_at.slice(0,16).replace('T',' ')+' UTC · input revision '+reading.input.revision));
+      if(reading.input.digest!==bag.package.version.digest)entry.append(node('p','reading-change','The bag has changed since this reading. Its original input is still preserved.'));
+      const history=node('div','reading-history');history.setAttribute('role','group');history.setAttribute('aria-label','Reading history');
+      readings.forEach((item,position)=>{const button=node('button','','Reading '+(position+1));button.type='button';button.setAttribute('aria-pressed',String(position===readingIndex));button.addEventListener('click',()=>{readingIndex=position;renderEntry();updateHash();});history.append(button);});
+      entry.append(history,node('p','note-body',reading.understanding),node('h4','connections-heading','Connections I see'));
+      const map=node('div','connection-map');
+      for(const connection of reading.connections) {
+        const card=node('section','connection-card');
+        card.append(node('h5','',connection.target.label),node('span','connection-status',{supported:'From the sources',interpretation:'My interpretation',possibility:'A possibility'}[connection.relation]),node('p','',connection.explanation));
+        for(const evidence of connection.evidence) {
+          const source=reading.sources.find(item=>item.id===evidence.source_id);
+          const details=document.createElement('details');details.append(node('summary','','Inspect the basis'));
+          if(evidence.source_id==='bag' && evidence.anchor.startsWith('entry:')) {
+            const original=reading.input_snapshot?.entries.find(item=>item.id===evidence.anchor.slice(6));
+            if(original)details.append(node('strong','',original.title),node('p','note-body',original.text||original.url||original.attachment?.original_name),node('p','source-detail',original.author+' · '+original.representation+' · input revision '+reading.input.revision));
+          } else details.append(node('p','note-body',source?.excerpts?.[evidence.anchor]||'Source anchor: '+evidence.anchor),node('p','source-detail',source?.reason||''));
+          card.append(details);
+        }map.append(card);
+      }entry.append(map);
+      if(reading.questions.length){entry.append(node('h4','connections-heading','What remains open'));for(const question of reading.questions)entry.append(node('p','',question));}
+      if(reading.coverage){const details=document.createElement('details');details.append(node('summary','','Uncertainty and coverage'));for(const text of reading.uncertainty)details.append(node('p','',text));details.append(node('p','source-detail',reading.coverage.description||'Only the identified sources were inspected.'));for(const exclusion of reading.exclusions)details.append(node('p','source-detail',typeof exclusion==='string'?exclusion:exclusion.reason));entry.append(details);}
+      if(reading.changes.length){const details=document.createElement('details');details.append(node('summary','','What changed in this reading'));for(const change of reading.changes)details.append(node('p','',change));entry.append(details);}
+      entry.append(node('p','source-detail','Method: foreground reading recipe, version 1. Your selected input is kept separately.'));
     }
   } else if(section === 'materials') {
     const title=node('h3','note-heading','The materials gathered here');title.id='entry-title';entry.append(title);
@@ -239,7 +281,7 @@ function renderEntry(animate = false) {
   if (!document.querySelector('#entry-title')) {
     const title = entry.querySelector('h3'); if (title) title.id='entry-title';
   }
-  document.querySelector('#page-position').textContent = section === 'notes' ? (overview ? `${notes.length} gathered notes` : notes.length ? `Note ${noteIndex+1} of ${notes.length}` : 'No notes yet') : section === 'materials' ? `${(bag.materials||[]).length} original materials` : section === 'references' ? `${bag.references.length} linked ${bag.references.length===1?'place':'places'}` : 'A possibility, ready to revisit';
+  document.querySelector('#page-position').textContent = section === 'notes' ? (overview ? `${notes.length} gathered notes` : notes.length ? `Note ${noteIndex+1} of ${notes.length}` : 'No notes yet') : section === 'materials' ? `${(bag.materials||[]).length} original materials` : section === 'understanding' ? (missingReadingId?'Reading unavailable in this edition':bag.readings?.length?'Reading '+(readingIndex+1)+' of '+bag.readings.length:'No reading generated yet') : section === 'references' ? `${bag.references.length} linked ${bag.references.length===1?'place':'places'}` : 'A possibility, ready to revisit';
   const turns = document.querySelector('.page-turns'); turns.hidden = section !== 'notes' || overview || !notes.length;
   document.querySelector('#previous').disabled = noteIndex === 0;
   document.querySelector('#next').disabled = noteIndex >= notes.length - 1;
@@ -253,17 +295,24 @@ function renderEntry(animate = false) {
 }
 function updateHash() {
   if (!activeBag()) return;
-  const tail = section === 'notes' ? overview ? '/notes' : '/note/' + (noteIndex+1) : '/' + section;
+  const reading=section==='understanding'?(activeBag().readings||[])[readingIndex]:null;
+  const tail = section === 'notes' ? overview ? '/notes' : '/note/' + (noteIndex+1) : section==='understanding'&&(reading||missingReadingId)?'/understanding/'+(missingReadingId||reading.id):'/' + section;
   history.replaceState(null, '', '#bag/' + activeId + tail);
   if (window.parent !== window) {
     window.parent.postMessage({type:'home-artifact:fragment',fragment:location.hash}, '*');
   }
 }
 function readHash() {
-  const match = location.hash.match(/^#bag\/([^/]+)(?:\/(notes|note|materials|references|next)(?:\/(\d+))?)?$/);
+  const match = location.hash.match(/^#bag\/([^/]+)(?:\/(notes|note|materials|references|understanding|next)(?:\/([a-z0-9-]+))?)?$/);
   if (!match || !bags.some(bag => bag.id === match[1])) return;
-  activeId = match[1]; section = ['materials','references','next'].includes(match[2]) ? match[2] : 'notes';
-  noteIndex = match[3] ? Math.max(0,Number(match[3])-1) : 0;
+  if(activeId!==match[1])readingIndex=null;
+  activeId = match[1]; section = ['materials','references','understanding','next'].includes(match[2]) ? match[2] : 'notes';
+  if(section==='understanding') {
+    const selected=(activeBag().readings||[]).findIndex(reading=>reading.id===match[3]);
+    readingIndex=selected>=0?selected:null;
+    missingReadingId=match[3]&&selected<0?match[3]:null;
+  }
+  noteIndex = section==='notes'&&/^\d+$/.test(match[3]||'') ? Math.max(0,Number(match[3])-1) : 0;
   overview = match[2] === 'notes';
   // A direct public link remains reachable even after a collection filter.
   search.value = ''; view = 'seeds';

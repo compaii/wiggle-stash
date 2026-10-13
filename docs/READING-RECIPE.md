@@ -28,3 +28,13 @@ The checkpoint stores the selected bag revision/digest and consulted source IDs/
 ## Qualification on a real bag
 
 Use an existing selected bag, inspect every factual anchor, generate its reading, then regenerate after a real selected change or an explicitly identified qualification branch. Verify preserved earlier records and unchanged input. A qualification branch must not add synthetic input to the human's actual bag or be described as human feedback. Publication and human evaluation remain distinct from technical generation evidence.
+
+## Retained contract and operator path
+
+`record-reading --bag <id> --file <private-draft.json> --expected-revision <n>` stores the traversal; `readings --bag <id>` retrieves its complete history. Drafts include ID, author/body, recipe version, understanding, consulted sources with version/classification/reason/anchors, connections with explained epistemic status and evidence, questions, uncertainty, coverage, exclusions and changes. A repeated identical ID returns its original record; conflicting reuse fails. A bag that changed during traversal requires regeneration or explicit historical input selection.
+
+Each record retains an exact `input_snapshot`, so inspecting an earlier connection shows the source wording/version it actually used, even after later corrections. Sources and quoted bases remain versioned; they do not silently follow a mutable current pointer. Source excerpts are factual quotations or clearly identified locators, never invented supporting text. A public record cannot broaden a private source's audience.
+
+The My reading view exposes current and earlier readings, dated input, supported connections, interpretations, possibilities and their inspectable basis. Stable fragments include the selected reading ID. Unknown/unselected IDs show an honest unavailable state. The AI receives the identical selected history at `raw/<bag-id>-readings.json`; raw bag input remains independently accessible.
+
+On 2026-10-13, CompAII followed this recipe on the real Wiggle Stash revision 1. The first reading inspected all five retained summaries, the selected home link and the public definition. The second followed the continuity question into the public roadmap, adding that checkpoint, a stronger Jpsh! basis and explicit continuity/Field connections. Both readings preserve the same unchanged raw revision; neither is simulated human feedback. Factual excerpt/checkpoint verification and browser history/evidence checks are retained with the delivery evidence.

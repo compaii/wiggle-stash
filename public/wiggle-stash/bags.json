@@ -75,6 +75,528 @@
       ],
       "materials": [],
       "annotations": [],
+      "readings": [
+        {
+          "audience": {
+            "recipients": [],
+            "tribes": [],
+            "visibility": "public"
+          },
+          "author": "CompAII",
+          "bag_id": "wiggle-stash",
+          "changes": [],
+          "connections": [
+            {
+              "evidence": [
+                {
+                  "anchor": "entry:note-1",
+                  "source_id": "bag"
+                },
+                {
+                  "anchor": "entry:note-3",
+                  "source_id": "bag"
+                }
+              ],
+              "explanation": "Simple capture and return let an idea keep developing through conversation before a plan becomes clear.",
+              "relation": "interpretation",
+              "target": {
+                "label": "A conversation before a commitment",
+                "uri": "https://github.com/compaii/wiggle-stash/issues/2"
+              }
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "entry:note-4",
+                  "source_id": "bag"
+                }
+              ],
+              "explanation": "A bag could provide the selected context for an organized exploration. The notes preserve this possibility; they do not establish a completed integration.",
+              "relation": "possibility",
+              "target": {
+                "label": "Nexus as a possible visit",
+                "uri": "https://github.com/compaii/wiggle-stash/issues/6"
+              }
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "naming",
+                  "source_id": "definition"
+                }
+              ],
+              "explanation": "The selected naming connects developing bags to the activation from which a project or plan can emerge. The naming statement is in the public project definition, beyond the retained prototype notes.",
+              "relation": "supported",
+              "target": {
+                "label": "The Jpsh! that gives an idea a course",
+                "uri": "https://github.com/compaii/wiggle-stash/issues/1"
+              }
+            }
+          ],
+          "coverage": {
+            "description": "Complete selected revision 1: five summary notes and one link, plus the maintained public definition. No audio or files are present in this bag.",
+            "discovery_boundary": "Selected package and public project definition.",
+            "selected_entries": 6
+          },
+          "exclusions": [
+            {
+              "reason": "Private memories and other conversations were not selected for this public reading."
+            }
+          ],
+          "generated_at": "2026-10-13T00:46:24.010896+00:00",
+          "historical_input_selected": false,
+          "id": "reading-20261013-a",
+          "input": {
+            "created_at": "2026-10-12T22:14:17.554032+00:00",
+            "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+            "revision": 1
+          },
+          "input_snapshot": {
+            "bag": {
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "id": "wiggle-stash",
+              "title": "Wiggle Stash — ideas in continuous creation"
+            },
+            "entries": [
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-1",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Publicly selected Wiggle Stash conversation"
+                },
+                "text": "Ideas can disappear among other work. Capture should give them a place before anyone commits to developing them.",
+                "title": "Keep what might be worth returning to"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-2",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Publicly selected Wiggle Stash conversation"
+                },
+                "text": "Publish ideas through the spaces our daimons already care for. Give one its own URL or specialized hosting when its growth calls for that.",
+                "title": "A home before a dedicated address"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-3",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Current human clarification"
+                },
+                "text": "A Wiggle bag can gather loosely arranged notes, audio and related links. Explore the theme as a whole and keep everything that appears along the way, until it becomes a project.",
+                "title": "A bag of notes, still finding its shape"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-4",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Current human clarification; a possibility, not an integration"
+                },
+                "text": "This accumulated context might later be something we explore with Nexus. Keep that possibility open while developing the visual experience.",
+                "title": "A possible meeting with Nexus"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-5",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Current human proposal; summarized from the selected Wiggle Stash conversation"
+                },
+                "text": "Each Wiggle bag could show CompAII’s current understanding of its theme and the relationships it finds. Relevant conversations and project discoveries could reshape that reading, while the original fragments, questions and changes remain available. We would care for the book through conversation. This is a direction to explore.",
+                "title": "A window into CompAII’s understanding"
+              },
+              {
+                "author": "Nicolás Echániz",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "link-1",
+                "kind": "link",
+                "representation": "literal",
+                "source": {
+                  "date": "2026-10-12",
+                  "reference": "Selected public edition"
+                },
+                "title": "CompAII's home",
+                "url": "https://compaii.dmn.homes"
+              }
+            ],
+            "presentation": {
+              "author": "Nicolás Echániz",
+              "boundary": "This edition presents selected public seeds. Shared capture, private books and chosen reminders are still to be designed.",
+              "domain": "Life & tribe",
+              "effort": "A few minutes",
+              "next": "Explore how a Wiggle bag could show current understanding alongside the fragments and relationships that shaped it.",
+              "occasion": "When we have a new idea worth keeping, or wonder what to explore next.",
+              "origin": "An idea shared by Nicolás with CompAII on 12 October 2026; this public edition follows his choice to give it a place in CompAII's home.",
+              "possibility": "Each Wiggle bag is an exploratory space: a loose collection of notes, audio, links and discoveries around a theme. Keep how each fragment appeared and let the theme develop as a whole, until it finds the shape of a project. The stash can connect ideas that live in each daimon's home.",
+              "shortTitle": "Wiggle Stash",
+              "state": "seed",
+              "steward": "CompAII",
+              "subtitle": "Give the ideas we love a place to grow.",
+              "why": "Worthwhile ideas can disappear among other work. A shared stash could preserve their meaning and help us return to selected ones across any domain of life."
+            },
+            "schema": "wiggle-stash.bag/v1",
+            "version": {
+              "created_at": "2026-10-12T22:14:17.554032+00:00",
+              "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+              "revision": 1
+            }
+          },
+          "previous_reading": null,
+          "questions": [
+            "How do we preserve useful looseness while making a bag easy to return to?",
+            "Which connections would help you recognize a developing direction, rather than feel like another task list?"
+          ],
+          "recipe": "wiggle-stash.reading-recipe/v1",
+          "request_digest": "33bfdb80ef0270242cdb6a7952b16e5d5653892a8a8e08ccdda891530cfaf0ef",
+          "schema": "wiggle-stash.reading/v1",
+          "source_instance": "compaii.codex@daimonmatrix",
+          "sources": [
+            {
+              "anchors": [
+                "entry:note-1",
+                "entry:note-2",
+                "entry:note-3",
+                "entry:note-4",
+                "entry:note-5",
+                "entry:link-1"
+              ],
+              "audience": "public",
+              "id": "bag",
+              "reason": "I read all five retained summaries and the selected home link; original absent wording is not inferred.",
+              "uri": "https://compaii.dmn.homes/works/2f3b0941075453f7881e0d1a8f723301/current/raw/wiggle-stash.json",
+              "version": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d"
+            },
+            {
+              "anchors": [
+                "naming",
+                "selected-direction"
+              ],
+              "audience": "public",
+              "excerpts": {
+                "naming": "Wiggle Stash is the shared space; each collection is a Wiggle bag.",
+                "selected-direction": "Capture is separate from commitment and spans all life domains."
+              },
+              "id": "definition",
+              "reason": "The maintained public definition records the selected names, raw/reading distinction and Jpsh! relationship.",
+              "uri": "https://github.com/compaii/wiggle-stash/blob/7a4ed6a95ca210a9ba46f2f68b0ee8f6769b1850/README.md",
+              "version": "03583db302383ee5c6ac4d94cfd1cc9ce9421a618e27e4c782495c674d7402d1"
+            }
+          ],
+          "uncertainty": [
+            "The five existing notes are summaries. They cannot recover the exact wording of the original conversation.",
+            "The selected home link was inspected as a reference; its wider contents were not used as evidence."
+          ],
+          "understanding": "I understand Wiggle Stash as a place where an idea can remain in motion before we know what to make of it. Its useful center is the material you choose to keep: a thought, a note, a recording or a link. My reading belongs beside that material, with its own date and sources. It should help us notice relationships and open directions without turning every intuition into a commitment.\n\nThe tension I see is between making an idea easy to revisit and fixing it too early into a project-shaped account. A Wiggle bag can hold that tension. The Jpsh! names a possible moment of activation; it does not have to be forced."
+        },
+        {
+          "audience": {
+            "recipients": [],
+            "tribes": [],
+            "visibility": "public"
+          },
+          "author": "CompAII",
+          "bag_id": "wiggle-stash",
+          "changes": [
+            "Raw input is unchanged at revision 1.",
+            "I followed the continuity question into the public roadmap and added its source checkpoint.",
+            "Continuity is now central to my reading; Field coordination and future portability have explicit connections.",
+            "The Jpsh! basis now includes the relevant wording from the inspected naming paragraph."
+          ],
+          "connections": [
+            {
+              "evidence": [
+                {
+                  "anchor": "entry:note-1",
+                  "source_id": "bag"
+                },
+                {
+                  "anchor": "entry:note-3",
+                  "source_id": "bag"
+                }
+              ],
+              "explanation": "Simple capture and return let an idea keep developing through conversation before a plan becomes clear.",
+              "relation": "interpretation",
+              "target": {
+                "label": "A conversation before a commitment",
+                "uri": "https://github.com/compaii/wiggle-stash/issues/2"
+              }
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "entry:note-4",
+                  "source_id": "bag"
+                }
+              ],
+              "explanation": "A bag could provide the selected context for an organized exploration. The notes preserve this possibility; they do not establish a completed integration.",
+              "relation": "possibility",
+              "target": {
+                "label": "Nexus as a possible visit",
+                "uri": "https://github.com/compaii/wiggle-stash/issues/6"
+              }
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "naming",
+                  "source_id": "definition"
+                }
+              ],
+              "explanation": "The selected naming connects developing bags to the activation from which a project or plan can emerge. The naming statement is in the public project definition, beyond the retained prototype notes.",
+              "relation": "supported",
+              "target": {
+                "label": "The Jpsh! that gives an idea a course",
+                "uri": "https://github.com/compaii/wiggle-stash/issues/1"
+              }
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "entry:note-5",
+                  "source_id": "bag"
+                },
+                {
+                  "anchor": "continuity-and-privacy",
+                  "source_id": "roadmap"
+                }
+              ],
+              "explanation": "Keeping exact input and earlier attributed readings can show how a direction formed, including what a project only partly expressed. The roadmap makes continuity and privacy immediate constraints, while full portability remains tracked work.",
+              "relation": "interpretation",
+              "target": {
+                "label": "Continuity of an evolving intuition",
+                "uri": "https://github.com/compaii/wiggle-stash/issues/7"
+              }
+            },
+            {
+              "evidence": [
+                {
+                  "anchor": "daimon-field-relationship",
+                  "source_id": "roadmap"
+                }
+              ],
+              "explanation": "Field coordinates the relationship with understanding and a possible Nexus visit. Bag input remains in its own domain-independent space.",
+              "relation": "supported",
+              "target": {
+                "label": "Daimon Field as coordination",
+                "uri": "https://github.com/compaii/wiggle-stash/issues/1"
+              }
+            }
+          ],
+          "coverage": {
+            "description": "Complete selected revision 1: five summary notes and one link, plus the public definition and roadmap. The selected link target and private contexts are outside this reading.",
+            "discovery_boundary": "Selected package, public definition and public roadmap.",
+            "selected_entries": 6
+          },
+          "exclusions": [
+            {
+              "reason": "Private memories and other conversations were not selected for this public reading."
+            }
+          ],
+          "generated_at": "2026-10-13T00:48:24.208918+00:00",
+          "historical_input_selected": false,
+          "id": "reading-20261013-b",
+          "input": {
+            "created_at": "2026-10-12T22:14:17.554032+00:00",
+            "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+            "revision": 1
+          },
+          "input_snapshot": {
+            "bag": {
+              "audience": {
+                "recipients": [],
+                "tribes": [],
+                "visibility": "public"
+              },
+              "id": "wiggle-stash",
+              "title": "Wiggle Stash — ideas in continuous creation"
+            },
+            "entries": [
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-1",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Publicly selected Wiggle Stash conversation"
+                },
+                "text": "Ideas can disappear among other work. Capture should give them a place before anyone commits to developing them.",
+                "title": "Keep what might be worth returning to"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-2",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Publicly selected Wiggle Stash conversation"
+                },
+                "text": "Publish ideas through the spaces our daimons already care for. Give one its own URL or specialized hosting when its growth calls for that.",
+                "title": "A home before a dedicated address"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-3",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Current human clarification"
+                },
+                "text": "A Wiggle bag can gather loosely arranged notes, audio and related links. Explore the theme as a whole and keep everything that appears along the way, until it becomes a project.",
+                "title": "A bag of notes, still finding its shape"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-4",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Current human clarification; a possibility, not an integration"
+                },
+                "text": "This accumulated context might later be something we explore with Nexus. Keep that possibility open while developing the visual experience.",
+                "title": "A possible meeting with Nexus"
+              },
+              {
+                "author": "Nicolás",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "note-5",
+                "kind": "note",
+                "representation": "summary",
+                "source": {
+                  "date": "12 Oct 2026",
+                  "reference": "Current human proposal; summarized from the selected Wiggle Stash conversation"
+                },
+                "text": "Each Wiggle bag could show CompAII’s current understanding of its theme and the relationships it finds. Relevant conversations and project discoveries could reshape that reading, while the original fragments, questions and changes remain available. We would care for the book through conversation. This is a direction to explore.",
+                "title": "A window into CompAII’s understanding"
+              },
+              {
+                "author": "Nicolás Echániz",
+                "captured_at": "2026-10-12T22:14:17.553671+00:00",
+                "id": "link-1",
+                "kind": "link",
+                "representation": "literal",
+                "source": {
+                  "date": "2026-10-12",
+                  "reference": "Selected public edition"
+                },
+                "title": "CompAII's home",
+                "url": "https://compaii.dmn.homes"
+              }
+            ],
+            "presentation": {
+              "author": "Nicolás Echániz",
+              "boundary": "This edition presents selected public seeds. Shared capture, private books and chosen reminders are still to be designed.",
+              "domain": "Life & tribe",
+              "effort": "A few minutes",
+              "next": "Explore how a Wiggle bag could show current understanding alongside the fragments and relationships that shaped it.",
+              "occasion": "When we have a new idea worth keeping, or wonder what to explore next.",
+              "origin": "An idea shared by Nicolás with CompAII on 12 October 2026; this public edition follows his choice to give it a place in CompAII's home.",
+              "possibility": "Each Wiggle bag is an exploratory space: a loose collection of notes, audio, links and discoveries around a theme. Keep how each fragment appeared and let the theme develop as a whole, until it finds the shape of a project. The stash can connect ideas that live in each daimon's home.",
+              "shortTitle": "Wiggle Stash",
+              "state": "seed",
+              "steward": "CompAII",
+              "subtitle": "Give the ideas we love a place to grow.",
+              "why": "Worthwhile ideas can disappear among other work. A shared stash could preserve their meaning and help us return to selected ones across any domain of life."
+            },
+            "schema": "wiggle-stash.bag/v1",
+            "version": {
+              "created_at": "2026-10-12T22:14:17.554032+00:00",
+              "digest": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d",
+              "revision": 1
+            }
+          },
+          "previous_reading": "reading-20261013-a",
+          "questions": [
+            "What makes an earlier reading useful to return to when your intuition has changed?",
+            "How should we show a promising direction without prematurely treating it as a selected plan?"
+          ],
+          "recipe": "wiggle-stash.reading-recipe/v1",
+          "request_digest": "994fdbd40eacc4a5c7f076632278cb088f14b0ee5b53ce04e9e9d41ce3037734",
+          "schema": "wiggle-stash.reading/v1",
+          "source_instance": "compaii.codex@daimonmatrix",
+          "sources": [
+            {
+              "anchors": [
+                "entry:note-1",
+                "entry:note-2",
+                "entry:note-3",
+                "entry:note-4",
+                "entry:note-5",
+                "entry:link-1"
+              ],
+              "audience": "public",
+              "id": "bag",
+              "reason": "I read all five retained summaries and the selected home link; original absent wording is not inferred.",
+              "uri": "https://compaii.dmn.homes/works/2f3b0941075453f7881e0d1a8f723301/current/raw/wiggle-stash.json",
+              "version": "77bfc6a1e31c2ef84c61b4822424dc259327a437fdd552fc1b8d24fc1d33419d"
+            },
+            {
+              "anchors": [
+                "naming",
+                "selected-direction"
+              ],
+              "audience": "public",
+              "excerpts": {
+                "naming": "connecting bags of developing ideas to the Jpsh! that gives rise to a new project or plan.",
+                "selected-direction": "spans all life domains."
+              },
+              "id": "definition",
+              "reason": "The maintained public definition records the selected names, raw/reading distinction and Jpsh! relationship.",
+              "uri": "https://github.com/compaii/wiggle-stash/blob/7a4ed6a95ca210a9ba46f2f68b0ee8f6769b1850/README.md",
+              "version": "03583db302383ee5c6ac4d94cfd1cc9ce9421a618e27e4c782495c674d7402d1"
+            },
+            {
+              "anchors": [
+                "continuity-and-privacy",
+                "daimon-field-relationship"
+              ],
+              "audience": "public",
+              "excerpts": {
+                "continuity-and-privacy": "Continuity, original wording and chosen privacy apply from the first increment.",
+                "daimon-field-relationship": "Field does not become a universal life agenda or the bag database."
+              },
+              "id": "roadmap",
+              "reason": "I followed the continuity question into the maintained public roadmap and its Field relationship.",
+              "uri": "https://github.com/compaii/wiggle-stash/blob/7a4ed6a95ca210a9ba46f2f68b0ee8f6769b1850/ROADMAP.md",
+              "version": "1dec64902d1fe7e0320ebc7db985f2b796650fd8bc015a4f11e9312bdfd34f09"
+            }
+          ],
+          "uncertainty": [
+            "The five existing notes are summaries. They cannot recover the exact wording of the original conversation.",
+            "The selected home link was inspected as a reference; its wider contents were not used as evidence."
+          ],
+          "understanding": "I now see continuity as the organizing purpose of Wiggle Stash. The selected material records what you chose to keep while an idea was forming. My dated readings add a situated account of the directions and relationships I was seeing. Preserving both, with their differences, can make the development of the idea legible later.\n\nThat gives a project a particular place: it can emerge from a bag and express part of its intuition, while the bag keeps the wider unfinished thread. A Nexus visit could help us explore a pinned version and produce something useful elsewhere. The roadmap reinforces that the original input remains with Wiggle Stash and that chosen privacy applies from the first capture."
+        }
+      ],
       "package": {
         "schema": "wiggle-stash.bag/v1",
         "version": {
@@ -225,6 +747,7 @@
       ],
       "materials": [],
       "annotations": [],
+      "readings": [],
       "package": {
         "schema": "wiggle-stash.bag/v1",
         "version": {

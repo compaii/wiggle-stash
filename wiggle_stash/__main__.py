@@ -36,6 +36,11 @@ def main():
     annotate.add_argument('--file',type=Path,required=True); annotate.add_argument('--coverage-file',type=Path,required=True)
     annotate.add_argument('--expected-revision',type=int,required=True); annotate.add_argument('--kind',choices=['transcript','preview'],default='transcript')
     annotate.add_argument('--media-type')
+    reading = commands.add_parser('record-reading')
+    reading.add_argument('--bag',required=True);reading.add_argument('--file',type=Path,required=True)
+    reading.add_argument('--expected-revision',type=int,required=True)
+    reading.add_argument('--allow-historical-input',action='store_true')
+    history = commands.add_parser('readings');history.add_argument('--bag',required=True)
     migrate = commands.add_parser('import-edition')
     migrate.add_argument('--file',type=Path,required=True); migrate.add_argument('--operation-prefix',required=True)
     edition = commands.add_parser('export-edition')
@@ -58,6 +63,12 @@ def main():
         elif args.command == 'annotate':
             result = store.annotate(args.bag,args.entry,args.annotation,args.author,args.source,args.file,json.loads(args.coverage_file.read_text()),
                 args.operation_id,args.expected_revision,kind=args.kind,media_type=args.media_type)
+        elif args.command == 'record-reading':
+            from .readings import record
+            result = record(store,args.bag,json.loads(args.file.read_text()),args.expected_revision,allow_historical_input=args.allow_historical_input)
+        elif args.command == 'readings':
+            from .readings import list_readings
+            result = list_readings(store,args.bag)
         elif args.command == 'import-edition':
             store.import_edition(json.loads(args.file.read_text()),args.operation_prefix); result = store.list()
         else:

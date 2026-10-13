@@ -230,7 +230,9 @@ class Store:
             from .media import content_path
             materials = [{**e,'content_path':content_path(e['attachment'])} for e in package['entries'] if 'attachment' in e]
             annotations = [{**a,'content_path':content_path(a['attachment'])} for a in package.get('annotations',[])]
-            bags.append({**presentation, 'id':bag_id, 'title':package['bag']['title'], 'audience':'Public', 'notes':notes, 'references':links, 'materials':materials,'annotations':annotations, 'package':package})
+            from .readings import list_readings
+            readings = [r for r in list_readings(self,bag_id) if r['audience']['visibility']=='public']
+            bags.append({**presentation, 'id':bag_id, 'title':package['bag']['title'], 'audience':'Public', 'notes':notes, 'references':links, 'materials':materials,'annotations':annotations,'readings':readings, 'package':package})
         return {'schema':'wiggle-stash.public-edition/v1', 'edition':now()[:10], 'bags':bags}
 
 def write_edition(directory, edition, store_directory=None):
@@ -250,6 +252,8 @@ def write_edition(directory, edition, store_directory=None):
     for bag in edition['bags']:
         filename = bag['id']+'.json'; selected.add(filename)
         (packages/filename).write_text(json.dumps(bag['package'],ensure_ascii=False,indent=2)+'\n')
+        (packages/(bag['id']+'-readings.json')).write_text(json.dumps(bag.get('readings',[]),ensure_ascii=False,indent=2)+'\n')
+        selected.add(bag['id']+'-readings.json')
     for previous in packages.glob('*.json'):
         if previous.name not in selected: previous.unlink()
     (directory/'bags.json').write_text(json.dumps(edition,ensure_ascii=False,indent=2)+'\n')

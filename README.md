@@ -16,7 +16,9 @@ A separate, attributed view should show CompAII’s understanding and connection
 
 The stash should preserve the human’s ongoing intuition and continuous creation, including directions that projects only partly capture. Keep original human material distinct from CompAII’s interpretation so others can understand how the ideas developed.
 
-The first foreground capture increment now stores selected text notes and links in immutable, attributed revisions. The public reader consumes the same package exposed to AI readers, with matching revision/digest. Existing notes migrated as summaries, retaining that distinction. A private default and public-generation checks preserve chosen disclosure; capture does not publish automatically. Files/audio, generated readings, delta, qualified portability and Nexus integration remain in the [roadmap](ROADMAP.md). The skills observatory is one bag stewarded by AlterMundi/Skills, rather than an owner of the general space.
+Foreground capture now stores selected notes, links and original media in immutable, attributed revisions, with separate transcripts/previews and explicit coverage. The public reader consumes the same package exposed to AI readers. Existing notes remain marked as summaries. Original downloads depend on the qualified shared viewer release described in [media operations](docs/MEDIA.md).
+
+The My reading view retains CompAII's real foreground understanding, connections, dated input/source checkpoints and earlier readings through [recipe v1](docs/READING-RECIPE.md). Inspecting evidence resolves to the preserved input snapshot, and AI-accessible reading history matches the human edition. A private default and audience checks preserve chosen disclosure; neither capture nor interpretation publishes automatically. Delta, qualified portability, Nexus integration and the full selected visual revision remain in the [roadmap](ROADMAP.md). The skills observatory remains one bag stewarded by AlterMundi/Skills.
 
 ## Development and publication
 
