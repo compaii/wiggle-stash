@@ -60,6 +60,14 @@ def main():
     for arg in ['bag','id','uri']:registration.add_argument('--'+arg,required=True)
     registration.add_argument('--file',type=Path,required=True);registration.add_argument('--visibility',choices=['public','human','vpn','individual','tribe'],default='human')
     registration.add_argument('--recipient',action='append',default=[]);registration.add_argument('--tribe',action='append',default=[])
+    memory=commands.add_parser('register-memory')
+    for arg in ['bag','id','pool','uid']:memory.add_argument('--'+arg,required=True)
+    memory.add_argument('--provider-file',type=Path,required=True);memory.add_argument('--visibility',choices=['human','vpn','individual','tribe'],default='human')
+    memory.add_argument('--recipient',action='append',default=[]);memory.add_argument('--tribe',action='append',default=[])
+    discovery=commands.add_parser('register-discovery')
+    for arg in ['bag','id','pool','query']:discovery.add_argument('--'+arg,required=True)
+    discovery.add_argument('--provider-file',type=Path,required=True);discovery.add_argument('--visibility',choices=['human','vpn','individual','tribe'],default='human')
+    discovery.add_argument('--recipient',action='append',default=[]);discovery.add_argument('--tribe',action='append',default=[])
     for name in ['delta','reading']:
         delta=commands.add_parser(name);delta.add_argument('--bag',required=True);delta.add_argument('--reading')
         delta.add_argument('--skip-sources',action='store_true');delta.add_argument('--discovery-limit',type=int,default=32)
@@ -121,6 +129,12 @@ def main():
         elif args.command == 'register-source':
             from .delta import register
             result=register(store,args.bag,args.id,args.uri,args.file,audience(args.visibility,args.recipient,args.tribe))
+        elif args.command=='register-memory':
+            from .memory_sources import register
+            result=register(store,args.bag,args.id,args.pool,args.uid,args.provider_file,audience(args.visibility,args.recipient,args.tribe))
+        elif args.command=='register-discovery':
+            from .memory_sources import register_discovery
+            result=register_discovery(store,args.bag,args.id,args.pool,args.query,args.provider_file,audience(args.visibility,args.recipient,args.tribe))
         elif args.command in ('delta','reading'):
             from .delta import check, read_cached
             if not 0<=args.discovery_limit<=128:raise ValueError('Select a discovery limit between 0 and 128')
