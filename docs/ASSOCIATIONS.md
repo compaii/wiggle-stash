@@ -1,6 +1,6 @@
 # What a bag brings to mind — selected development direction
 
-Nicolás clarified the intended reading on 2026-10-13: opening a bag should reveal what CompAII knows that relates to it, where each item comes from, and briefly why it connects. The main result is a source-attributed inventory of associations. New elaboration is brief and optional, reserved for strong points that emerge. This refines the original reading roadmap before any remaining Nexus work. This document describes the next increment; it does not claim implementation.
+Nicolás clarified the intended reading on 2026-10-13: opening a bag should reveal what CompAII knows that relates to it, where each item comes from, and briefly why it connects. The main result is a source-attributed inventory of associations. New elaboration is brief and optional, reserved for strong points that emerge. This refines the original reading roadmap before any remaining Nexus work. The v2 contract, reader and foreground source adapters implement this direction; the owning issues retain the real-bag delivery and acceptance evidence.
 
 ## Foreground traversal
 
@@ -23,7 +23,7 @@ A Ratios bag surfacing a remembered discussion, a referenced document and a rela
 
 Preserve the bag digest and all consulted source checkpoints. Extend supported cheap adapters to compare HMK record revisions and selected project/document versions without rereading every source or generating an interpretation. Retain the discovery queries/routes so a bounded navigation-only repeat can identify new candidates; candidate inspection belongs to a requested new traversal.
 
-HMK MCP supports bounded navigation plus revision-guarded paged reads/history. Its maintained source now supports configured lexical or hybrid retrieval; inspect the receiving binding before claiming which mode was used. It has no metadata-only revision/change-feed action. Design or extend that capability in its owning repository before claiming a cheap complete memory-version check. Existing hybrid retrieval remains available for recall; lexical misses alone cannot establish absence. Unknown/truncated discovery, inaccessible sources and changed revisions remain explicit. No freshness claim extends beyond the checked scope.
+HMK supports bounded navigation plus revision-guarded paged reads/history. Its maintained source supports configured lexical or hybrid retrieval; inspect the receiving binding before claiming which mode was used. The owning-source revision-checkpoint extension, merged in HMK #116, selects a known UID without loading its text. Wiggle Stash uses that finite foreground adapter without replacing the existing MCP connection. It is a local revision check, not a complete memory change feed. Existing hybrid retrieval remains available for recall; lexical misses alone cannot establish absence. Unknown/truncated discovery, inaccessible sources and changed revisions remain explicit. No freshness claim extends beyond the checked scope.
 
 There is no observer, timer, private-session import, cross-being pool or automatic publication. Foreground recall does not grant disclosure. Use the existing chosen audiences for the derived inventory too; a public raw bag may have a separately selected private reading when associations include private memories.
 

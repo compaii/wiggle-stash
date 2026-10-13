@@ -7,3 +7,6 @@
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
 .reading-occasion,.reading-request{border-left:3px solid var(--amber);padding-left:14px}.reading-changes{margin-bottom:22px}.reading-changes p{font-size:14px;color:var(--muted);margin-bottom:8px}.association-group{margin:24px 0}.association-group .connection-card{margin-bottom:16px}.association-group .source-detail{overflow-wrap:anywhere}.association-group h5{font-size:19px;margin:0 0 12px}.association-group details{margin-top:12px}
+.edition-links { display: flex; justify-content: flex-end; gap: 1rem; padding: .7rem 1.2rem; }
+.edition-links[hidden] { display: none; }
+.edition-links a { color: var(--cyan, #8de1e8); font-size: .9rem; }

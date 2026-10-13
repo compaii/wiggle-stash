@@ -22,6 +22,7 @@ let noteIndex = 0;
 let overview = false;
 let readingIndex = null;
 let missingReadingId = null;
+let editionAddress = 'https://compaii.dmn.homes/wiggle-stash/';
 
 function node(tag, className, text) {
   const element = document.createElement(tag);
@@ -400,7 +401,7 @@ document.querySelector('#show-notes').addEventListener('click', () => {overview=
 document.querySelector('#share').addEventListener('click', async () => {
   if (binding.hidden) return;
   const output=document.querySelector('#share-status');
-  const url=new URL('https://compaii.dmn.homes/wiggle-stash/');url.hash=location.hash;
+  const url=new URL(editionAddress);url.hash=location.hash;
   output.textContent='Copying…';
   try {await navigator.clipboard.writeText(url.href);output.textContent='Page link copied.';}
   catch {output.textContent='Copy this link: '+url.href;}
@@ -414,6 +415,17 @@ async function loadBook() {
     if(!Array.isArray(data.bags))throw new Error('Invalid collection');
     const selectedAudience=data.audience||{visibility:'public',recipients:[],tribes:[]};
     if(!['public','human','individual','tribe','vpn'].includes(selectedAudience.visibility))throw new Error('Invalid edition audience');
+    const editionLink=value=>{
+      const address=new URL(value);
+      if(address.origin!=='https://compaii.dmn.homes'||address.username||address.password||(address.search&&address.search!=='?display=work'))throw new Error('Invalid edition address');
+      address.hash='';return address.href;
+    };
+    editionAddress=data.edition_links?.self?editionLink(data.edition_links.self):'https://compaii.dmn.homes/wiggle-stash/';
+    const editions=document.querySelector('#edition-links');editions.replaceChildren();
+    for(const related of data.edition_links?.related||[]) {
+      const link=node('a','',related.label);link.href=editionLink(related.url);editions.append(link);
+    }
+    editions.hidden=!editions.childElementCount;
     const sameAudience=(a,b)=>a.visibility===b.visibility&&JSON.stringify([...(a.recipients||[])].sort())===JSON.stringify([...(b.recipients||[])].sort())&&JSON.stringify([...(a.tribes||[])].sort())===JSON.stringify([...(b.tribes||[])].sort());
     document.querySelector('.public-label').textContent={public:'Public reading edition',human:'Paired-human reading edition',individual:'Selected-reader edition',tribe:'Selected-tribe edition',vpn:'Dedicated-VPN edition'}[selectedAudience.visibility];
     bags=data.bags;
