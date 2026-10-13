@@ -9,6 +9,12 @@ const context = document.querySelector('#bag-context');
 const entry = document.querySelector('#entry-content');
 const index = document.querySelector('#note-index');
 let bags = [];
+let downloadSupported = window.parent === window;
+window.addEventListener('message',event=>{
+  if(event.source!==window.parent || event.data?.type!=='home-artifact:capabilities')return;
+  downloadSupported=event.data.downloads===true;
+  document.querySelectorAll('.material-download').forEach(button=>{button.disabled=!downloadSupported;button.title=downloadSupported?'Download the selected file':'Download unavailable in this view.';});
+});
 let view = 'seeds';
 let activeId = null;
 let section = 'notes';
@@ -106,7 +112,7 @@ function renderContext() {
   context.append(meta, node('h2', 'bag-title', bag.shortTitle || bag.title), node('p', 'bag-subtitle', bag.subtitle), node('p', 'why-label', 'Why keep this?'), node('p', 'why-body', bag.why), node('p', 'bag-author', 'By ' + bag.author), node('p', 'contents-title', 'INSIDE THIS WIGGLE BAG'));
   const contents = node('div', 'contents');
   contents.setAttribute('role', 'group'); contents.setAttribute('aria-label', 'Wiggle bag contents');
-  for (const item of [{id:'notes',label:'Notes',count:noteCount(bag)}, {id:'references',label:'References',count:bag.references.length}, {id:'next',label:'Next step',count:'↗'}]) {
+  for (const item of [{id:'notes',label:'Notes',count:noteCount(bag)}, {id:'materials',label:'Materials',count:(bag.materials||[]).length}, {id:'references',label:'References',count:bag.references.length}, {id:'next',label:'Next step',count:'↗'}]) {
     const button = node('button', '', item.label);
     button.type = 'button'; button.dataset.section = item.id;
     button.setAttribute('aria-pressed', String(section === item.id));
@@ -132,7 +138,7 @@ function renderEntry(animate = false) {
   noteIndex = Math.max(0, Math.min(notes.length - 1, noteIndex));
   const focusedNote = document.activeElement?.dataset.note;
   entry.replaceChildren(); index.replaceChildren();
-  document.querySelector('#entry-section').textContent = {notes:'LOOSE NOTES',references:'FOLLOW THE THREADS',next:'A POSSIBLE NEXT STEP'}[section];
+  document.querySelector('#entry-section').textContent = {notes:'LOOSE NOTES',materials:'ORIGINAL MATERIAL',references:'FOLLOW THE THREADS',next:'A POSSIBLE NEXT STEP'}[section];
   document.querySelector('#show-notes').hidden = section !== 'notes' || !notes.length;
   document.querySelector('#show-notes').textContent = overview ? 'Back to the note' : 'All notes';
   index.hidden = section !== 'notes' || overview || !notes.length;
@@ -166,6 +172,48 @@ function renderEntry(animate = false) {
       const title = node('h3', 'note-heading', note.title); title.id = 'entry-title';
       entry.append(title, node('p', 'note-body', note.body), node('p', 'note-attribution', note.author + ' · ' + note.date), node('span', 'note-type', note.representation === 'literal' ? 'Original note · exact wording' : 'Conversation note · summarized'), node('p', 'source-detail', 'Source: ' + note.source));
     }
+  } else if(section === 'materials') {
+    const title=node('h3','note-heading','The materials gathered here');title.id='entry-title';entry.append(title);
+    for(const material of bag.materials||[]) {
+      const card=node('section','material-card');
+      card.append(node('h4','',material.title),node('p','source-detail',material.author+' · '+(material.source.date||material.captured_at.slice(0,10))),node('p','',material.attachment.original_name+' · Original · '+Math.ceil(material.attachment.size/1024)+' KB'));
+      const type=material.attachment.media_type;
+      if(type.startsWith('audio/')||type.startsWith('video/')) {
+        const player=document.createElement(type.startsWith('audio/')?'audio':'video');player.controls=true;player.preload='none';player.src=material.content_path;card.append(player);
+      }else if(['image/png','image/jpeg','image/webp'].includes(type)) {
+        const preview=document.createElement('img');preview.src=material.content_path;preview.alt=material.title;preview.loading='lazy';card.append(preview);
+      }
+      const download=node('button','material-download','Download original');download.type='button';
+      download.disabled=!downloadSupported;
+      download.title=downloadSupported?'Download the unchanged original':'Download unavailable in this view.';
+      download.addEventListener('click',()=>{
+        if(window.parent!==window)window.parent.postMessage({type:'home-artifact:download',path:material.content_path},'*');
+        else {const link=document.createElement('a');link.href=material.content_path;link.download=material.attachment.original_name;link.click();}
+      });card.append(download,node('p','source-detail','Source: '+material.source.reference));
+      for(const annotation of (bag.annotations||[]).filter(a=>a.entry_id===material.id)) {
+        const details=document.createElement('details');details.append(node('summary','',annotation.kind==='transcript'?'Transcript · '+annotation.coverage.review:'Preview · '+annotation.coverage.review));
+        const coverage=value=>typeof value==='string'?value:Number.isFinite(value?.seconds)?value.seconds+' seconds':value?.description||'not measured';
+        details.append(node('p','source-detail','By '+annotation.author+' · '+annotation.created_at.slice(0,10)),node('p','source-detail','Received: '+coverage(annotation.coverage.received)+'. Processed: '+coverage(annotation.coverage.processed)+'.'));
+        if(annotation.coverage.uncertainty?.length)details.append(node('p','',annotation.coverage.uncertainty.join(' · ')));
+        if(annotation.kind==='transcript') {
+          const body=node('p','note-body','Open to load the attributed transcript.');details.append(body);
+          details.addEventListener('toggle',async()=>{
+            if(!details.open||details.dataset.loaded)return;
+            try {const response=await fetch(annotation.content_path);if(!response.ok)throw new Error();body.textContent=await response.text();details.dataset.loaded='true';}
+            catch {body.textContent='The transcript could not load. Try opening it again.';}
+          });
+        } else if(['image/png','image/jpeg','image/webp'].includes(annotation.attachment.media_type)) {
+          const preview=document.createElement('img');preview.src=annotation.content_path;preview.alt=material.title+' · attributed preview';preview.loading='lazy';details.append(preview);
+        }
+        const derivative=node('button','material-download',annotation.kind==='transcript'?'Download transcript':'Download preview');derivative.type='button';
+        derivative.disabled=!downloadSupported;
+        derivative.addEventListener('click',()=>{
+          if(window.parent!==window)window.parent.postMessage({type:'home-artifact:download',path:annotation.content_path},'*');
+          else {const link=document.createElement('a');link.href=annotation.content_path;link.download=annotation.attachment.original_name;link.click();}
+        });details.append(derivative);card.append(details);
+      }entry.append(card);
+    }
+    if(!(bag.materials||[]).length)entry.append(node('p','note-body','No files or audio have been selected for this Wiggle bag yet.'));
   } else if (section === 'references') {
     const title = node('h3', 'note-heading', 'Places this Wiggle bag connects to'); title.id = 'entry-title';
     entry.append(title, node('p', 'note-body', 'Follow the materials already linked to this theme. Each keeps its own home.'));
@@ -187,7 +235,7 @@ function renderEntry(animate = false) {
   if (!document.querySelector('#entry-title')) {
     const title = entry.querySelector('h3'); if (title) title.id='entry-title';
   }
-  document.querySelector('#page-position').textContent = section === 'notes' ? (overview ? `${notes.length} gathered notes` : notes.length ? `Note ${noteIndex+1} of ${notes.length}` : 'No notes yet') : section === 'references' ? `${bag.references.length} linked ${bag.references.length===1?'place':'places'}` : 'A possibility, ready to revisit';
+  document.querySelector('#page-position').textContent = section === 'notes' ? (overview ? `${notes.length} gathered notes` : notes.length ? `Note ${noteIndex+1} of ${notes.length}` : 'No notes yet') : section === 'materials' ? `${(bag.materials||[]).length} original materials` : section === 'references' ? `${bag.references.length} linked ${bag.references.length===1?'place':'places'}` : 'A possibility, ready to revisit';
   const turns = document.querySelector('.page-turns'); turns.hidden = section !== 'notes' || overview || !notes.length;
   document.querySelector('#previous').disabled = noteIndex === 0;
   document.querySelector('#next').disabled = noteIndex >= notes.length - 1;
@@ -208,9 +256,9 @@ function updateHash() {
   }
 }
 function readHash() {
-  const match = location.hash.match(/^#bag\/([^/]+)(?:\/(notes|note|references|next)(?:\/(\d+))?)?$/);
+  const match = location.hash.match(/^#bag\/([^/]+)(?:\/(notes|note|materials|references|next)(?:\/(\d+))?)?$/);
   if (!match || !bags.some(bag => bag.id === match[1])) return;
-  activeId = match[1]; section = ['references','next'].includes(match[2]) ? match[2] : 'notes';
+  activeId = match[1]; section = ['materials','references','next'].includes(match[2]) ? match[2] : 'notes';
   noteIndex = match[3] ? Math.max(0,Number(match[3])-1) : 0;
   overview = match[2] === 'notes';
   // A direct public link remains reachable even after a collection filter.

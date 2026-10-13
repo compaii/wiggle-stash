@@ -26,6 +26,16 @@ def main():
         capture.add_argument('--representation',choices=['literal','summary'],default='literal')
         capture.add_argument('--source-date')
     show = commands.add_parser('show'); show.add_argument('--bag',required=True); show.add_argument('--revision',type=int)
+    attach = commands.add_parser('attach')
+    for arg in ['bag','entry','title','author','source','operation-id']: attach.add_argument('--'+arg,required=True)
+    attach.add_argument('--file',type=Path,required=True); attach.add_argument('--expected-revision',type=int,required=True)
+    attach.add_argument('--media-type'); attach.add_argument('--source-date'); attach.add_argument('--snapshot-of')
+    attach.add_argument('--max-bytes',type=int)
+    annotate = commands.add_parser('annotate')
+    for arg in ['bag','entry','annotation','author','source','operation-id']: annotate.add_argument('--'+arg,required=True)
+    annotate.add_argument('--file',type=Path,required=True); annotate.add_argument('--coverage-file',type=Path,required=True)
+    annotate.add_argument('--expected-revision',type=int,required=True); annotate.add_argument('--kind',choices=['transcript','preview'],default='transcript')
+    annotate.add_argument('--media-type')
     migrate = commands.add_parser('import-edition')
     migrate.add_argument('--file',type=Path,required=True); migrate.add_argument('--operation-prefix',required=True)
     edition = commands.add_parser('export-edition')
@@ -42,10 +52,16 @@ def main():
                 args.expected_revision,text=text,url=args.url,representation=args.representation,
                 correction=args.command=='correct',source_date=args.source_date)
         elif args.command == 'show': result = store.package(args.bag,args.revision)
+        elif args.command == 'attach':
+            result = store.attach(args.bag,args.entry,args.title,args.author,args.source,args.file,args.operation_id,args.expected_revision,
+                media_type=args.media_type,source_date=args.source_date,snapshot_of=args.snapshot_of,max_bytes=args.max_bytes)
+        elif args.command == 'annotate':
+            result = store.annotate(args.bag,args.entry,args.annotation,args.author,args.source,args.file,json.loads(args.coverage_file.read_text()),
+                args.operation_id,args.expected_revision,kind=args.kind,media_type=args.media_type)
         elif args.command == 'import-edition':
             store.import_edition(json.loads(args.file.read_text()),args.operation_prefix); result = store.list()
         else:
-            result = store.edition(args.bag); write_edition(args.output,result)
+            result = store.edition(args.bag); write_edition(args.output,result,store.directory)
             result = {'status':'generated','bags':[{'id':b['id'],'version':b['package']['version']} for b in result['bags']]}
         print(json.dumps(result,ensure_ascii=False,indent=2))
     except (ValueError, OSError, KeyError) as error:

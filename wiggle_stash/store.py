@@ -97,7 +97,7 @@ class Store:
             payload = None
             if head:
                 package = self.package(bag_id, head)
-                payload = {key:package[key] for key in ('bag','entries','presentation')}
+                payload = {key:value for key,value in package.items() if key not in ('schema','version')}
             payload = change(payload)
             revision = head + 1
             if not row: self.db.execute('INSERT INTO bags VALUES (?,?)', (bag_id,revision))
@@ -166,6 +166,52 @@ class Store:
             presentation = {k:v for k,v in bag.items() if k not in ('id','title','audience','notes','references')}
             self.create(bag['id'],bag['title'],operation_prefix+':'+bag['id'],audience('public'),entries,presentation)
 
+    def attach(self, bag_id, entry_id, title, author, source, file, operation_id, expected_revision,
+               media_type=None, source_date=None, snapshot_of=None, max_bytes=None):
+        from . import media
+        check_id(entry_id)
+        if not title.strip() or not author.strip() or not source.strip(): raise ValueError('Original title, author and source required')
+        if snapshot_of: media.url(snapshot_of)
+        attachment = media.retain(self.directory,file,media_type,max_bytes or media.MAX_BYTES)
+        entry = {'id':entry_id, 'kind':'audio' if attachment['media_type'].startswith('audio/') else 'file',
+                 'title':title, 'author':author, 'source':{'reference':source,'date':source_date},
+                 'representation':'original', 'attachment':attachment}
+        if snapshot_of: entry['snapshot_of'] = snapshot_of
+        def change(payload):
+            if payload is None: raise ValueError('Create the named bag first')
+            if any(e['id']==entry_id for e in payload['entries']): raise ValueError('Original entry ID already exists')
+            payload['entries'].append({**entry,'captured_at':now()})
+            return payload
+        return self._write(bag_id,{'action':'attach','entry':entry},operation_id,expected_revision,change)
+
+    def annotate(self, bag_id, entry_id, annotation_id, author, source, file, coverage,
+                 operation_id, expected_revision, kind='transcript', media_type=None):
+        from . import media
+        check_id(annotation_id)
+        if kind not in ('transcript','preview'): raise ValueError('Select a transcript or preview')
+        if not author.strip() or not source.strip(): raise ValueError('Derivative authorship and source required')
+        if not isinstance(coverage,dict) or not all(k in coverage for k in ('review','received','processed','uncertainty')):
+            raise ValueError('Record review status, received/processed coverage and uncertainty')
+        if coverage['review'] not in ('unreviewed','samples-reviewed','fully-reviewed'): raise ValueError('Invalid review status')
+        if not isinstance(coverage['uncertainty'],list) or any(not isinstance(item,str) for item in coverage['uncertainty']):
+            raise ValueError('Uncertainty must be an explicit list of notes')
+        if any(not isinstance(coverage[key],(dict,str)) for key in ('received','processed')):
+            raise ValueError('Coverage must describe received and processed material')
+        attachment = media.retain(self.directory,file,media_type)
+        annotation = {'id':annotation_id,'entry_id':entry_id,'kind':kind,'author':author,'source':source,'coverage':coverage,'attachment':attachment}
+        def change(payload):
+            if payload is None: raise ValueError('Unknown bag')
+            entry = next((e for e in payload['entries'] if e['id']==entry_id),None)
+            if entry is None or 'attachment' not in entry: raise ValueError('Select an original media entry')
+            original = entry['attachment']
+            media.verify(self.directory,original)
+            annotated = {**annotation,'original_sha256':original['sha256'],'created_at':now()}
+            previous = next((a for a in payload.get('annotations',[]) if a['id']==annotation_id),None)
+            if previous and previous['entry_id']!=entry_id: raise ValueError('Annotation belongs to a different original')
+            payload['annotations'] = [a for a in payload.get('annotations',[]) if a['id']!=annotation_id] + [annotated]
+            return payload
+        return self._write(bag_id,{'action':'annotate','annotation':annotation},operation_id,expected_revision,change)
+
     def edition(self, bag_ids):
         if not bag_ids or len(set(bag_ids)) != len(bag_ids): raise ValueError('Select distinct public bags explicitly')
         bags = []
@@ -173,22 +219,31 @@ class Store:
             package = self.package(bag_id)
             if package['bag']['audience']['visibility'] != 'public':
                 raise ValueError('Non-public bag cannot enter a public edition: ' + bag_id)
+            from .media import attachments, verify
+            for original in attachments(package): verify(self.directory,original)
             defaults = {'subtitle':'Ideas in continuous creation.', 'domain':'Ideas', 'state':'seed', 'author':'',
                 'steward':'CompAII', 'origin':'', 'why':'', 'possibility':'', 'next':'', 'occasion':'', 'boundary':''}
             presentation = {**defaults, **package['presentation']}
             notes = [{'id':e['id'], 'title':e['title'], 'body':e['text'], 'author':e['author'],
                 'date':e['source']['date'] or e['captured_at'][:10], 'source':e['source']['reference'], 'representation':e['representation']} for e in package['entries'] if e['kind']=='note']
             links = [{'id':e['id'], 'title':e['title'], 'url':e['url']} for e in package['entries'] if e['kind']=='link']
-            bags.append({**presentation, 'id':bag_id, 'title':package['bag']['title'], 'audience':'Public', 'notes':notes, 'references':links, 'package':package})
+            from .media import content_path
+            materials = [{**e,'content_path':content_path(e['attachment'])} for e in package['entries'] if 'attachment' in e]
+            annotations = [{**a,'content_path':content_path(a['attachment'])} for a in package.get('annotations',[])]
+            bags.append({**presentation, 'id':bag_id, 'title':package['bag']['title'], 'audience':'Public', 'notes':notes, 'references':links, 'materials':materials,'annotations':annotations, 'package':package})
         return {'schema':'wiggle-stash.public-edition/v1', 'edition':now()[:10], 'bags':bags}
 
-def write_edition(directory, edition):
+def write_edition(directory, edition, store_directory=None):
     """Generate selected data only; do not invoke publication or a server."""
     directory = Path(directory)
     directory.mkdir(parents=True, exist_ok=True)
     # Validate every audience before any bytes are written.
     for bag in edition['bags']:
         if bag['package']['bag']['audience']['visibility'] != 'public': raise ValueError('Non-public export refused')
+    from .media import attachments, export_objects
+    selected = [b['package'] for b in edition['bags']]
+    if any(attachments(p) for p in selected) and store_directory is None: raise ValueError('Media export requires its selected store')
+    if store_directory: export_objects(store_directory,selected,directory)
     packages = directory/'raw'
     packages.mkdir(exist_ok=True)
     selected = set()

@@ -90,6 +90,12 @@ h1 {font:40px/1.15 var(--serif);letter-spacing:-.025em;margin:0}
 .note-attribution {color:var(--paper-muted);font-size:14px;margin:0 0 20px;padding-top:17px;border-top:1px solid #c3c6b3;line-height:1.7}
 .note-type {display:inline-block;color:var(--rust);font-size:14px;border:1px solid #b39979;padding:3px 10px;transform:rotate(-2deg);border-radius:3px;line-height:1.5}
 .source-detail {color:var(--paper-muted);font-size:14px;line-height:1.7;margin:19px 0 0}
+.material-card {padding:18px 0;border-bottom:1px solid var(--paper-muted)}
+.material-card h4 {font-size:21px;margin:0 0 12px}
+.material-card audio,.material-card video,.material-card img {display:block;max-width:100%;margin:15px 0}
+.material-card audio {width:100%}
+.material-card details {margin-top:18px}
+.material-download {padding:10px 14px;border:1px solid currentColor;border-radius:6px;font:inherit;background:transparent;cursor:pointer}
 .entry-footer {display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid #b8baa7;padding-top:15px;margin-top:15px;flex-wrap:wrap}
 #page-position {color:var(--paper-muted);font-size:14px}
 .page-turns {display:flex;gap:9px}
