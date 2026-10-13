@@ -83,3 +83,27 @@ print(json.dumps({'being_ref':state.get('owner','fixture:being'),'pools':[{'pool
         changed=read_cached(self.store,'ideas');self.assertEqual(changed['state']['status'],'unverified')
         self.assertIn('differs',changed['delta']['discovery_checks'][0]['reason'])
         self.assertEqual([json.loads(r)['action'] for r in self.trace.read_text().splitlines()],['checkpoint','checkpoint'])
+
+    def test_restored_discovery_checkpoint_requires_a_new_local_binding(self):
+        from wiggle_stash.portable import export,restore
+        from wiggle_stash.store import Store
+        draft=deepcopy(self.draft);draft['id']='portable-route';draft['changes']=['Select a retained navigation route.']
+        draft['discovery']=[{'id':'related','adapter':'hmk-navigation','provider':'Fictional selected memory','query':'related idea','checked_at':'2026-10-13T00:00:00Z','status':'ok','limits':{'scope':'Synthetic bounded source'}}]
+        record(self.store,'ideas',draft,2,selected_audience=audience('human'))
+        register_discovery(self.store,'ideas','related','main','related idea',self.binding,audience('human'))
+        self.assertEqual(read_cached(self.store,'ideas')['state']['status'],'reusable')
+        archive=Path(self.temp.name)/'portable.zip';export(self.store,['ideas'],archive)
+        target=Path(self.temp.name)/'restored';restore(archive,target);restored=Store(target)
+        before=self.trace.read_text()
+        try:
+            checked=read_cached(restored,'ideas')
+            self.assertEqual(checked['state']['status'],'unverified')
+            self.assertEqual(checked['state']['unverified_sources'],[])
+            route=checked['delta']['discovery_checks'][0]
+            self.assertEqual(route['id'],'related');self.assertEqual(route['status'],'unavailable');self.assertFalse(route['requested'])
+            self.assertEqual(checked['delta']['cost']['navigation_requests'],0)
+            self.assertNotIn(str(self.binding),json.dumps(checked))
+            register_discovery(restored,'ideas','related','main','related idea',self.binding,audience('human'))
+            self.assertEqual(read_cached(restored,'ideas')['state']['status'],'reusable')
+        finally:restored.close()
+        self.assertEqual(len(self.trace.read_text().splitlines()),len(before.splitlines())+1)

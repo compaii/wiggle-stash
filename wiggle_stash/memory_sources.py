@@ -77,9 +77,14 @@ def register_discovery(store,bag_id,route_id,pool,query,provider_file,classifica
 
 def discover(store,bag_id,reading,selected,limit):
     from .delta import compatible
-    if not store.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='context_queries'").fetchone():return [],[],False
-    routes=[dict(row) for row in store.db.execute('SELECT * FROM context_queries WHERE bag_id=? ORDER BY id',(bag_id,)) if compatible(json.loads(row['audience']),selected)]
-    checks=[];candidates={};consulted={s['uri'] for s in reading['sources']};truncated=False
+    has_routes=store.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='context_queries'").fetchone()
+    routes=[dict(row) for row in store.db.execute('SELECT * FROM context_queries WHERE bag_id=? ORDER BY id',(bag_id,)) if compatible(json.loads(row['audience']),selected)] if has_routes else []
+    configured={route['id'] for route in routes}
+    # Portable history retains the intended route, never its private provider binding.
+    checks=[{'id':route['id'],'query':route['query'],'scope':'Retained owner-selected memory navigation checkpoint','requested':False,
+        'status':'unavailable','reason':'No compatible local binding for this retained discovery route; re-register it on this host'}
+        for route in reading.get('discovery',[]) if route.get('adapter')=='hmk-navigation' and route.get('id') and route['id'] not in configured]
+    candidates={};consulted={s['uri'] for s in reading['sources']};truncated=False
     previous={route['id']:route for route in reading.get('discovery',[]) if route.get('id')}
     for index,route in enumerate(routes):
         check={'id':route['id'],'query':route['query'],'scope':'Bounded owner-selected memory navigation only','requested':False}
