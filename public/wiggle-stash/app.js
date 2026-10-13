@@ -117,7 +117,7 @@ function renderContext() {
   context.replaceChildren();
   const meta = node('div', 'bag-meta');
   meta.append(node('span', 'seed-stamp', stateName(bag)), node('span', '', bag.domain), node('span', '', bag.audience));
-  context.append(meta, node('h2', 'bag-title', bag.shortTitle || bag.title), node('p', 'bag-subtitle', bag.subtitle), node('p', 'why-label', 'Why keep this?'), node('p', 'why-body', bag.why), node('p', 'bag-author', 'By ' + bag.author), node('p', 'contents-title', 'INSIDE THIS WIGGLE BAG'));
+  context.append(meta, node('h2', 'bag-title', bag.shortTitle || bag.title), node('p', 'bag-subtitle', bag.subtitle), node('p', 'contents-title', 'INSIDE THIS WIGGLE BAG'));
   const contents = node('div', 'contents');
   contents.setAttribute('role', 'group'); contents.setAttribute('aria-label', 'Wiggle bag contents');
   for (const item of [{id:'notes',label:'Notes',count:noteCount(bag)}, {id:'materials',label:'Materials',count:(bag.materials||[]).length}, {id:'references',label:'References',count:bag.references.length}, {id:'understanding',label:'My reading',count:(bag.readings||[]).length}, {id:'delta',label:'Since my reading',count:bag.delta?'•':'—'}, {id:'next',label:'Next step',count:'↗'}]) {
@@ -134,7 +134,7 @@ function renderContext() {
     contents.append(button);
   }
   const details = node('details', 'bag-background');
-  details.append(node('summary', '', 'Background & origin'));
+  details.append(node('summary', '', 'Background from the first edition'));
   const mobileWhy = node('div', 'mobile-why');
   mobileWhy.append(node('h3', '', 'Why keep this?'), node('p', '', bag.why), node('p', '', 'By ' + bag.author));
   details.append(mobileWhy, node('h3', '', 'What it could become'), node('p', '', bag.possibility), node('h3', '', 'Where it began'), node('p', '', bag.origin), node('h3', '', 'This edition'), node('p', '', bag.boundary));

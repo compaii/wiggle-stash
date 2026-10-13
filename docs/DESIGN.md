@@ -1,0 +1,9 @@
+# Resonancia reading surface
+
+The human-selected direction follows Cluster's [maintained interface reference](https://github.com/nicoechaniz/daimon-cluster/blob/main/docs/interface-design.md): deep-space canvas, Space Grotesk, ivory text and restrained amber/cyan/mauve instruments. The own orbital/interference mark preserves the Matrix visual relationship without importing franchise assets.
+
+Bag selection and note positions use real inventory counts. Amber marks the selected bag/section, cyan denotes navigation and note selection, mauve identifies an attributed reading or representation. Full selected input stays available through Notes, Materials and References. My reading and its evidence/history are separate; Since my reading exposes the last dated check and unknown coverage. Legacy presentation context is folded and explicitly identified as background from the first edition.
+
+Maintenance remains conversational. No code editor, selected-files panel, invented presence or decorative graph is introduced. The source package embedded in the edition remains byte-identical to its raw export; readings and delta reports also match their selected raw exports. Stable fragment links preserve note and reading selection through the isolated home viewer.
+
+Desktop and 390/320 CSS-pixel layouts, 200% text enlargement, keyboard focus/actions, search/empty recovery, deep links and reduced motion were checked in Chromium. All text token pairs exceed 4.5:1 contrast; smallest supporting text is 14px and primary touch controls are at least 44px. Fonts are self-hosted with retained license/provenance. Live served source and input/reading/delta parity were verified. These technical checks are not screen-reader certification or actual human Telegram/WebView acceptance; the real phone journey remains separately requested under #8.
