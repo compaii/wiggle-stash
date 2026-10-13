@@ -5,7 +5,7 @@
     "visibility": "public"
   },
   "bag_id": "wiggle-stash",
-  "checked_at": "2026-10-13T18:40:01.795027+00:00",
+  "checked_at": "2026-10-13T19:52:24.891761+00:00",
   "cost": {
     "context_candidates": 2,
     "known_sources": 7,
@@ -13,7 +13,7 @@
     "navigation_provider_cost": "Configured retrieval cost not measured here",
     "navigation_requests": 0,
     "reading_traversal_performed": false,
-    "source_bytes_checked": 34829
+    "source_bytes_checked": 37729
   },
   "coverage": {
     "candidate_limit": 32,
@@ -42,9 +42,9 @@
   "known_sources": [
     {
       "checkpoint": "acac92fb11d58a0bb546ef77a24dee961a92f99c930bea36c929ca71030d8511",
-      "current_version": "acac92fb11d58a0bb546ef77a24dee961a92f99c930bea36c929ca71030d8511",
+      "current_version": "c926bcdea3b1d6b24dd05d9359bbcd87c6c21ddb385ab9d9c45160047d9333c6",
       "id": "reading-direction",
-      "status": "unchanged",
+      "status": "changed",
       "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/docs/ASSOCIATIONS.md"
     },
     {
@@ -56,9 +56,9 @@
     },
     {
       "checkpoint": "089cc1adf12ea9387e4bbecbef04457504908422129a38cd14b1c8a823b2b63d",
-      "current_version": "089cc1adf12ea9387e4bbecbef04457504908422129a38cd14b1c8a823b2b63d",
+      "current_version": "5e8948df480f32873d0a89b80ee125204269b16eb91aa93efeecd423bf2dde0d",
       "id": "roadmap",
-      "status": "unchanged",
+      "status": "changed",
       "uri": "https://github.com/compaii/wiggle-stash/blob/8f9f3722ca7b3f38fefc5b5d96f7e9a264dcd56a/ROADMAP.md"
     },
     {

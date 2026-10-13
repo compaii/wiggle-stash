@@ -17,7 +17,7 @@ Keep the accepted Resonancia design. Show the selected bag and date, then the as
 
 The optional short observations follow the inventory. Reading history explains generation occasion and actual changes, distinguishing a revisited source from a new human note. The zero-reading state supplies a conversational request naming the selected bag; a webpage visit itself does not invoke a model. The same selected inventory, provenance, versions and observations are retained in the AI-accessible edition. Older essay-style readings remain historical records with their original method.
 
-A Ratios bag surfacing a remembered discussion, a referenced document and a relationship to Beacon or Phideus is an illustrative qualification target, not evidence that those associations have already been retrieved. Do not create HIT/Ratios bags, invent links or import entire conversations merely from this example. Start qualification on an existing selected bag with real authorized evidence.
+A Ratios bag surfacing a remembered discussion, a referenced document and a relationship to Beacon or Phideus began as an illustrative qualification target. An example alone does not authorize creating bags, inventing links or importing conversations. A subsequent explicit human selection of a fresh private bag with one literal paper and its first reading qualified that flow with inspected relevant sources. Its original input and chosen audience remain intact. The earlier real Wiggle Stash qualification and its publication history remain preserved too.
 
 ## Cheap change checks
 
@@ -34,3 +34,11 @@ There is no observer, timer, private-session import, cross-being pool or automat
 - #8: inventory-first human display, first-reading guidance and visible generation reasons; verify complete human/AI parity and the phone journey.
 - Existing #7 privacy/recovery must retain the new source inventory and checkpoints through independent restore.
 - Nexus #6 remains last.
+
+## Delivered standalone result — 2026-10-13
+
+The versioned v2 contract, complete association inventory, inspectable provenance and source bases, visible generation occasions/history, initial-reading conversational guidance and complete coverage display are delivered. Human input and earlier readings stay immutable. Human and AI editions share the exact selected input, reading history, source checkpoints, brief observations and dated cache state.
+
+The owner-bound HMK metadata adapter and retained bounded discovery routes are implemented, with changed/unchanged/unavailable sources, audience isolation, query changes, malformed responses and missing routes after recovery qualified. Source-copy checks do not establish remote freshness. The owning HMK extension is merged in #116; the existing live MCP connection was not replaced.
+
+Real source-grounded inventories, current-body authenticated delivery, anonymous denial, source inspection, mobile-width/desktop reflow and independent full-history restore are qualified. Earlier human Telegram feedback established the core note/reading journey; the new inventory was checked in the actual isolated HTTPS child at phone and desktop widths, without claiming a new physical-device acceptance or another human's login. The private publication preserves its selected readers and previous versions. Nexus #6 remains deferred outside this completed standalone stage.

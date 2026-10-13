@@ -248,7 +248,7 @@ function renderEntry(animate = false) {
         }map.append(card);
       }entry.append(map);
       if(reading.questions.length){entry.append(node('h4','connections-heading','What remains open'));for(const question of reading.questions)entry.append(node('p','',question));}
-      if(reading.coverage){const details=document.createElement('details');details.append(node('summary','','Uncertainty and coverage'));for(const text of reading.uncertainty)details.append(node('p','',text));details.append(node('p','source-detail',reading.coverage.description||'Only the identified sources were inspected.'));for(const exclusion of reading.exclusions)details.append(node('p','source-detail',typeof exclusion==='string'?exclusion:exclusion.reason));entry.append(details);}
+      if(reading.coverage){const details=document.createElement('details');details.append(node('summary','','Uncertainty and coverage'));for(const text of reading.uncertainty)details.append(node('p','',text));appendCoverage(details,reading.coverage);for(const exclusion of reading.exclusions)details.append(node('p','source-detail',typeof exclusion==='string'?exclusion:exclusion.reason));entry.append(details);}
 
       entry.append(node('p','source-detail',associations?'Method: attributed associations, version 2. Your selected input is kept separately.':'Method: foreground reading recipe, version 1. Your selected input is kept separately.'));
     }
@@ -345,6 +345,19 @@ function renderEntry(animate = false) {
   if (animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     entry.getAnimations().forEach(animation => animation.cancel());
     entry.animate([{opacity:.35,transform:'translateX(9px)'},{opacity:1,transform:'translateX(0)'}], {duration:180,easing:'ease-out'});
+  }
+}
+function appendCoverage(parent,value,label='') {
+  if(value!==null&&typeof value==='object') {
+    for(const [key,item] of Object.entries(value)) {
+      const name=Array.isArray(value)?String(Number(key)+1):key.replace(/_/g,' ');
+      appendCoverage(parent,item,label?label+' · '+name:name);
+    }
+  } else {
+    const line=node('p','source-detail');
+    if(label)line.append(node('strong','',label.charAt(0).toUpperCase()+label.slice(1)+': '));
+    line.append(document.createTextNode(value===null?'Unknown':String(value)));
+    parent.append(line);
   }
 }
 function renderAssociations(reading) {

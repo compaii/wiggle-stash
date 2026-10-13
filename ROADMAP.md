@@ -18,7 +18,15 @@ Existing Nexus preparation and its evidence remain preserved. Further Nexus deve
 
 ## Reading direction clarified on 2026-10-13
 
-The next standalone increment follows [what the bag brings to mind](docs/ASSOCIATIONS.md): recover an attributed inventory of relevant memories, sources and developments, explain each relationship briefly, and add only a few strong observations if useful. #4/#5/#8 remain accountable for that fuller result before Nexus. Earlier essay-style readings and their source/change evidence stay preserved.
+The delivered standalone increment follows [what the bag brings to mind](docs/ASSOCIATIONS.md): recover an attributed inventory of relevant memories, sources and developments, explain each relationship briefly, and add only a few strong observations if useful. #4/#5/#8 cover that fuller result. Earlier essay-style readings and their source/change evidence stay preserved.
+
+## Standalone completion — 2026-10-13
+
+Conversational capture and original media (#2/#3), source-attributed associations (#4), scoped memory/document change checks and cached-reading states (#5), independent full-history recovery and chosen audiences (#7), and the accepted Resonancia reader (#8) are delivered and qualified. A fresh human-selected one-paper bag and its first real reading qualify the private flow, preserving the literal input and exposing every retained association's source and brief reason. Earlier selected bags, readings and publication versions remain available in their respective histories.
+
+Qualification combines meaningful behavioral tests, actual receiving HTTPS content/AI parity, inspectable evidence, phone-width and desktop usability, independent restores and earlier human Telegram note/reading feedback. New viewport qualification is not represented as fresh physical-device feedback. Missing local source bindings after restore yield an explicit unverified state; tracked-source reuse never claims global freshness.
+
+Only #6, the optional Nexus encounter and its output routing, remains in the roadmap. It is deferred until the receiving Nexus experience is ready and a further human-directed step selects it. No Nexus work is part of this standalone completion.
 
 ## Daimon Field relationship
 

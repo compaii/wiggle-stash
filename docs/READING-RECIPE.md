@@ -1,6 +1,6 @@
 # Situated reading traversal — version 1
 
-This is the delivered historical recipe. The human clarified the next association-centered direction on 2026-10-13 in [ASSOCIATIONS.md](ASSOCIATIONS.md). Keep existing v1 readings intact; the next recipe and reader must prioritize retrieved related knowledge with provenance and brief optional observations.
+This is the delivered historical recipe. The human clarified the association-centered direction on 2026-10-13 in [ASSOCIATIONS.md](ASSOCIATIONS.md). The delivered v2 recipe and reader prioritize retrieved related knowledge with provenance and brief optional observations. Existing v1 readings remain intact.
 
 This is the foreground generation recipe for issue [#4](https://github.com/compaii/wiggle-stash/issues/4), selected for implementation under Nicolás's roadmap goal. It produces an attributed reading and connection map, separate from bag input. It is a representation of CompAII's current considered understanding, rather than a complete dump of a model's internal state.
 
