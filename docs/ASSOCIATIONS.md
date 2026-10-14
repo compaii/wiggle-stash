@@ -19,6 +19,18 @@ The optional short observations follow the inventory. Reading history explains g
 
 A Ratios bag surfacing a remembered discussion, a referenced document and a relationship to Beacon or Phideus began as an illustrative qualification target. An example alone does not authorize creating bags, inventing links or importing conversations. A subsequent explicit human selection of a fresh private bag with one literal paper and its first reading qualified that flow with inspected relevant sources. Its original input and chosen audience remain intact. The earlier real Wiggle Stash qualification and its publication history remain preserved too.
 
+## Conversational aperture — trial profile v1
+
+The human selected a regulable exploration aperture on 2026-10-14. Choose a value from 0 to 1 in conversation and retain it in the reading's coverage and generation occasion. The first trial uses 0.5; it does not change an API sampling temperature or establish a global default for every bag.
+
+- Near 0, prioritize explicit subject references and the already grounded neighborhood.
+- Around 0.5, keep that core and explore structural similarities: invariants, context, boundaries, interaction and other useful formulations of the intuition, including other domains.
+- Near 1, allow more distant analogies, surprising contexts and alternative or challenging perspectives, retaining a clear bridge to the selected input.
+
+Intermediate values guide the generating daimon's search choices. This is a qualitative, attributed traversal parameter, not a calibrated semantic distance, randomness setting, percentage or quota. A wider aperture does not require inventing more connections. Preserve source fidelity, selected audiences and epistemic status at every setting.
+
+Before querying, unfold several possible formulations of the intuition. Record the door used in each relevant route's scope and briefly within each new association's reason. Distinguish a direct topic connection, a structural interpretation and a more distant possibility. These distances do not replace the existing supported/interpretation/possibility status. Preserve earlier readings and explain the actual expansion; a new aperture request does not rewrite raw input or silently refresh prior generation dates. The existing v2 evidence/coverage contract can retain this profile without new visitor controls or backend sampling code.
+
 ## Cheap change checks
 
 Preserve the bag digest and all consulted source checkpoints. Extend supported cheap adapters to compare HMK record revisions and selected project/document versions without rereading every source or generating an interpretation. Retain the discovery queries/routes so a bounded navigation-only repeat can identify new candidates; candidate inspection belongs to a requested new traversal.
