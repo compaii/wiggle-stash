@@ -30,7 +30,7 @@ Nicolás visits and maintains the experience through conversation with CompAII. 
 
 One private local `operations/record.md` preserves development, validation and publication evidence.
 
-The [roadmap issue](https://github.com/compaii/wiggle-stash/issues/1) and seven implementation issues define acceptance and dependencies. [Daimon Field](https://github.com/orgs/AlterMundi/projects/13) carries the coordination link and D013, while this repository owns executable implementation. See [capture operations](docs/CAPTURE.md) for the foreground mechanism and [AGENTS.md](AGENTS.md) for conversational maintenance.
+The [original roadmap issue](https://github.com/compaii/wiggle-stash/issues/1) and seven implementation issues define the initial acceptance and dependencies. The [shared-reference extension](https://github.com/compaii/wiggle-stash/issues/9) plans reusable objects, multiple bag relationships, selected bookmark/contact imports and evidence-backed queries; see [the design](docs/OBJECTS-AND-RELATIONS.md). These importers and shared identities are not implemented yet. [Daimon Field](https://github.com/orgs/AlterMundi/projects/13) carries the coordination link and D013, while this repository owns executable implementation. See [capture operations](docs/CAPTURE.md) for the foreground mechanism and [AGENTS.md](AGENTS.md) for conversational maintenance.
 
 Cheap foreground change checks are available separately from interpretation: see [docs/DELTA.md](docs/DELTA.md). The same dated report and per-reading cache decisions appear in the human edition and selected AI export, with explicit unknown coverage. Foreground reading access checks first and returns the unchanged interpretation; regeneration remains a separate full traversal.
 

@@ -26,7 +26,24 @@ Conversational capture and original media (#2/#3), source-attributed association
 
 Qualification combines meaningful behavioral tests, actual receiving HTTPS content/AI parity, inspectable evidence, phone-width and desktop usability, independent restores and earlier human Telegram note/reading feedback. New viewport qualification is not represented as fresh physical-device feedback. Missing local source bindings after restore yield an explicit unverified state; tracked-source reuse never claims global freshness.
 
-Only #6, the optional Nexus encounter and its output routing, remains in the roadmap. It is deferred until the receiving Nexus experience is ready and a further human-directed step selects it. No Nexus work is part of this standalone completion.
+Only #6, the optional Nexus encounter and its output routing, remained in the original roadmap after this standalone delivery. It is deferred until the receiving Nexus experience is ready and a further human-directed step selects it. No Nexus work is part of this standalone completion. The new shared-reference extension below adds standalone work before that encounter.
+
+## Shared references and recoverable bookmarks — 2026-10-14
+
+Nicolás requested a new roadmap for content, people, channels, repositories and other references that can belong to multiple bags without duplicating their identity. A shared object preserves distinct recommending occurrences and each bag's attributed reason. Selected source archives can also become a bounded search corpus without assigning every imported record to a bag. Human-selected input remains distinct from inferred relationships and attributed readings.
+
+The [extension umbrella #9](https://github.com/compaii/wiggle-stash/issues/9) owns this phase. [Objects and relationships](docs/OBJECTS-AND-RELATIONS.md) records the current gap, design, source options, disclosure rules and acceptance example. These are planned features, not delivered importers or activated account access.
+
+| Stage | Issue | Result |
+| --- | --- | --- |
+| Shared identity and links | [#10](https://github.com/compaii/wiggle-stash/issues/10) | Versioned objects, occurrences and selected many-to-many relationships, preserving history and chosen audiences |
+| Historical bookmarks | [#11](https://github.com/compaii/wiggle-stash/issues/11) | Finite resumable import pipeline and selected Telegram archives, with exact recommendation context |
+| People and contacts | [#12](https://github.com/compaii/wiggle-stash/issues/12) | Distinct people/accounts/contact methods and selected address-book import, including people without contact details |
+| X bookmarks | [#13](https://github.com/compaii/wiggle-stash/issues/13) | Verified per-account read access, source attribution and explicit coverage |
+| Useful recovery and readings | [#14](https://github.com/compaii/wiggle-stash/issues/14) | Evidence-backed topic/person queries, sourced cross-bag associations and cheap relationship/source delta |
+| Shared-reference experience | [#15](https://github.com/compaii/wiggle-stash/issues/15) | Resonancia navigation, human/AI projection parity and independent selected-history recovery |
+
+Start with one selected object linked to two bags with different reasons, then a small selected bookmark batch. The core precedes import adapters; contacts and X can proceed independently after the common import contract exists. Retrieval qualifies against the available corpus without waiting for every connector. Actual group exports, account access, provider choice and bounded selection policy remain to select when importing. This roadmap starts no background observer, outreach or account ingestion, and does not resume the paused native goal. Nexus #6 remains deferred and is not a dependency of this extension.
 
 ## Daimon Field relationship
 
