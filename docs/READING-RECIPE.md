@@ -1,5 +1,13 @@
 # Situated reading traversal — version 1
 
+## Comparing retained readings
+
+The reader derives `wiggle-stash.reading-comparison/v1` from the current reading and its exact selected predecessor. This comparison never checks live sources or generates another interpretation. Stable association IDs distinguish new connections, removed connections, changed relationship/evidence and text updates. Text updates are not assumed to be semantically unimportant; they expose the exact earlier and current explanation. Changes to a referenced source version, excerpt, locator or provenance count as evidence changes even when the association wording stays the same.
+
+My reading offers **Full reading** and **Only changes**, with counts and inspectable source bases. The focused view shows new/updated connections, folds text edits into before/now details, and reports changes to strong points, questions, uncertainty, source inventory, aperture and selected input. Removed material remains in the previous reading; raw input is untouched. Links ending in `/understanding/READING_ID/changes` retain that view.
+
+The human and AI edition share the exact deterministic comparison in `reading_changes` and `raw/BAG_ID-reading-changes.json`. Export/restore rebuilds it from immutable history. The comparison only uses predecessors visible to the selected edition audience; an unavailable/private predecessor or a different historical recipe is explicitly reported without inventing an empty or complete comparison. The first reading has no predecessor. This is distinct from **Since my reading**, which reports the dated foreground check of input and known sources.
+
 This is the delivered historical recipe. The human clarified the association-centered direction on 2026-10-13 in [ASSOCIATIONS.md](ASSOCIATIONS.md). The delivered v2 recipe and reader prioritize retrieved related knowledge with provenance and brief optional observations. Existing v1 readings remain intact.
 
 This is the foreground generation recipe for issue [#4](https://github.com/compaii/wiggle-stash/issues/4), selected for implementation under Nicolás's roadmap goal. It produces an attributed reading and connection map, separate from bag input. It is a representation of CompAII's current considered understanding, rather than a complete dump of a model's internal state.

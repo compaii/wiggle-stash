@@ -5,7 +5,7 @@
     "recipients": [],
     "tribes": []
   },
-  "edition": "2026-10-13",
+  "edition": "2026-10-14",
   "bags": [
     {
       "subtitle": "Give the ideas we love a place to grow.",
@@ -1611,6 +1611,40 @@
           "reading_traversal_performed": false
         }
       },
+      "reading_changes": {
+        "reading-20261013-a": {
+          "schema": "wiggle-stash.reading-comparison/v1",
+          "reading_id": "reading-20261013-a",
+          "previous_reading": null,
+          "generated_at": "2026-10-13T00:46:24.010896+00:00",
+          "status": "first",
+          "scope": "Selected retained readings only; no live source check or model traversal."
+        },
+        "reading-20261013-b": {
+          "schema": "wiggle-stash.reading-comparison/v1",
+          "reading_id": "reading-20261013-b",
+          "previous_reading": "reading-20261013-a",
+          "generated_at": "2026-10-13T00:48:24.208918+00:00",
+          "status": "different_method",
+          "scope": "Selected retained readings only; no live source check or model traversal."
+        },
+        "reading-20261013-c": {
+          "schema": "wiggle-stash.reading-comparison/v1",
+          "reading_id": "reading-20261013-c",
+          "previous_reading": "reading-20261013-b",
+          "generated_at": "2026-10-13T03:05:15.845946+00:00",
+          "status": "different_method",
+          "scope": "Selected retained readings only; no live source check or model traversal."
+        },
+        "reading-20261013-d": {
+          "schema": "wiggle-stash.reading-comparison/v1",
+          "reading_id": "reading-20261013-d",
+          "previous_reading": "reading-20261013-c",
+          "generated_at": "2026-10-13T18:40:01.609796+00:00",
+          "status": "different_method",
+          "scope": "Selected retained readings only; no live source check or model traversal."
+        }
+      },
       "delta": {
         "audience": {
           "recipients": [],
@@ -1870,6 +1904,7 @@
       "annotations": [],
       "readings": [],
       "reading_states": {},
+      "reading_changes": {},
       "delta": null,
       "package": {
         "schema": "wiggle-stash.bag/v1",

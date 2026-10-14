@@ -61,3 +61,50 @@ class AssociationTests(unittest.TestCase):
         draft=deepcopy(self.association)
         draft['sources'].append({'id':'source','uri':'https://example.org/source','title':'Source','version':'v1','audience':'public','reason':'Related fixture','anchors':['paragraph'],'provenance':{'reference':'Fixture source'}})
         with self.assertRaisesRegex(ValueError,'faithful'):record(self.store,'ideas',draft,2)
+
+    def test_reading_comparison_distinguishes_text_evidence_additions_and_removals(self):
+        from wiggle_stash.readings import compare_readings
+        first=deepcopy(self.association)
+        first['sources'].append({'id':'document','uri':'https://example.org/document','title':'Source','version':'1','audience':'public','reason':'Fixture','anchors':['passage'],'excerpts':{'passage':'First evidence.'},'provenance':{'reference':'Fixture'}})
+        for id in ['retired','evidence-change','stable']:
+            first['associations'].append({'id':id,'title':id,'kind':'document','relation':'supported','why':'Initial reason','evidence':[{'source_id':'document' if id=='evidence-change' else 'bag','anchor':'passage' if id=='evidence-change' else 'entry:original'}]})
+        old=record(self.store,'ideas',first,2)
+        draft=deepcopy(first);draft.update(id='next',changes=['A real fixture revision.'],observations=['A new point.'])
+        draft['associations']=[a for a in draft['associations'] if a['id']!='retired']
+        draft['associations'][0]['why']='Rephrased reason'
+        new=deepcopy(draft['associations'][-1]);new['id']='added';draft['associations'].append(new)
+        draft['sources'][1].update(version='2',excerpts={'passage':'Revised evidence.'})
+        current=record(self.store,'ideas',draft,2);delta=compare_readings(current,old)
+        self.assertEqual(delta['associations']['added'],['added'])
+        self.assertEqual(delta['associations']['removed'],['retired'])
+        self.assertEqual(delta['associations']['unchanged'],['stable'])
+        changes={x['id']:x for x in delta['associations']['updated']}
+        self.assertEqual(changes['selected-note']['category'],'text')
+        self.assertEqual(changes['evidence-change']['fields'],['source_basis'])
+        self.assertEqual(delta['observations']['added'],['A new point.'])
+        self.assertFalse(delta['input']['changed']);self.assertEqual(self.store.package('ideas'),self.input)
+        edition=self.store.edition(['ideas']);output=Path(self.temp.name)/'comparison';write_edition(output,edition,self.store.directory)
+        self.assertEqual(json.loads((output/'raw/ideas-reading-changes.json').read_text()),edition['bags'][0]['reading_changes'])
+        archive=Path(self.temp.name)/'comparison.zip';export(self.store,['ideas'],archive)
+        destination=Path(self.temp.name)/'recovered';restore(archive,destination);copy=Store(destination)
+        try:self.assertEqual(copy.edition(['ideas'])['bags'][0]['reading_changes'],edition['bags'][0]['reading_changes'])
+        finally:copy.close()
+
+    def test_comparison_does_not_project_an_unselected_private_predecessor(self):
+        first=deepcopy(self.association);first['observations']=['Private predecessor point']
+        old=record(self.store,'ideas',first,2,selected_audience=audience('human'))
+        draft=deepcopy(self.association);draft.update(id='public-next',changes=['Public selected result.'])
+        current=record(self.store,'ideas',draft,2)
+        edition=self.store.edition(['ideas'])
+        self.assertEqual(edition['bags'][0]['reading_changes'][current['id']]['status'],'unavailable')
+        self.assertNotIn('Private predecessor point',json.dumps(edition))
+        self.assertEqual(self.store.edition(['ideas'],audience('human'))['bags'][0]['reading_changes'][current['id']]['status'],'compared')
+
+    def test_first_and_legacy_comparisons_are_explicit_not_invented_empty_deltas(self):
+        from wiggle_stash.readings import compare_readings
+        first=record(self.store,'ideas',self.draft,2)
+        self.assertEqual(compare_readings(first)['status'],'first')
+        draft=deepcopy(self.association);draft.update(id='modern',changes=['New format.'])
+        current=record(self.store,'ideas',draft,2)
+        self.assertEqual(compare_readings(current,first)['status'],'different_method')
+        self.assertEqual(compare_readings(current)['status'],'unavailable')

@@ -22,6 +22,8 @@ My reading retains CompAII's foreground associations through the [v2 recipe](doc
 
 ## Development and publication
 
+My reading also offers **Only changes** against its exact selected predecessor: new connections, connection/evidence changes, text updates with before/now inspection, omitted material and changed observations, sources or aperture. The same comparison is available to AI at `raw/<bag-id>-reading-changes.json`. Reading history and raw input stay immutable. This is separate from the dated source-freshness check.
+
 Run `python3 -m http.server 8843 --bind 127.0.0.1 --directory public` and open `/wiggle-stash/` locally. Publish the selected directory through the installed daimon-home publisher and established home route, retaining the selected audience and stable artifact identity. The receiving viewer isolates content; shared links use the stable public address.
 
 Nicolás visits and maintains the experience through conversation with CompAII. Technical data files are not visitor controls. Source graphics are HTML/CSS/SVG, Space Grotesk is self-hosted with its SIL Open Font License, and Georgia is the journal fallback. Content transitions respect reduced motion.

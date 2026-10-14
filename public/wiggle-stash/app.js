@@ -9,6 +9,7 @@ const context = document.querySelector('#bag-context');
 const entry = document.querySelector('#entry-content');
 const index = document.querySelector('#note-index');
 let bags = [];
+let changesOnly = false;
 let downloadSupported = window.parent === window;
 window.addEventListener('message',event=>{
   if(event.source!==window.parent || event.data?.type!=='home-artifact:capabilities')return;
@@ -210,13 +211,17 @@ function renderEntry(animate = false) {
       if(readingIndex===null || readingIndex>=readings.length)readingIndex=readings.length-1;
       const reading=readings[readingIndex];
       const associations=reading.recipe==='wiggle-stash.association-recipe/v2';
+      const comparison=bag.reading_changes?.[reading.id];
+      const previous=readings.find(r=>r.id===reading.previous_reading);
+      if(comparison?.status!=='compared')changesOnly=false;
+      const only=changesOnly&&comparison?.status==='compared';
       const title=node('h3','note-heading',associations?'What this bag brings to mind':reading.author+'’s understanding');title.id='entry-title';
       entry.append(title,node('p','note-attribution',reading.author+' · Generated '+reading.generated_at.slice(0,16).replace('T',' ')+' UTC · input revision '+reading.input.revision));
       if(reading.generation_reason)entry.append(node('p','reading-occasion',reading.generation_reason));
       const changeSummary=node('section','reading-changes');changeSummary.setAttribute('aria-label','Why this version');changeSummary.append(node('h4','connections-heading',reading.previous_reading?'Why this version?':'First retained reading'));
       if(reading.changes.length)for(const change of reading.changes)changeSummary.append(node('p','',change));else changeSummary.append(node('p','',reading.generation_reason||'Initial foreground reading of the identified input and sources.'));
       if(!associations)changeSummary.append(node('p','source-detail','Earlier interpretation format · original input and source checkpoints remain preserved.'));
-      entry.append(changeSummary);
+      if(only){const details=document.createElement('details');details.append(node('summary','','Why this version'),changeSummary);entry.append(details);}else entry.append(changeSummary);
       if(reading.input.digest!==bag.package.version.digest)entry.append(node('p','reading-change','The bag has changed since this reading. Its original input is still preserved.'));
       const cached=bag.reading_states?.[reading.id];
       const cache=node('section','reading-cache');cache.setAttribute('aria-label','Reading freshness');
@@ -227,11 +232,13 @@ function renderEntry(animate = false) {
       for(const reason of matched?cached.reasons:['No matching check for this reading and selected input version.'])cache.append(node('p','',reason));
       if(matched&&cached.revisit_suggested)cache.append(node('p','','There is possible new context to inspect'+(cached.coverage.index_truncated?' and part of the registered index was not checked.':'.')));
       cache.append(node('p','source-detail','Checks compare the selected input, registered local files and available memory revisions. Context outside the searched scope, upstream changes and external ledger freshness remain unknown. We can check again or regenerate in our conversation.'));
-      entry.append(cache);
+      if(only){const details=document.createElement('details');details.append(node('summary','','Reading freshness'),cache);entry.append(details);}else entry.append(cache);
       const history=node('div','reading-history');history.setAttribute('role','group');history.setAttribute('aria-label','Reading history');
       readings.forEach((item,position)=>{const button=node('button','','Reading '+(position+1)+(position===readings.length-1?' · Current':''));button.title='Generated '+item.generated_at.slice(0,16).replace('T',' ')+' UTC';button.type='button';button.setAttribute('aria-pressed',String(position===readingIndex));button.addEventListener('click',()=>{readingIndex=position;renderEntry();updateHash();});history.append(button);});
       entry.append(history);
-      if(associations)renderAssociations(reading);
+      if(associations)renderComparisonControls(reading,comparison);
+      if(only)renderReadingDelta(reading,previous,comparison);
+      else if(associations)renderAssociations(reading);
       else entry.append(node('p','note-body',reading.understanding),node('h4','connections-heading','Connections I see'));
       const map=node('div','connection-map');
       for(const connection of reading.connections) {
@@ -247,7 +254,7 @@ function renderEntry(animate = false) {
           card.append(details);
         }map.append(card);
       }entry.append(map);
-      if(reading.questions.length){entry.append(node('h4','connections-heading','What remains open'));for(const question of reading.questions)entry.append(node('p','',question));}
+      if(!only&&reading.questions.length){entry.append(node('h4','connections-heading','What remains open'));for(const question of reading.questions)entry.append(node('p','',question));}
       if(reading.coverage){const details=document.createElement('details');details.append(node('summary','','Uncertainty and coverage'));for(const text of reading.uncertainty)details.append(node('p','',text));appendCoverage(details,reading.coverage);for(const exclusion of reading.exclusions)details.append(node('p','source-detail',typeof exclusion==='string'?exclusion:exclusion.reason));entry.append(details);}
 
       entry.append(node('p','source-detail',associations?'Method: attributed associations, version 2. Your selected input is kept separately.':'Method: foreground reading recipe, version 1. Your selected input is kept separately.'));
@@ -360,7 +367,39 @@ function appendCoverage(parent,value,label='') {
     parent.append(line);
   }
 }
-function renderAssociations(reading) {
+function renderComparisonControls(reading,comparison) {
+  const panel=node('section','reading-comparison');panel.setAttribute('aria-label','Changes between readings');
+  if(comparison?.status!=='compared') {
+    panel.append(node('p','source-detail',comparison?.status==='first'?'First reading · there is no earlier reading to compare.':comparison?.status==='different_method'?'The earlier reading used a different format. Its history is preserved; no automatic connection comparison is inferred.':'The earlier reading is unavailable in this edition. No comparison is inferred.'));entry.append(panel);return;
+  }
+  const c=comparison.associations,text=c.updated.filter(x=>x.category==='text').length,other=c.updated.length-text;
+  panel.append(node('h4','connections-heading','Changes from the previous reading'),node('p','',c.added.length+' new connections · '+other+' connection/evidence updates · '+text+' text updates · '+c.removed.length+' no longer included'),node('p','source-detail',(c.unchanged.length+c.updated.length)+' existing connections retained. This compares the retained readings; it does not check current sources.'));
+  const controls=node('div','reading-view');controls.setAttribute('role','group');controls.setAttribute('aria-label','Reading view');
+  for(const [label,only] of [['Full reading',false],['Only changes',true]]){const button=node('button','',label);button.type='button';button.setAttribute('aria-pressed',String(changesOnly===only));button.addEventListener('click',()=>{changesOnly=only;renderEntry();updateHash();entry.querySelector('.reading-view button[aria-pressed="true"]').focus({preventScroll:true});entry.querySelector('.reading-comparison').scrollIntoView({block:'start'});});controls.append(button);}panel.append(controls);entry.append(panel);
+}
+function renderReadingDelta(reading,previous,comparison) {
+  const c=comparison.associations;
+  function inventory(label,record,ids){if(!ids.length)return;entry.append(node('h4','connections-heading',label));renderAssociations({...record,associations:record.associations.filter(a=>ids.includes(a.id)),observations:[],discovery:[]},false);}
+  inventory('New connections',reading,c.added);
+  const changed=c.updated.filter(x=>x.category!=='text');
+  for(const change of changed){inventory('Connection or evidence updated',reading,[change.id]);renderBeforeAfter(reading,previous,change);}
+  const text=c.updated.filter(x=>x.category==='text');
+  if(text.length){const details=document.createElement('details');details.className='reading-text-changes';details.append(node('summary','',text.length+' text updates · compare before / now'));for(const change of text)renderBeforeAfter(reading,previous,change,details);entry.append(details);}
+  inventory('No longer included in this reading',previous,c.removed);
+  for(const [key,title] of [['observations','Strong points'],['questions','Open questions'],['uncertainty','Uncertainty'],['exclusions','Excluded material'],['discovery','Exploration paths']]){const diff=comparison[key];if(diff.added.length||diff.removed.length||diff.reordered){const details=document.createElement('details');details.append(node('summary','',title+' · changes'));for(const [values,label] of [[diff.added,'Added'],[diff.removed,'No longer included']])for(const point of values)details.append(node('strong','',label),node('p','',typeof point==='string'?point:key==='discovery'?point.provider+' · '+point.query:point.reason||point.reference||'Attributed exclusion'));if(diff.reordered)details.append(node('p','','The same points appear in a different order.'));entry.append(details);}}
+  if(comparison.sources.added.length||comparison.sources.updated.length||comparison.sources.removed.length){const details=document.createElement('details');details.append(node('summary','','Source inventory · changes'));for(const [key,label,record] of [['added','Added',reading],['updated','Updated',reading],['removed','No longer included',previous]])for(const change of comparison.sources[key]){const id=typeof change==='string'?change:change.id,s=record.sources.find(x=>x.id===id);details.append(node('p','',label+': '+s.title+' · version '+s.version));}entry.append(details);}
+  if(comparison.aperture.changed){const details=document.createElement('details');details.append(node('summary','','Exploration aperture · changed'));for(const [label,value] of [['Before',comparison.aperture.before],['Now',comparison.aperture.after]]){details.append(node('strong','',label),node('p','',value?String(value.value)+' / 1':'Not recorded in this reading.'));if(value?.meaning)details.append(node('p','',value.meaning));}entry.append(details);}
+  if(comparison.coverage.changed){const details=document.createElement('details');details.append(node('summary','','Scope of the reading · changed'),node('strong','','Before'));appendCoverage(details,previous.coverage);details.append(node('strong','','Now'));appendCoverage(details,reading.coverage);entry.append(details);}
+  if(comparison.input.changed)entry.append(node('p','reading-change','The selected input also changed: revision '+comparison.input.before.revision+' → '+comparison.input.after.revision+'. Both snapshots remain in history.'));
+  if(!c.added.length&&!c.updated.length&&!c.removed.length)entry.append(node('p','','No connections changed between these readings.'));
+  entry.append(node('p','source-detail','Earlier material remains in reading history and your original input. Switch to Full reading to see the complete current inventory.'));
+}
+function renderBeforeAfter(reading,previous,change,parent=entry) {
+  const current=reading.associations.find(x=>x.id===change.id),old=previous.associations.find(x=>x.id===change.id),details=document.createElement('details');details.className='reading-before-after';
+  details.append(node('summary','',current.title+' · before / now'),node('h5','','Before'),node('p','',old.title),node('p','',old.why),node('p','source-detail','Relationship: '+old.relation),node('h5','','Now'),node('p','',current.title),node('p','',current.why),node('p','source-detail','Relationship: '+current.relation));
+  if(change.fields.includes('source_basis')||change.fields.includes('evidence')){for(const [label,record,item] of [['Earlier basis',previous,old],['Current basis',reading,current]]){details.append(node('h5','',label));for(const e of item.evidence){const s=record.sources.find(x=>x.id===e.source_id);details.append(node('p','source-detail',s.title+' · version '+s.version),node('p','',s.excerpts?.[e.anchor]||s.locators?.[e.anchor]||e.anchor),node('p','source-detail','Source: '+s.uri));if(s.provenance)appendCoverage(details,s.provenance);}}}parent.append(details);
+}
+function renderAssociations(reading,showScope=true) {
   const kinds={memory:'Remembered material',conversation:'Conversations',document:'Documents',bag:'Related bags',development:'Developments',material:'Materials'};
   const labels={supported:'From the sources',interpretation:'My association',possibility:'A possibility'};
   entry.append(node('p','source-detail',(reading.associations||[]).length+' recovered associations · each keeps its inspected basis.'));
@@ -390,6 +429,7 @@ function renderAssociations(reading) {
   }
   if(!reading.associations?.length)entry.append(node('p','','No inspected associations were retained in this traversal. Its search scope remains recorded.'));
   if(reading.observations?.length){entry.append(node('h4','connections-heading','Strong points that emerge'));for(const point of reading.observations)entry.append(node('p','',point));}
+  if(!showScope)return;
   const discovery=document.createElement('details');discovery.append(node('summary','','Where I looked'));
   for(const route of reading.discovery||[])discovery.append(node('p','',route.provider+' · '+route.query+' · '+route.status),node('p','source-detail','Checked '+route.checked_at+' · '+JSON.stringify(route.limits)));
   discovery.append(node('p','source-detail','This inventory contains the relevant material recovered and inspected in the recorded scope; it does not establish complete knowledge of every possible source.'));entry.append(discovery);
@@ -397,18 +437,19 @@ function renderAssociations(reading) {
 function updateHash() {
   if (!activeBag()) return;
   const reading=section==='understanding'?(activeBag().readings||[])[readingIndex]:null;
-  const tail = section === 'notes' ? overview ? '/notes' : '/note/' + (noteIndex+1) : section==='understanding'&&(reading||missingReadingId)?'/understanding/'+(missingReadingId||reading.id):'/' + section;
+  const tail = section === 'notes' ? overview ? '/notes' : '/note/' + (noteIndex+1) : section==='understanding'&&(reading||missingReadingId)?'/understanding/'+(missingReadingId||reading.id)+(changesOnly?'/changes':''):'/' + section;
   history.replaceState(null, '', '#bag/' + activeId + tail);
   if (window.parent !== window) {
     window.parent.postMessage({type:'home-artifact:fragment',fragment:location.hash}, '*');
   }
 }
 function readHash() {
-  const match = location.hash.match(/^#bag\/([^/]+)(?:\/(notes|note|materials|references|understanding|delta|next)(?:\/([a-z0-9-]+))?)?$/);
+  const match = location.hash.match(/^#bag\/([^/]+)(?:\/(notes|note|materials|references|understanding|delta|next)(?:\/([a-z0-9-]+))?)?(?:\/(changes))?$/);
   if (!match || !bags.some(bag => bag.id === match[1])) return;
   if(activeId!==match[1])readingIndex=null;
   activeId = match[1]; section = ['materials','references','understanding','delta','next'].includes(match[2]) ? match[2] : 'notes';
   if(section==='understanding') {
+    changesOnly=match[4]==='changes';
     const selected=(activeBag().readings||[]).findIndex(reading=>reading.id===match[3]);
     readingIndex=selected>=0?selected:null;
     missingReadingId=match[3]&&selected<0?match[3]:null;

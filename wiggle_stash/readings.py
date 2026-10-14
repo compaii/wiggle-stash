@@ -155,3 +155,55 @@ def list_readings(store, bag_id):
         if digest(reading)!=row['digest']: raise ValueError('Reading integrity check failed')
         result.append(reading)
     return result
+
+def compare_readings(reading, previous=None, selected_audience=None):
+    """Compare selected immutable records, without source checks or regeneration."""
+    result={'schema':'wiggle-stash.reading-comparison/v1','reading_id':reading['id'],
+        'previous_reading':reading.get('previous_reading'),'generated_at':reading['generated_at'],
+        'status':'first' if not reading.get('previous_reading') else 'unavailable',
+        'scope':'Selected retained readings only; no live source check or model traversal.'}
+    if result['status']=='first' or previous is None:return result
+    if previous['id']!=reading['previous_reading'] or previous['bag_id']!=reading['bag_id']:return result
+    selected=selected_audience or reading['audience']
+    if any(r['audience']['visibility']!='public' and r['audience']!=selected for r in (reading,previous)):return result
+    if reading['recipe']!=ASSOCIATION_RECIPE or previous['recipe']!=ASSOCIATION_RECIPE:
+        result['status']='different_method';return result
+    old={a['id']:a for a in previous['associations']};new={a['id']:a for a in reading['associations']}
+    old_sources={s['id']:s for s in previous['sources']};new_sources={s['id']:s for s in reading['sources']}
+    def basis(item,sources):
+        return [{**e,'source':{k:sources[e['source_id']].get(k) for k in
+            ('uri','version','audience','title','provenance')},
+            'excerpt':sources[e['source_id']].get('excerpts',{}).get(e['anchor']),
+            'locator':sources[e['source_id']].get('locators',{}).get(e['anchor'])} for e in item['evidence']]
+    updated=[];unchanged=[]
+    for item in reading['associations']:
+        if item['id'] not in old:continue
+        before=old[item['id']]
+        fields=[key for key in sorted(set(before)|set(item)) if key!='id' and before.get(key)!=item.get(key)]
+        if basis(before,old_sources)!=basis(item,new_sources):fields.append('source_basis')
+        if fields:updated.append({'id':item['id'],'fields':fields,
+            'category':'text' if set(fields)<= {'why','title'} else 'connection'})
+        else:unchanged.append(item['id'])
+    def changes(before,after):
+        return {'added':[v for v in after if v not in before],'removed':[v for v in before if v not in after],
+            'reordered':sorted(map(canonical,before))==sorted(map(canonical,after)) and before!=after}
+    source_updated=[{'id':sid,'fields':[k for k in sorted(set(old_sources[sid])|set(source))
+        if old_sources[sid].get(k)!=source.get(k)]} for sid,source in new_sources.items()
+        if sid in old_sources and old_sources[sid]!=source]
+    result.update(status='compared',previous_generated_at=previous['generated_at'],
+        associations={'added':[a['id'] for a in reading['associations'] if a['id'] not in old],
+            'updated':updated,'removed':[a['id'] for a in previous['associations'] if a['id'] not in new],
+            'unchanged':unchanged},
+        sources={'added':[sid for sid in new_sources if sid not in old_sources],
+            'updated':source_updated,'removed':[sid for sid in old_sources if sid not in new_sources]},
+        observations=changes(previous['observations'],reading['observations']),
+        questions=changes(previous['questions'],reading['questions']),
+        input={'changed':previous['input']['digest']!=reading['input']['digest'],
+            'before':previous['input'],'after':reading['input']},
+        aperture={'before':previous['coverage'].get('aperture'),'after':reading['coverage'].get('aperture'),
+            'changed':previous['coverage'].get('aperture')!=reading['coverage'].get('aperture')},
+        coverage={'changed':previous['coverage']!=reading['coverage']},
+        uncertainty=changes(previous['uncertainty'],reading['uncertainty']),
+        exclusions=changes(previous['exclusions'],reading['exclusions']),
+        discovery=changes(previous['discovery'],reading['discovery']))
+    return result

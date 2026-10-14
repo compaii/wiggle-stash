@@ -11,4 +11,5 @@
 .edition-links[hidden] { display: none; }
 .edition-links a { color: var(--cyan, #8de1e8); font-size: .9rem; }
 .link-copy-result { display: block; overflow-wrap: anywhere; max-width: 100%; font-size: .85rem; }
+.reading-view{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 24px}.reading-view button{padding:9px 16px;border:1px solid var(--cyan);border-radius:24px;background:var(--space);color:var(--cyan)}.reading-view button[aria-pressed=true]{background:var(--cyan);color:var(--space)}.reading-comparison{border-top:1px solid var(--line);padding-top:4px;margin-bottom:20px}.reading-before-after{border-left:2px solid var(--mauve);padding-left:16px;margin:12px 0}.reading-before-after h5{font-size:16px;margin:16px 0 8px}.reading-text-changes{margin:20px 0}
 .edition-links .link-copy-result { flex-basis: 100%; text-align: right; }
