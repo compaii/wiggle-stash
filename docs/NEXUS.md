@@ -30,3 +30,11 @@ Daimon Field conversation coordinates the whole plan; its first bounded goal is
 the shared corpus delivery, not a reordering of Stash's standalone acceptance.
 The shared reader and participant access are not yet installed. Track actual
 delivery in [collective-memory #1](https://github.com/compaii/collective-memory/issues/1).
+
+The [shared-reference alignment](OBJECTS-AND-RELATIONS.md#field-alignment--2026-10-15)
+now makes the #10/#14/#15 planning implications explicit: reuse owning research
+identity, retain each bag's occurrence/reason and pin inspected source versions.
+A corpus index generation is distinct from source revision and reading version.
+The current handoff pins a complete bag package; resolving external research
+references into a mixed-material encounter is still future adapter work. Keep
+direct bag reading and existing return receipts useful without waiting for it.
