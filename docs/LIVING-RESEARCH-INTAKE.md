@@ -1,0 +1,49 @@
+# Conversational intake for living research — proposed common procedure
+
+Nicolás refined the direction on 2026-10-15: a selected bookmark can trigger inspection and a useful update to research following a topic. Every participating daimon with its human should be able to perform this work. CompAII's initial Librarian role must not make intake a CompAII-only capability. This records planned behavior; it activates no observers, account capture, recurring research or automatic publication.
+
+Nicolás then clarified ownership: continue the general living-research conversation in **Daimon Field**, with [collective-memory #2](https://github.com/compaii/collective-memory/issues/2) owning the corpus/curation work. Stash's natural entrance stays bag-centered: 'add this person to Ratios' or 'review this bookmark and, if relevant, add it to this bag'. Identify impacts on related research, systems and content from that selected input; the bag interaction does not require the human to manage a general ingestion console.
+
+## First entrance and division of work
+
+Start with conversation: a human supplies a URL or another selected object and a purpose such as 'keep this', 'investigate this' or 'update these researchs'. Support files, recordings, text, people and references without a URL too. A specialized Mini App, bot command, X import or group-message adapter can later supply the same input contract. The continuing entrance after historical import remains to select; no group observer or X polling is chosen now.
+
+The daimon performs the considered inspection, relevance judgment and explanation in the requested foreground task. Deterministic tools retain originals, operations, decisions, versions, relationships and receipts. Saving a URL in a store does not perform fact checking; an embedding match does not decide publication. Each daimon should discover the same versioned procedure and its actual available tools, rather than depend on one private conversation or harness. Shared procedure is not identical credentials or authority for every participant.
+
+## Common input and durable outcome
+
+Preserve a stable operation/object identity, original supplied material and recommending words, origin/account/message/bookmark identity where known, original author, human selection, submitting daimon/route, source/capture dates, selected audience and any supplied destination/reason. Keep external authorship distinct from the person recommending, the daimon inspecting and the curator accepting. General Field intake may await routing without a bag. In Stash, preserve the explicitly selected bag and any conditional instruction: 'if relevant, add it' calls for inspection before bag inclusion, not automatic capture followed by silent retirement. Bag capture still uses its supported explicit-bag command until a new intake contract is implemented.
+
+Record progress separately: retained input, inspected/partially inspected/unavailable evidence, proposed destinations and changes, decision or deferral, applied source revisions and actual index visibility. A saved item remains saved when review fails or finds no useful change. Retries/resumption reuse the operation identity and do not duplicate independent occurrences. Same external object arriving from another contributor preserves that contributor's occurrence.
+
+## Inspection and research impact
+
+1. Inspect what was actually received; retrieve selected originals or attributed derivatives with coverage. Distinguish a headline, announcement, working artifact, measurement, independent replication and our own inference. Trace consequential factual claims to primary evidence, dates and relevant counterevidence. Mark inaccessible/insufficient/conflicting evidence explicitly.
+2. Record claim-level support separately from research relevance/novelty. Avoid one boolean 'fake' or a model confidence score presented as verification. An authentic announcement can have untested claims; an old result can still be useful; a disputed claim can be retained as disputed. Material without a factual claim need not pass an invented truth test.
+3. Search existing questions/research and inspect the potentially affected current sources. Distinguish genuinely new evidence, a duplicate report, a correction/contradiction, a changed limitation, an open question, and useful context with no synthesis change. Copied reports do not count as independent support. Retain reasons for each proposed research/bag/object relationship.
+4. Prepare a bounded change for zero, one or several researchs, pinned to their current revisions. Living research retains its question/scope, evidence, findings, alternatives, unresolved questions and change history. 'Living' means revisable through selected work, not an installed monitoring service. Topic-wide refresh is separate from the bounded inspection requested for one bookmark.
+5. Apply according to the actual request and selected policy, or return the compact proposed impact for a decision. Preserve earlier research versions and exact sources; a changed base revision requires reconciliation rather than silently overwriting another contributor.
+
+An illustrative response can say: 'Saved. Inspected the original source. It adds evidence to research A and challenges a limitation in B; C already contains it. These are the proposed changes.' These are examples, not actual research updates.
+
+## Selection and publication policy
+
+The human selected a practical default: execute supported mechanical updates within the requested purpose and existing permissions when they require no new AI elaboration; propose work requiring additional model generation instead of launching it. Examples of mechanical updates are retaining the selected object/occurrence, maintaining known links/backlinks, recording source versions and deriving cheap change states. Examples of additional elaboration are broadening an investigation, rewriting a research synthesis or regenerating a reading. The bounded inspection explicitly requested by 'review this bookmark and add it if relevant' belongs to that request; it does not authorize every downstream research job. Do not call an operation free merely because a remote API has no charge, or treat cheap compute as publication/access authority.
+
+'Keep this' retains the selected input; a research-impact suggestion does not by itself authorize every derived edit. An explicit further instruction can authorize the named substantive update through existing permissions. Ask only for genuine ambiguity, missing access or an action outside the selected scope; no mandatory confirmation for each mechanical tool call. Broader standing update policies, recurring investigation and the continuing source entrance remain to choose. Report separately what was saved, what was mechanically updated and which proposed follow-ups require new elaboration.
+
+Differentiate saving, review, corpus acceptance, source/map update, index publication, bag selection and personal HMK uptake. The deployed reader serves one selected instance audience and has no per-document audience enforcement: narrower material stays outside that shared corpus. Redacted/selected publication must be a deliberate permitted derivative. A dubious item is not silently deleted from selected raw input or promoted as an established finding.
+
+## Reuse the delivered contribution seam
+
+The maintained collective-memory [operations](https://github.com/compaii/collective-memory/blob/main/docs/shared-research-operations.md) already expose foreground `submit`, `inspect`, `accept`, `search`, `read` and `health`, immutable accepted Markdown/receipts, semantic overlays and finite locked publication. Extend supported behavior for explicit research revisions/deltas and resumable review outcomes where missing. Do not build a separate write API, search engine or autonomous reasoning worker just to ingest bookmarks. Submission is not acceptance; acceptance alone is not observed search/index visibility.
+
+The [current delivery status](https://github.com/compaii/collective-memory/blob/main/docs/collective-research-status.md), re-read on 2026-10-15, now records an operational shared reader/intake/map and three receiving routes. This supersedes the earlier preparation-only snapshot used during Stash alignment. Operator receiver tests are not independent Eko/Oliva research or proof that every daimon has learned this procedure. Filesystem attribution identifies a route, not cryptographically signed being authorship.
+
+## Work and qualification
+
+The corpus/curation work owns living-research review, revision and publication behavior. Stash #10 owns shared object/occurrence references; #11/#13 adapt historical or later selected source intake; #14 consumes versioned research evidence for useful queries/readings; #15 exposes selected evidence and changes. Source adapters share one common procedure rather than create a different research lifecycle for each platform.
+
+Deliver a portable contributor guide/tool-discovery contract, tools for missing durable review and research-update stages, exact change receipts and selected human/AI parity. Qualify duplicate input, an unverified or disproved claim, no relevant research, multiple affected researchs, unavailable evidence, interruption/retry, stale concurrent revision, audience mismatch and review-without-publication. Existing references/readings stay pinned; a research change can stale a reading but does not silently regenerate it.
+
+Use a human-selected real topic/bookmark only when supplied; voice interaction with AI is the illustrative topic from this conversation, not a created research or selected URL. Verify the shared procedure through actual authorized use by participating human/daimon pairs, separately from fixtures and operator route tests. No peer message or deployment is part of this planning increment.

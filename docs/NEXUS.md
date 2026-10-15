@@ -28,8 +28,11 @@ which includes a Stash-specific context brief and routes to the full decisions.
 adds the shared collective-research pilot and HMK/federation boundaries. The
 Daimon Field conversation coordinates the whole plan; its first bounded goal is
 the shared corpus delivery, not a reordering of Stash's standalone acceptance.
-The shared reader and participant access are not yet installed. Track actual
-delivery in [collective-memory #1](https://github.com/compaii/collective-memory/issues/1).
+The initial preparation-only status was superseded later on 2026-10-15: the
+owning [delivery status](https://github.com/compaii/collective-memory/blob/main/docs/collective-research-status.md)
+now records operational reader/intake/map and receiver routes under the closed
+[collective-memory #1](https://github.com/compaii/collective-memory/issues/1).
+Independent daimon use and the Stash/Nexus integration remain separate work.
 
 The [shared-reference alignment](OBJECTS-AND-RELATIONS.md#field-alignment--2026-10-15)
 now makes the #10/#14/#15 planning implications explicit: reuse owning research
