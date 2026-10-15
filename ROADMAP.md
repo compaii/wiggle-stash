@@ -2,6 +2,23 @@
 
 The [umbrella issue](https://github.com/compaii/wiggle-stash/issues/1) tracks completion. Issues own current status and acceptance evidence; this file records the delivery order selected with Nicolás on 2026-10-12 and revised on 2026-10-13: finish the standalone Stash before returning to Nexus.
 
+## Next selected milestone — First traceable bag intake
+
+Defined on 2026-10-15 following Nicolás's request for a concrete next milestone. The [Field milestone](https://github.com/orgs/AlterMundi/projects/13?pane=issue&itemId=272107135) owns its cross-repository acceptance and current coordination state; the [Field entry](https://github.com/orgs/AlterMundi/projects/13?pane=issue&itemId=272042885) links it from the shared plan.
+
+Deliver the useful conversational loop: 'add this object to this bag', or 'review this bookmark and, if relevant, add it to this bag'. The human can inspect what was retained/rejected, why, what else it affects, the mechanical updates performed and any follow-up requiring additional AI elaboration.
+
+- A shared object/source reference supports two independent bag relationships and reasons, with pinned versions, attribution and chosen audiences.
+- Every requested assessment, including rejection/deferral, retains a retrievable what/why/when/context antecedent and inspected source/coverage. A repeat request can recover it without erasing later re-evaluation.
+- A bounded, sourced impact names relevant research/systems/content, distinguishing authenticity, claim support, relevance and novelty. Conditional inclusion remains conditional.
+- Supported mechanical updates within the request/permissions need no additional AI elaboration; further investigation, research synthesis or reading generation is proposed rather than launched.
+- A common versioned procedure and actual tool discovery support participating daimon/human pairs, preserving their permissions and authorship. Access tests are separate from independent adoption.
+- Qualify one human-selected real incorporation and one retained rejection/deferral, with retry/missing-evidence/audience checks and inspectable human/AI parity in the existing Resonancia experience.
+
+Delivery order: the compatible identity/occurrence slice in [#10](https://github.com/compaii/wiggle-stash/issues/10), the durable assessment/impact slice in [collective-memory #2](https://github.com/compaii/collective-memory/issues/2) and [#14](https://github.com/compaii/wiggle-stash/issues/14), then the minimal inspectable projection in [#15](https://github.com/compaii/wiggle-stash/issues/15) and complete conversational use. Reuse delivered storage, reader and contribution tools. These owning issues are broader epics: the milestone closes on the bounded evidence above while their remaining cases stay tracked.
+
+Full Telegram/X history imports, agenda connectors, specialized capture UI, recurring work, broad synthesis updates, federation and Nexus mixed-material exploration follow later. The milestone sets no due date, assigns no other being and starts no implementation or paused native goal.
+
 | Stage | Issue | Result | Dependencies |
 | --- | --- | --- | --- |
 | First useful loop | [#2](https://github.com/compaii/wiggle-stash/issues/2) | Conversational note/link capture, immutable revisions and matching human/AI packages | None |
