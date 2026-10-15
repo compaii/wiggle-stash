@@ -16,6 +16,8 @@ Preserve a stable operation/object identity, original supplied material and reco
 
 Record progress separately: retained input, inspected/partially inspected/unavailable evidence, proposed destinations and changes, decision or deferral, applied source revisions and actual index visibility. A saved item remains saved when review fails or finds no useful change. Retries/resumption reuse the operation identity and do not duplicate independent occurrences. Same external object arriving from another contributor preserves that contributor's occurrence.
 
+Nicolás explicitly requires a brief antecedent for **every requested incorporation assessment, including rejection**: what was assessed (stable object/source reference and inspected version where available), why it was accepted/rejected/deferred, when, by whom and for which selected context. Keep this assessment history separately from bag inclusion and established research findings. Consult accessible prior assessments before repeating work; a previous rejection is context/date-bound, not a permanent prohibition. A later source revision, changed question or new evidence can justify re-evaluation while preserving the earlier decision. Rejected items need not clutter the bag's selected input or publish private assessment metadata.
+
 ## Inspection and research impact
 
 1. Inspect what was actually received; retrieve selected originals or attributed derivatives with coverage. Distinguish a headline, announcement, working artifact, measurement, independent replication and our own inference. Trace consequential factual claims to primary evidence, dates and relevant counterevidence. Mark inaccessible/insufficient/conflicting evidence explicitly.
